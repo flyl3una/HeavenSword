@@ -1,3 +1,4 @@
+# coding=utf-8
 """
 Django settings for HeavenSword project.
 
@@ -78,8 +79,12 @@ WSGI_APPLICATION = 'HeavenSword.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'HeavenSword',
+        'USER': 'root',   #你的数据库用户名
+        'PASSWORD': '', #你的数据库密码
+        'HOST': 'localhost', #你的数据库主机，留空默认为localhost
+        'PORT': '3306', #你的数据库端口
     }
 }
 
@@ -105,10 +110,12 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
-
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
+#后台英文
+# LANGUAGE_CODE = 'en-us'
+# TIME_ZONE = 'UTC'
+#后台简体中文zh-Hant为繁体中文
+LANGUAGE_CODE = 'zh-Hans'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -121,3 +128,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_PATH = os.path.join(BASE_DIR, 'static')  # 静态文件目录设置
+
+STATICFILES_DIRS = [STATIC_PATH, ]
+
+
+# 关闭浏览器session失效设置
+SESSION_EXPIRE_AT_BROWSER_CLOSE=True  # 浏览器关闭session失效
+SESSION_EXPIRY=0  # session０秒失效
+# 设置cookies为httponly
+SESSION_COOKIE_HTTPONLY = True

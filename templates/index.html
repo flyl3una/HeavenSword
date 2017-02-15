@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}倚天剑{% endblock %}
+{% load staticfiles %}
+{% load static %}
+
+{% block extrastyle %}
+    <link href="{% static "css/base.css" %}" rel="stylesheet">
+    <style>
+{#        body{#}
+{#            width:100%;#}
+{#            height: 100%;#}
+{#            margin: 0 0 0 0;#}
+{#            background: black;#}
+{#            background-image: url(/static/images/2.jpg);#}
+{#            background-repeat:no-repeat;#}
+{#            background-position:center;#}
+{#            -webkit-background-size:100%;#}
+{#            background-size:100%;#}
+{#            z-index: -1;#}
+{#        }#}
+    </style>
+{% endblock %}
+
+{% block body %}
+    <body>
+    <div id="container">
+        <div id="backimg"><img src="{% static "images/2.jpg" %}"></div>
+        <div id="header">Header</div>
+        <div id="page">
+{#            <div id="a_form"></div>#}
+            <div id="form_wrapper">
+                <form method="post" class="form_audit">
+                    <input type="text" name="target">
+                    <input type="submit" value="检测">
+                </form>
+            </div>
+
+        </div>
+        <div id="footer">Footer</div>
+    </div>
+
+    </body>
+{% endblock %}
