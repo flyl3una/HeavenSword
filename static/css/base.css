@@ -36,13 +36,6 @@ div#content{
     /*background: #F0F0F0;*/
 }
 
-div.list{
-    width:30%;
-    margin: 30px 10px 20px 50px;
-    background: #F0F0F0;
-
-}
-
 form.form_audit{
     margin:0 auto 0 auto;
     text-align:center;
