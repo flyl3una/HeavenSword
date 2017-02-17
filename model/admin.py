@@ -1,3 +1,4 @@
+import xadmin
 from django.contrib import admin
 
 # Register your models here.
@@ -8,3 +9,4 @@ password:Admin6666!
 '''
 
 # admin.site.register(User)
+# xadmin.site.register(User)

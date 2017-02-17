@@ -3,41 +3,43 @@
 {% load staticfiles %}
 {% load static %}
 
-{% block extrastyle %}
-    <link href="{% static "css/base.css" %}" rel="stylesheet">
-    <style>
-{#        body{#}
-{#            width:100%;#}
-{#            height: 100%;#}
-{#            margin: 0 0 0 0;#}
-{#            background: black;#}
-{#            background-image: url(/static/images/2.jpg);#}
-{#            background-repeat:no-repeat;#}
-{#            background-position:center;#}
-{#            -webkit-background-size:100%;#}
-{#            background-size:100%;#}
-{#            z-index: -1;#}
-{#        }#}
-    </style>
+{% block extracss %}
+    <link href="{% static "css/index.css" %}" rel="stylesheet">
 {% endblock %}
-
 {% block body %}
-    <body>
-    <div id="container">
-        <div id="backimg"><img src="{% static "images/2.jpg" %}"></div>
-        <div id="header">Header</div>
-        <div id="page">
-{#            <div id="a_form"></div>#}
-            <div id="form_wrapper">
-                <form method="post" class="form_audit">
-                    <input type="text" name="target">
-                    <input type="submit" value="检测">
-                </form>
+    <div class="back-img"><img src="{% static "images/2.jpg" %}"></div>
+<div class="site-wrapper">
+    <div class="site-wrapper-inner">
+        <div class="cover-container">
+          <div class="masthead clearfix">
+            <div class="inner">
+              <h3 class="masthead-brand">倚天剑</h3>
+              <nav>
+                <ul class="nav masthead-nav">
+                  <li class="active"><a href="#">批量</a></li>
+                  <li><a href="#">管理</a></li>
+                  <li><a href="#">注销</a></li>
+                </ul>
+              </nav>
             </div>
+          </div>
+          <div class="inner cover">
+              <h1>倚天剑</h1><br><br>
+              <form method="post" class="form_audit">
+                    {% csrf_token %}
+                  <label for="input_text" class="sr-only">url</label>
+                  <input type="text" id="input_text" name="target" placeholder="Target url. eg:http://www.baidu.com" required autofocus>
+                  <input type="submit" id="input_submit" value="检测">
+              </form>
+          </div>
 
+          <div class="mastfoot">
+            <div class="inner">
+{#              <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>#}
+                <p>武林至尊,宝刀屠龙,号令天下,莫敢不从,倚天不出,谁与争锋</p>
+            </div>
+          </div>
         </div>
-        <div id="footer">Footer</div>
     </div>
-
-    </body>
+</div>
 {% endblock %}

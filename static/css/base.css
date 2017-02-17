@@ -1,3 +1,8 @@
+body {
+font-family: "微软雅黑";
+font-size: 14px;
+}
+
 #container{
     width:100%;
     /*height: auto !important;*/
@@ -6,26 +11,28 @@
 }
 
 #header{
-    width:100%;
-    height:80px;
-    font-size:30px;
+    /*width:100%;*/
+    height:50px;
+    font-size:16px;
     color: white;
     padding:10px;
+    margin: auto 0 auto 0;
     /*background: black;*/
 }
 #page{
-    width: 100%;
+    /*width: 100%;*/
     /*height:100%;*/
-    margin: 0 auto;
+    margin: auto 0 auto 0;
     display: block;
-    padding-bottom: 60px;/*等于footer的高度*/
+    /*padding-bottom: 60px;!*等于footer的高度*!*/
     padding-top: 80px;
 }
 #footer{
-    width:100%;
+    /*width:100%;*/
     height:60px;
-    font-size: 22px;
+    font-size: 16px;
     /*background: black;*/
+    margin: auto 0 auto 0;
     color: white;
     bottom:0;
     position: absolute;
@@ -39,6 +46,37 @@ div#content{
 form.form_audit{
     margin:0 auto 0 auto;
     text-align:center;
+}
+input#input_text{
+    width: 600px;
+    height:28px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size:20px;
+    /*font-family: Monaco;*/
+    font-family: inherit;
+    margin-right: 0;
+    border-radius:inherit;
+    border:1px solid white;
+}
+input#input_text:focus,input#input_text:hover{
+    border-color:#00b9eb;
+}
+input#input_submit{
+    width: 60px;
+    height: 38px;
+    padding: 3px;
+    font-size: 20px;
+    font-family: "Microsoft YaHei UI";
+    text-align: center;
+    margin-left: -4px;
+    border: 1px;
+    vertical-align: top;
+    border:1px solid rgb(221,221,221);
+}
+
+input#input_submit:hover{
+    border-color:#00b9eb;
 }
 
 div#form_wrapper{
@@ -67,4 +105,38 @@ div#backimg > img{
     height:100%;
     width:100%;
     border:0;
+}
+
+#header_welcome{
+    float: left;
+    padding: 10px;
+    color: white;
+    text-align: center;
+}
+#header_user{
+    margin: 0 auto 0 50px;
+    padding: 0 10px 0 10px;
+    color: white;
+    float: left;
+    display: block;
+}
+
+#header_menu{
+    margin-right: 50px;
+    float: right;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.header_button{
+    float: left;
+    padding: 10px;
+    color: white;
+    text-align: center;
+    border: 1px white;
+}
+.header_button:hover{
+    border:1px solid #00b9eb;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
 }
