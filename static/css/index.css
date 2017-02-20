@@ -30,9 +30,10 @@ body {
   /*background-color: #333;*/
 }
 body {
-  color: #fff;
-  text-align: center;
-  text-shadow: 0 1px 3px rgba(0,0,0,.5);
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 1px 3px rgba(0,0,0,.5);
+    font-family: Lucida Grande, Lucida Sans Unicode, Hiragino Sans GB, Microsoft YaHei UI Light, Verdana, Aril, sans-serif;
 }
 .back-img{
     position:fixed;
@@ -88,7 +89,8 @@ body {
 .masthead-nav > li > a {
   padding-right: 0;
   padding-left: 0;
-  font-size: 16px;
+  font-size: 18px;
+
   font-weight: bold;
   color: #fff; /* IE8 proofing */
   color: rgba(255,255,255,.75);

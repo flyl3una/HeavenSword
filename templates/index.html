@@ -13,18 +13,20 @@
         <div class="cover-container">
           <div class="masthead clearfix">
             <div class="inner">
-              <h3 class="masthead-brand">倚天剑</h3>
+{#              <h3 class="masthead-brand">倚天剑</h3>#}
               <nav>
                 <ul class="nav masthead-nav">
-                  <li class="active"><a href="#">面板</a></li>
+                  <li><a href="/operation" style="font-family: 'Microsoft YaHei UI Light'">面板</a></li>
 {#                  <li><a href="#">登陆</a></li>#}
-                  <li><a href="#">注销</a></li>
+                  <li><a href="/logout" style="font-family: Microsoft YaHei UI Light;">注销</a></li>
                 </ul>
               </nav>
             </div>
           </div>
           <div class="inner cover">
-              <h1>倚天剑</h1><br><br>
+{#              <h1 style="margin-top: -60px">倚天剑</h1><br><br><br><br>#}
+              <img src="{% static "images/8.png" %}">
+              <br><br><br><br>
               <form method="post" class="form_audit">
                     {% csrf_token %}
                   <label for="input_text" class="sr-only">url</label>

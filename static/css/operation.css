@@ -43,6 +43,8 @@ span.show_information{
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
     padding-top: 50px;
+    font-family: Lucida Grande, Lucida Sans Unicode, Hiragino Sans GB, Microsoft YaHei UI, Verdana, Aril, sans-serif;
+    /*font-family: Arial, “Microsoft YaHei”, “微软雅黑”;*/
     /*font-size:18px;*/
 }
 
@@ -108,6 +110,9 @@ a{
     text-align: center;
     font-size:16px;
 }
+a:hover{
+    cursor: pointer;
+}
 /*
  * Main content
  */
@@ -123,4 +128,8 @@ a{
 }
 .main .page-header {
   margin-top: 0;
+}
+
+.logo-img:hover{
+    cursor: pointer;
 }
