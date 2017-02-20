@@ -22,30 +22,31 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Project name</a>
+                    <a class="navbar-brand" style="font-size: 26px;" href="#">倚天剑</a>
                 </div>
                 <ul class="nav navbar-nav">
-                  <li class="active"><a href="#">Home</a></li>
-                  <li><a href="#">About</a></li>
-                  <li><a href="#">Contact</a></li>
+{#                  <li class="active"><a href="#">新建任务</a></li>#}
+                    <li><a href="#">新建任务</a></li>
+                  <li><a href="#">任务列表</a></li>
+                  <li><a href="#">批量任务</a></li>
                   <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">查看任务 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                      <li><a href="#">Action</a></li>
-                      <li><a href="#">Another action</a></li>
-                      <li><a href="#">Something else here</a></li>
+                      <li><a href="#">任务1</a></li>
+                      <li><a href="#">任务2</a></li>
+                      <li><a href="#">任务3</a></li>
                       <li role="separator" class="divider"></li>
-                      <li class="dropdown-header">Nav header</li>
-                      <li><a href="#">Separated link</a></li>
-                      <li><a href="#">One more separated link</a></li>
+{#                      <li class="dropdown-header">批量</li>#}
+                      <li><a href="#">批量1</a></li>
+                      <li><a href="#">批量2</a></li>
                     </ul>
                   </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Dashboard</a></li>
-                    <li><a href="#">Settings</a></li>
-                    <li><a href="#">Profile</a></li>
-                    <li><a href="#">Help</a></li>
+                    <li><a href="/admin">管理</a></li>
+{#                    <li><a href="#">Settings</a></li>#}
+                    <li><a href="">注销</a></li>
+                    <li><a href="#">帮助</a></li>
                 </ul>
             </div>
         </div>
@@ -62,13 +63,18 @@
 {#                            <li><img src="{% static "images/3.jpg"%}"/></li>#}
 {#                        </ul>#}
                         <h2 class="page-header">倚天不出，谁与争锋</h2>
-                        <ul id="sidebar-list" class="nav nav-list ">
+                        <img src="{% static "images/4.jpg" %}" style="width:99%">
+                        <ul id="sidebar-list" class="nav nav-model">
 {#                            <li class="divider"><hr align="left" width="600px" color="#FF0000" size="1" /></li>#}
-                            <li><a id="finger" href="#">指纹识别</a></li>
-                            <li><a id="port" href="#">端口扫描</a></li>
-                            <li><a id="poc" href="#">漏洞检测</a></li>
-                            <li><a id="spider" href="#">网页爬虫</a></li>
-                            <li><a id="fuzz" href="#">fuzz</a></li>
+                            <br><br>
+                            <li><a id="info" style="font-size: 20px; text-align: center;" href="#">
+                                任务信息</a></li>
+                            <li><a id="finger" style="font-size: 20px; text-align: center;" href="#">
+                                指纹识别</a></li>
+                            <li><a id="port" style="font-size: 20px; text-align: center" href="#">端口扫描</a></li>
+                            <li><a id="exploit" style="font-size: 20px; text-align: center" href="#">漏洞检测</a></li>
+                            <li><a id="spider" style="font-size: 20px; text-align: center" href="#">网页爬虫</a></li>
+                            <li><a id="domain" style="font-size: 20px; text-align: center" href="#">子域名扫描</a></li>
 {#                            <li class="nav-header">Backend</li>#}
 {#                            <li><a href="#">PHP<span class="glyphicon glyphicon-chevron-right"></span></a></li>#}
 {#                            <li><a href="#">SQL</a><span class="fa arrow"></span></li>#}

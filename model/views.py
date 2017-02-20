@@ -1,5 +1,6 @@
 # coding=utf-8
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 # from django.template import RequestContext
 # from django.shortcuts import render_to_response
@@ -19,6 +20,10 @@ def login(request):
     return render(render, 'login.html')
 
 
+def logout(request):
+    return HttpResponseRedirect('/')
+
+
 def register(request):
     return render(request, 'register.html')
 
@@ -36,7 +41,7 @@ def one(request):
 
 
 def finger(request):
-    return render(request, 'scan/finger.html', {"test":"test"})
+    return render(request, 'scan/finger.html', {"test": "test"})
     # return HttpResponse("finger")
 
 

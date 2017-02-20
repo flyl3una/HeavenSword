@@ -42,7 +42,8 @@ span.show_information{
 
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
-  padding-top: 50px;
+    padding-top: 50px;
+    /*font-size:18px;*/
 }
 
 /*
@@ -92,16 +93,21 @@ body {
   margin-left: -20px;
 }
 .nav-sidebar > li > a {
-  padding-right: 20px;
-  padding-left: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
 }
 .nav-sidebar > .active > a,
 .nav-sidebar > .active > a:hover,
 .nav-sidebar > .active > a:focus {
-  color: #fff;
-  background-color: #428bca;
+    color: #fff;
+    background-color: #428bca;
+    /*font-size: 16px;*/
 }
 
+a{
+    text-align: center;
+    font-size:16px;
+}
 /*
  * Main content
  */
