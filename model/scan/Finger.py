@@ -7,6 +7,8 @@ import json
 
 from bs4 import BeautifulSoup
 
+from HeavenSword.settings import MODEL_PATH
+
 
 def getApps(path):
     fp = file(path)
@@ -200,7 +202,7 @@ class WebFinger:
 
 if __name__ == '__main__':
     print 'finger'
-    json_file_path = '../setting/apps.json'
+    json_file_path = MODEL_PATH + '/setting/apps.json'
     apps = getApps(json_file_path)
     finger = WebFinger('https://zh-cn.wordpress.com/', apps)
     ret = finger.request()

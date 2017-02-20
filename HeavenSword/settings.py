@@ -90,6 +90,10 @@ DATABASES = {
     }
 }
 
+'''
+superuser:admin
+password:Admin6666!
+'''
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -131,8 +135,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_PATH = os.path.join(BASE_DIR, 'static')  # 静态文件目录设置
-
 STATICFILES_DIRS = [STATIC_PATH, ]
+
+MODEL_PATH = os.path.join(BASE_DIR, 'model', 'setting')
 
 
 # 关闭浏览器session失效设置

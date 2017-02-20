@@ -2,25 +2,28 @@
 # coding:utf-8
 
 import socket
+import threading
 from multiprocessing.dummy import Pool as ThreadPool
 
 
 class ScanPort:
 
     __target_ip = None
-    __model = None
+    __option = None
     __ports = {}
     __port_map = {}
     __thread_num = 1
+    __percent = {}
+    __lock = threading.Lock()
+    __run = True
 
-
-    def __init__(self, target_host=None, ipaddr=None, model="usually", thread_num=1):
+    def __init__(self, target_host=None, ipaddr=None, option="usually", thread_num=1):
         if target_host is not None:
             self.__target_ip = socket.gethostbyname(target_host)
         #IP 地址格式127.0.0.1
         else:
             self.__target_ip = ipaddr
-        self.__model = model
+        self.__option = option
         self.__thread_num = thread_num
         socket.setdefaulttimeout(0.5)
 
@@ -28,11 +31,16 @@ class ScanPort:
         self.init_port_map()
         self.add_ports()
         pool = ThreadPool(processes=self.__thread_num)
+        self.__pool = pool
         pool.map(self.scan_port, self.__ports)
         pool.close()
         pool.join()
 
     def scan_port(self, port):
+        self.__lock.acquire()
+        if self.__run is not True:
+            pass
+        self.__lock.release()
         try:
             s = socket.socket(2, 1)
             res = s.connect_ex((self.__target_ip, port))
@@ -40,23 +48,30 @@ class ScanPort:
                 try:
                     s.send('hello')
                     banner = s.recv(1024)
-                except Exception, e:
+                except Exception as e:
                     print str(e.message)
                     self.__ports[port] = ''
                 else:
                     self.__ports[port] = banner
-
             s.close()
-        except Exception, e:
+            self.__lock.acquire()
+            self.__percent['current'] += 1
+            self.__lock.release()
+        except Exception as e:
             print str(e.message)
 
     def add_ports(self):
-        if self.__model == 'all':
+        if self.__option == 'all':
             for i in range(65534)[1:]:
                 self.__ports[i] = 'close'
-        elif self.__model == 'usually':
+            self.__percent['all'] = i
+        elif self.__option == 'usually':
+            count = 0
             for (num, name) in self.__port_map.items():
                 self.__ports[num] = 'close'
+                count += 1
+            self.__percent['all'] = count
+        self.__percent['current'] = 0
 
     def init_port_map(self):
         self.__port_map[20] = 'FTP'
@@ -118,6 +133,14 @@ class ScanPort:
                 if num in self.__port_map.keys():
                     show += "\t\t[SERVER]:", self.__port_map[num]
                 print show
+
+    def get_percent(self):
+        return self.__percent
+
+    def stop(self):
+        self.__pool.terminate()
+        # for thread in self.__pool:
+        #     thread.task_done()
 
 
 if __name__ == '__main__':

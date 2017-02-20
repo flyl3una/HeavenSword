@@ -20,14 +20,18 @@ class SpiderManager:
     __thread_num = 1
     __thread_pool = []
     __flag = 0
+    __end_flag = __thread_num
+    __child_domain = None
 
     def __init__(self, url, thread_num=4):
         self.__thread_num = thread_num
+        self.__end_flag = thread_num
         self.__url_queue.put(url)
         # self.__url_list.append(url)
         if url[-1] == '/':
             url = url[:-1]
         self.__domain = url.partition('//')
+        self.__child_domain = set()
         urls = self.read_robots()
         if urls is None:
             return
@@ -39,7 +43,6 @@ class SpiderManager:
     def read_robots(self):
         url = ''.join(self.__domain)+"/robots.txt"
         html = self.request(url)
-        #(: )((https?:/)?/.*)
         if html == '':
             return None
         urls = re.findall("(: )((https?:/)?/.*)", html)
@@ -84,9 +87,12 @@ class SpiderManager:
             dic['lock'] = self.__lock
             dic['run'] = self.__run
             dic['flag'] = self.__flag
+            dic['end_flag'] = self.__end_flag
+            dic['child_domain'] = self.__child_domain
             t = SpiderThread(dic)
             t.start()
             self.__thread_pool.append(t)
+        # monitor_thread = MonitorThread(dic)
 
     def stop(self):
         self.__lock.acquire()
@@ -94,6 +100,23 @@ class SpiderManager:
         self.__lock.release()
         for t in self.__thread_pool:
             t.join()
+
+
+# class MonitorThread(threading.Thread):
+#
+#     def __init__(self, dic):
+#         self.__lock = dic['lock']
+#         self.__run = dic['run']
+#         self.__end_flag = dic['end_flag']
+#
+#     def run(self):
+#         while True:
+#             self.__lock.acquire()
+#             if self.__run or self.__end_flag >= 0:
+#                 time.sleep(1)
+#                 self.__lock.release()
+#             else:
+#                 return
 
 
 class SpiderThread(threading.Thread):
@@ -104,6 +127,8 @@ class SpiderThread(threading.Thread):
     __lock = None
     __run = None
     __flag = None
+    __end_flag = None
+    __child_domain = None
 
     def __init__(self, dic):
         threading.Thread.__init__(self)
@@ -113,6 +138,8 @@ class SpiderThread(threading.Thread):
         self.__domain = dic['domain']
         self.__run = dic['run']
         self.__flag = dic['flag']
+        self.__end_flag = dic['end_flag']
+        self.__child_domain=dic['child_domain']
 
     def run(self):
         while self.__run:
@@ -129,6 +156,9 @@ class SpiderThread(threading.Thread):
                     self.__run = False
                 self.__lock.release()
                 time.sleep(0.1)
+        self.__lock.acquire()
+        self.__end_flag -= 1
+        self.__lock.release()
 
     def spider_url(self, url):
         html = self.request(url)
@@ -215,6 +245,7 @@ class SpiderThread(threading.Thread):
         else:
             # 非本网站连接
             if href.find("//") >= 0:
+
                 return url
             if href[0] == '/':
                 url = ''.join(self.__domain) + href

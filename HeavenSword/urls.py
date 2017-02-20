@@ -21,7 +21,7 @@ from model import views
 
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),
-    url(r'^admin/', xadmin.site.urls),
+    url(r'^admin/', include(xadmin.site.urls)),
     url(r'^index/$', views.index),
     url(r'^$', views.index),
     url(r'^login/', views.login),
