@@ -21,11 +21,16 @@ def login(request):
 
 
 def logout(request):
-    return HttpResponseRedirect('/')
+    return render(request, '/')
+    # return HttpResponseRedirect('/')
 
 
 def register(request):
     return render(request, 'register.html')
+
+
+def help(request):
+    return render(request, 'help.html')
 
 
 def batch(request):
@@ -36,8 +41,24 @@ def operation(request):
     return render(request, 'operation.html')
 
 
-def one(request):
-    return render(request, '1.html')
+def new_single_task(request):
+    return render(request, 'task/new_single_task.html')
+
+
+def new_batch_task(request):
+    return render(request, 'task/new_batch_task.html')
+
+
+def task_list(request):
+    return render(request, 'task/task_list.html')
+
+
+def show_task(request):
+    return render(request, 'task/show_task.html')
+
+
+def task_info(request):
+    return render(request, 'task/task_info.html')
 
 
 def finger(request):
@@ -45,16 +66,23 @@ def finger(request):
     # return HttpResponse("finger")
 
 
-def port(request):
-    return HttpResponse("port")
+def port_scan(request):
+    return render(request, 'scan/port_scan.html')
+    # return HttpResponse("port")
 
 
-def poc(request):
-    return HttpResponse("poc")
+def exploit_attack(request):
+    return render(request, 'scan/exploit_attack.html')
+    # return HttpResponse("poc")
 
 
 def spider(request):
-    return HttpResponse("spider")
+    return render(request, 'scan/spider.html')
+    # return HttpResponse("spider")
+
+
+def domain_brute(request):
+    return render(request, 'scan/domain_scan.html')
 
 
 def fuzz(request):

@@ -4,7 +4,10 @@
 {% load static %}
 
 {% block extracss %}
+{#    <link href="{% static "icheck/skins/all.css" %}" rel="stylesheet">#}
+
     <link href="{% static "css/operation.css" %}" rel="stylesheet">
+    <link href="{% static "icheck/skins/minimal/blue.css" %}" rel="stylesheet">
 {% endblock %}
 
 
@@ -23,15 +26,23 @@
                         <span class="icon-bar"></span>
                     </button>
 {#                    <a class="navbar-brand" style="font-size: 24px;" href="#">倚天剑</a>#}
-                    <img class="logo-img" src="{% static "images/7.png" %}" style="width: 48%;" href="/">
+                    <img class="img-logo img-rounded" src="{% static "images/7.png" %}" style="width: 48%;" href="/">
                 </div>
                 <ul id="task_button" class="nav navbar-nav">
 {#                  <li class="active"><a href="#">新建任务</a></li>#}
-                    <li><a id="new_task" href="#">新建任务</a></li>
+
                   <li><a id="task_list" href="#">任务列表</a></li>
-                  <li><a id="batch_task" href="#">批量任务</a></li>
+{#                  <li><a id="batch_task" href="#">批量任务</a></li>#}
+{#                    <li><a id="new_task" href="#">新建任务</a></li>#}
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">新建任务<span class="caret"></span></a>
+                        <ul id="new_task" class="dropdown-menu">
+                            <li><a id="new_single_task" href="#">单一任务</a></li>
+                            <li><a id="new_batch_task" href="#">批量任务</a></li>
+                        </ul>
+                    </li>
                   <li class="dropdown">
-                    <a id="task-listbox" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">查看任务 <span class="caret"></span></a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">查看任务 <span class="caret"></span></a>
                     <ul id="show_task" class="dropdown-menu">
                       <li><a class="task" id="task-1" href="#">任务1</a></li>
                       <li><a class="task" id="task-2" href="#">任务2</a></li>
@@ -46,7 +57,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="/admin">管理</a></li>
 {#                    <li><a href="#">Settings</a></li>#}
-                    <li><a id="/logout">注销</a></li>
+                    <li><a href="/logout">注销</a></li>
                     <li><a href="/help">帮助</a></li>
                 </ul>
             </div>
@@ -65,7 +76,7 @@
 {#                        </ul>#}
                         <h2 class="page-header" style="text-align: center">倚天 VS 屠龙</h2>
 {#                        倚天不出，谁与争锋#}
-                        <img src="{% static "images/4.jpg" %}" style="width:99.5%">
+                        <img src="{% static "images/4.jpg" %}" class="img-rounded" style="width:99.5%">
                         <ul id="sidebar-list" class="nav nav-model">
 {#                            <li class="divider"><hr align="left" width="600px" color="#FF0000" size="1" /></li>#}
                             <br><br><br><br>
@@ -74,10 +85,10 @@
                                 任务信息</a></li>
                             <li><a class="scan" id="finger" style="font-size: 20px; text-align: center;" href="#">
                                 指纹识别</a></li>
-                            <li><a class="scan" id="port" style="font-size: 20px; text-align: center" href="#">端口扫描</a></li>
-                            <li><a class="scan" id="exploit" style="font-size: 20px; text-align: center" href="#">漏洞检测</a></li>
+                            <li><a class="scan" id="port_scan" style="font-size: 20px; text-align: center" href="#">端口扫描</a></li>
+                            <li><a class="scan" id="domain_brute" style="font-size: 20px; text-align: center" href="#">域名爆破</a></li>
                             <li><a class="scan" id="spider" style="font-size: 20px; text-align: center" href="#">网页爬虫</a></li>
-                            <li><a class="scan" id="domain" style="font-size: 20px; text-align: center" href="#">域名扫描</a></li>
+                            <li><a class="scan" id="exploit_attack" style="font-size: 20px; text-align: center" href="#">漏洞检测</a></li>
 {#                            <li class="nav-header">Backend</li>#}
 {#                            <li><a href="#">PHP<span class="glyphicon glyphicon-chevron-right"></span></a></li>#}
 {#                            <li><a href="#">SQL</a><span class="fa arrow"></span></li>#}
@@ -90,7 +101,7 @@
                     </div>
                 </div>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" >
-                    <div class="panel-body" id="content">
+                    <div class="panel-body" style="padding: auto auto auto auto" id="content">
 {#                    <h1 class="page-header">Dashboard</h1>#}
 {#                    <div class="panel-body">#}
 {#                        <h1>hello</h1>#}
@@ -102,5 +113,7 @@
 
 {% endblock %}
 {% block extrajs %}
-<script src="{% static "js/operation.js" %}"></script>
+    <script src="{% static "icheck/js/icheck.js" %}"></script>
+    <script src="{% static "js/operation.js" %}"></script>
+
 {% endblock %}

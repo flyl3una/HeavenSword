@@ -17,17 +17,18 @@
 {% block extracss %}
 
 {% endblock %}
-    <title>{% block title %}HeavenSword{% endblock %}</title>
+    <title>{% block title %}倚天剑{% endblock %}</title>
 </head>
 <body>
 {% block body %}
 {% endblock %}
 
+<script src="{% static "js/jquery-3.1.1.min.js" %}"></script>
+<script src="{% static "bootstrap-3.3.7/js/bootstrap.min.js" %}"></script>
 {% block js %}
 {#    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>#}
 {#    <script src="http://libs.baidu.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>#}
-    <script src="{% static "js/jquery-3.1.1.min.js" %}"></script>
-    <script src="{% static "bootstrap-3.3.7/js/bootstrap.min.js" %}"></script>
+
 {% endblock %}
 {% block extrajs %}
 
@@ -35,3 +36,4 @@
 </body>
 
 </html>
+

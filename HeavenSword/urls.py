@@ -25,16 +25,23 @@ urlpatterns = [
     url(r'^index/$', views.index),
     url(r'^$', views.index),
     url(r'^login/', views.login),
-    url(r'^logout/', views.logout),
+    url(r'^logout/$', views.logout),
     url(r'^register/', views.register),
     url(r'^batch/', views.batch),
     url(r'^operation/$', views.operation),
-    url(r'^1/$', views.one),
+    url(r'^help/$', views.help),
+
+    #task
+    url(r'^new_single_task/$', views.new_single_task),
+    url(r'^new_batch_task/$', views.new_batch_task),
+    url(r'^task_list/$', views.task_list),
+    url(r'^show_task/[\d]*', views.show_task),
+    url(r'^task_info/$', views.task_info),
 
     # scan
     url(r'^scan/finger', views.finger),
-    url(r'^scan/port', views.port),
-    url(r'^scan/poc', views.poc),
+    url(r'^scan/port_scan', views.port_scan),
+    url(r'^scan/exploit_attack', views.exploit_attack),
     url(r'^scan/spider', views.spider),
-    url(r'^scan/fuzz', views.fuzz),
+    url(r'^scan/domain_brute', views.domain_brute),
 ]

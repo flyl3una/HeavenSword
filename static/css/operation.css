@@ -45,7 +45,7 @@ body {
     padding-top: 50px;
     font-family: Lucida Grande, Lucida Sans Unicode, Hiragino Sans GB, Microsoft YaHei UI, Verdana, Aril, sans-serif;
     /*font-family: Arial, “Microsoft YaHei”, “微软雅黑”;*/
-    /*font-size:18px;*/
+    font-size:18px;
 }
 
 /*
@@ -119,6 +119,8 @@ a:hover{
 
 .main {
   padding: 20px;
+    font-family: Lucida Grande, Lucida Sans Unicode, Hiragino Sans GB, Microsoft YaHei UI, Verdana, Aril, sans-serif;
+    font-size:16px;
 }
 @media (min-width: 768px) {
   .main {
@@ -132,4 +134,12 @@ a:hover{
 
 .logo-img:hover{
     cursor: pointer;
+}
+
+form{
+    margin:10%;
+}
+
+td, th{
+    text-align: center;
 }
