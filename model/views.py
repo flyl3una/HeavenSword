@@ -89,3 +89,10 @@ def fuzz(request):
     return HttpResponse("fuzz")
 
 
+def one(request):
+    return render(request, '1.html')
+
+# http://v3.bootcss.com/examples/theme/#
+# http://v3.bootcss.com/components/
+# http://www.bootcss.com/
+# http://v3.bootcss.com/examples/dashboard/

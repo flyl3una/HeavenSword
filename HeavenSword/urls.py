@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^batch/', views.batch),
     url(r'^operation/$', views.operation),
     url(r'^help/$', views.help),
+    url(r'^one/$', views.one),
 
     #task
     url(r'^new_single_task/$', views.new_single_task),
