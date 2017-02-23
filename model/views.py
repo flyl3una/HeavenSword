@@ -82,7 +82,7 @@ def spider(request):
 
 
 def domain_brute(request):
-    return render(request, 'scan/domain_scan.html')
+    return render(request, 'scan/domain_brute.html')
 
 
 def fuzz(request):

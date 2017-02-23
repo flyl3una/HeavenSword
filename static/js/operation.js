@@ -27,7 +27,7 @@ $(document).ready(function(){
         var class_name = $(this).attr('class')
         if (class_name == 'task') {
             var a = $(this).attr('id');
-            a = a.split('-')[1]
+            a = a.split('-')[1];
             console.log('/show_task/' + a);
             $.get('/show_task/' + a, function (result) {
                 $("#content").html(result);
@@ -41,7 +41,7 @@ $(document).ready(function(){
         }
     });
 
-    fun = function() {
+    var a_fun = function() {
         var a=$(this).attr('id');
         console.log('/' + a);
         $.get('/'+a, function (result) {
@@ -49,13 +49,10 @@ $(document).ready(function(){
         });
     };
 
-    $("#task_list").click(fun);
-    $("#new_task>li>a").click(fun);
-
-});
-
-
-$(document).ready(function() {
+    $("#task_list").click(a_fun);
+    $("#new_task>li>a").click(a_fun);
+    
+    
     //icheck插件
     icheck = function () {
         $('input').iCheck({
@@ -64,4 +61,6 @@ $(document).ready(function() {
             increaseArea: '20%' // optional
         });
     };
+    $('input').iCheck(icheck());
 });
+

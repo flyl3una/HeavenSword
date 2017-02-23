@@ -1,6 +1,8 @@
 {#<h1>New Task</h1>#}
-<form role="form-group" class="col-lg-6 col-lg-offset-2" style="border: 1px #000000;">
+<div role="form-group" class="col-md-10 col-md-offset-1">
     {% csrf_token %}
+    <h2 class="text-center">新建一个任务</h2>
+    <br>
     <div class="form-group row">
         <label class="col-3 control-label col-form-label">
         目标
@@ -21,12 +23,10 @@
             <input type="checkbox" class="" name="open">
 {#            &nbsp;&nbsp;&nbsp;&nbsp;#}
         </label>
-
-        &nbsp;&nbsp;&nbsp;&nbsp;
         <label class="col-4 col-form-label" style="float: right">线程：
             <input type="number" maxlength="2" value="2" class="">
         </label>
-        <label class="col-4 col-form-label" style="float: right; margin-right: 5%">
+        <label class="col-4col-form-label" style="float: right; margin-right: 3%">
             扫描模式：
             <select class="input-sm mb-1 inline-group">
                 <option value="useually">默认</option>
@@ -41,7 +41,7 @@
             域名爆破
                 <input type="checkbox" name="open">
             </label>
-            &nbsp;&nbsp;&nbsp;&nbsp;
+
             <label style="float: right">线程：
             <input type="number" class="" maxlength="2" value="2">
             </label>
@@ -52,7 +52,6 @@
         网页爬虫
         <input type="checkbox" name="open">
         </label>
-{#        &nbsp;&nbsp;&nbsp;&nbsp;#}
         <label style="float: right">线程：
             <input type="number" maxlength="2" value="2">
         </label>
@@ -67,7 +66,19 @@
     </div>
     <hr>
     <div class="form-group row col-12">
-        <button class="btn btn-default" style="float: left" contenteditable="true" type="submit">取消</button>
-        <button class="btn btn-success" style="float: right" contenteditable="true" type="submit">确认</button>
+        <button class="btn btn-default" style="float: left"  type="submit">取消</button>
+        <button class="btn btn-success" style="float: right"  type="submit">确认</button>
     </div>
-</form>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        //icheck插件
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_minimal-blue',
+            radioClass: 'iradio_minimal-blue',
+            increaseArea: '20%' // optional
+        });
+    });
+</script>

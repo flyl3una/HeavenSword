@@ -1,1 +1,36 @@
-<h1>Spider</h1>
+<h2 class="text-center">网页爬虫</h2>
+<br>
+<div class="row">
+    <label class="col-md-2">线程：</label>
+    <label class="col-sm-9">16</label>
+</div>
+<br>
+<div class="row">
+    <label class="col-md-2">进度:</label>
+    <div class="progress  progress-striped">
+        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60"
+            aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+            <span class="sr-only">40%完成</span>
+        </div>
+    </div>
+</div>
+<br>
+<h3>网站目录</h3>
+<ul id="tree" class="filetree treeview">
+    <li>
+        <div class="hitarea collapsable-hitarea"></div>
+        <span class="folder">www.baidu.com/</span>
+        <ul>
+            <li><div class="hitarea collapsable-hitarea"></div>
+                <span class="file">world</span></li>
+            hello
+        </ul>
+    </li>
+    <li><div class="hitarea collapsable-hitarea"></div><span class="fiel">pan.baidu.com/</span></li>
+</ul>
+
+<script>
+    $(document).ready(function() {
+        $("#tree").treeview();
+    });
+</script>
