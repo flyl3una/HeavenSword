@@ -5,16 +5,20 @@
 
 {% block extracss %}
 {#    <link href="{% static "icheck/skins/all.css" %}" rel="stylesheet">#}
-
+    <link href="{% static "css/sb-admin-2.css" %}" rel="stylesheet">
+{#    <link href="{% static "css/metisMenu.css" %}" rel="stylesheet">#}
     <link href="{% static "css/operation.css" %}" rel="stylesheet">
     <link href="{% static "css/jquery.treeview.css" %}" rel="stylesheet">
     <link href="{% static "icheck/skins/minimal/blue.css" %}" rel="stylesheet">
+    <link href="{% static "css/font-awesome.css" %}" rel="stylesheet">
+    <link href="{% static "css/dataTables.bootstrap.css" %}" rel="stylesheet">
+    <link href="{% static "css/dataTables.responsive.css" %}" rel="stylesheet">
 {% endblock %}
 
 
 {% block body %}
 {#        <div class="container">#}
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-inverse navbar-fixed-top" style="height: 50px;">
 {#    <nav class="navbar navbar-fixed-top">#}
         <div class="container-fluid">
     {#        <div class="row-fluid">#}
@@ -27,36 +31,43 @@
                         <span class="icon-bar"></span>
                     </button>
 {#                    <a class="navbar-brand" style="font-size: 24px;" href="#">倚天剑</a>#}
-                    <img class="img-logo img-rounded" src="{% static "images/7.png" %}" style="width: 48%;" href="/">
+                    <img class="img-logo img-rounded" src="{% static "images/7.png" %}" style="width: 50%;" href="/">
                 </div>
-                <ul id="task_button" class="nav navbar-nav">
+                <ul id="task_button" class="nav navbar-nav nav-sidebar">
 {#                  <li class="active"><a href="#">新建任务</a></li>#}
 
-                  <li><a id="task_list" href="#">任务列表</a></li>
+                    <li><a id="task_info" href="#">任务信息</a></li>
+                    <li><a id="add_module" href="#">添加模块</a></li>
 {#                  <li><a id="batch_task" href="#">批量任务</a></li>#}
 {#                    <li><a id="new_task" href="#">新建任务</a></li>#}
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">新建任务<span class="caret"></span></a>
-                        <ul id="new_task" class="dropdown-menu">
-                            <li><a id="new_single_task" href="#">单一任务</a></li>
-                            <li><a id="new_batch_task" href="#">批量任务</a></li>
-                        </ul>
-                    </li>
+{#                    <li class="dropdown">#}
+{#                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">新建任务<span class="caret"></span></a>#}
+{#                        <ul id="new_task" class="dropdown-menu">#}
+{#                            <li><a id="new_single_task" href="#">单一任务</a></li>#}
+{#                            <li><a id="new_batch_task" href="#">批量任务</a></li>#}
+{#                        </ul>#}
+{#                    </li>#}
                   <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">查看任务 <span class="caret"></span></a>
-                    <ul id="show_task" class="dropdown-menu">
-                      <li><a class="task" id="task-1" href="#">任务1</a></li>
-                      <li><a class="task" id="task-2" href="#">任务2</a></li>
-                      <li><a class="task" id="task-3" href="#">任务3</a></li>
-                      <li role="separator" class="divider"></li>
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">任务模块<span class="caret"></span></a>
+                    <ul id="view_module" class="dropdown-menu">
+                        <li><a class="task" id="task-1" href="#">指纹识别</a></li>
+                        <li><a class="task" id="task-1" href="#">端口扫描</a></li>
+                        <li><a class="task" id="task-1" href="#">域名爆破</a></li>
+                        <li><a class="task" id="task-1" href="#">网页爬虫</a></li>
+                        <li><a class="task" id="task-1" href="#">漏洞检测</a></li>
+{#                      <li><a class="task" id="task-1" href="#">任务1</a></li>#}
+{#                      <li><a class="task" id="task-2" href="#">任务2</a></li>#}
+{#                      <li><a class="task" id="task-3" href="#">任务3</a></li>#}
+{#                      <li role="separator" class="divider"></li>#}
 {#                      <li class="dropdown-header">批量</li>#}
-                      <li><a class="batch" id="batch-task-1" href="#">批量1</a></li>
-                      <li><a class="batch" id="batch-task-2" href="#">批量2</a></li>
+{#                      <li><a class="batch" id="batch-task-1" href="#">批量1</a></li>#}
+{#                      <li><a class="batch" id="batch-task-2" href="#">批量2</a></li>#}
                     </ul>
                   </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/admin">管理</a></li>
+{#                    <li><a href="/admin">管理</a></li>#}
+                    <li><a href="/user">个人信息</a> </li>
 {#                    <li><a href="#">Settings</a></li>#}
                     <li><a href="/logout">注销</a></li>
                     <li><a href="/help">帮助</a></li>
@@ -68,9 +79,9 @@
 {#            <div class="row1" style="margin-top: 50px; padding-left: -15px">#}
 {#            </div>#}
             <div class="row">
-                <div class="col-sm-3 col-md-2 sidebar">
+                <div class="col-sm-3 col-md-2 sidebar" style="margin-top: 0;width: 240px;">
 {#                    sidebar-nav navbar-collapse#}
-                    <div class="nav nav-sidebar" >
+                    <div class="nav nav-sidebar ">
 {#                        <ul class="nav nav-sidebar" >#}
 {#                            <li><p>target information</p></li>#}
 {#                            <li><img src="{% static "images/4.jpg"%}"/></li>#}
@@ -78,26 +89,38 @@
                         <h2 class="page-header" style="text-align: center">倚天 VS 屠龙</h2>
 {#                        倚天不出，谁与争锋#}
                         <img src="{% static "images/4.jpg" %}" class="img-rounded" style="width:99.5%">
-                        <ul id="sidebar-list" class="nav nav-model">
-{#                            <li class="divider"><hr align="left" width="600px" color="#FF0000" size="1" /></li>#}
+                        <ul id="side-menu" class="nav nav-model nav-first-level">
                             <br><br><br><br>
-
-                            <li><a id="task_info" style="font-size: 20px; text-align: center;" href="#">
-                                任务信息</a></li>
-                            <li><a class="scan" id="finger" style="font-size: 20px; text-align: center;" href="#">
-                                指纹识别</a></li>
-                            <li><a class="scan" id="port_scan" style="font-size: 20px; text-align: center" href="#">端口扫描</a></li>
-                            <li><a class="scan" id="domain_brute" style="font-size: 20px; text-align: center" href="#">域名爆破</a></li>
-                            <li><a class="scan" id="spider" style="font-size: 20px; text-align: center" href="#">网页爬虫</a></li>
-                            <li><a class="scan" id="exploit_attack" style="font-size: 20px; text-align: center" href="#">漏洞检测</a></li>
-{#                            <li class="nav-header">Backend</li>#}
+{#                            <li><a id="task_info" style="font-size: 20px; text-align: center;" href="#">#}
+{#                                任务信息</a></li>#}
+{#                            <li><a class="scan" id="finger" style="font-size: 20px; text-align: center;" href="#">#}
+{#                                指纹识别</a></li>#}
+{#                            <li><a class="scan" id="port_scan" style="font-size: 20px; text-align: center" href="#">端口扫描</a></li>#}
+{#                            <li><a class="scan" id="domain_brute" style="font-size: 20px; text-align: center" href="#">域名爆破</a></li>#}
+{#                            <li><a class="scan" id="spider" style="font-size: 20px; text-align: center" href="#">网页爬虫</a></li>#}
+{#                            <li><a class="scan" id="exploit_attack" style="font-size: 20px; text-align: center" href="#">漏洞检测</a></li>#}
 {#                            <li><a href="#">PHP<span class="glyphicon glyphicon-chevron-right"></span></a></li>#}
 {#                            <li><a href="#">SQL</a><span class="fa arrow"></span></li>#}
-{#                            <ul class="nav nav-second-level collapse in" aria-expanded="true">#}
-{#                                <li><a href="#">JavaScript</a></li>#}
-{#                                <li><a href="#">Twitter Bootstrap</a></li>#}
-{#                            </ul>#}
-
+                            <li id="new_task">
+                                <a href="#">新建任务
+{#                                <span class="fa arrow"></span>#}
+                                </a>
+                                <ul class="nav nav-second-level collapse">
+                                    <li><a id="new_single_task">单一任务</a></li>
+                                    <li><a id="new_batch_task">批量任务</a></li>
+                                </ul>
+                            </li>
+{#                            <br>#}
+                            <li id="task_list">
+                                <a href="#">查看任务
+{#                                <span class="fa arrow"></span>#}
+                                </a>
+                                <ul class="nav nav-second-level collapse">
+                                    <li><a id="view_all_task">所有任务</a></li>
+                                    <li><a id="view_single_task">单一任务</a></li>
+                                    <li><a id="view_batch_task">批量任务</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -118,7 +141,11 @@
 {% endblock %}
 {% block extrajs %}
     <script src="{% static "icheck/js/icheck.js" %}"></script>
-{#    <script src="{% static "js/j" %}lib/jquery.cookie.js" type="text/javascript"></script>#}
+    <script src="{% static "js/sb-admin-2.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/metisMenu.js" %}"></script>
     <script src="{% static "js/jquery.treeview.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/jquery.dataTables.js" %}"></script>
+    <script src="{% static "js/dataTables.bootstrap.js" %}"></script>
+    <script src="{% static "js/dataTables.responsive.js" %}"></script>
     <script src="{% static "js/operation.js" %}"></script>
 {% endblock %}

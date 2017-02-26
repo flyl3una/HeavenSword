@@ -17,7 +17,7 @@ def index(request):
 
 
 def login(request):
-    return render(render, 'login.html')
+    return render(request, 'login.html')
 
 
 def logout(request):
@@ -96,3 +96,15 @@ def one(request):
 # http://v3.bootcss.com/components/
 # http://www.bootcss.com/
 # http://v3.bootcss.com/examples/dashboard/
+
+
+def view_all_task(request):
+    return render(request, 'task/view_all_task.html')
+
+
+def view_single_task(request):
+    return render(request, 'task/view_single_task.html')
+
+
+def view_batch_task(request):
+    return render(request, 'task/view_batch_task.html')

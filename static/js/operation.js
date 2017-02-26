@@ -4,53 +4,32 @@
  */
 $(document).ready(function(){
 
-    $("#sidebar-list>li>a").click(function(){
-    // 　　获取到当前点击的a标签的文本
-    //     console.log($(this).attr('href'))
-        var class_name = $(this).attr('class')
-        if (class_name == 'scan'){
-            var a=$(this).attr('id');
-            console.log('/scan/' + a);
-            $.get('/scan/'+a, function (result) {
-                $("#content").html(result);
-            });
-        }else{
-            var a=$(this).attr('id');
-            console.log('/'+a);
-            $.get('/'+a, function (result) {
-                $("#content").html(result);
-            });
-        }
-    });
-
-    $("#show_task>li>a").click(function() {
-        var class_name = $(this).attr('class')
-        if (class_name == 'task') {
-            var a = $(this).attr('id');
-            a = a.split('-')[1];
-            console.log('/show_task/' + a);
-            $.get('/show_task/' + a, function (result) {
-                $("#content").html(result);
-            });
-        } else if (class_name == 'batch') {
-            var a = $(this).attr('id');
-            console.log('/batch/' + a);
-            $.get('/batch/' + a, function (result) {
-                $("#content").html(result);
-            });
-        }
+    $("#view_module>li>a").click(function() {
+        var id = $(this).attr('id');
+        console.log('/scan/' + id);
+        $.get('/scan/'+id, function (result) {
+            $("#content").html(result);
+        });
     });
 
     var a_fun = function() {
         var a=$(this).attr('id');
+        var href = $(this).attr('href');
         console.log('/' + a);
         $.get('/'+a, function (result) {
             $("#content").html(result);
         });
     };
+    
+    $('#task_info').click(a_fun);
+    $("#add_module").click(a_fun);
 
-    $("#task_list").click(a_fun);
-    $("#new_task>li>a").click(a_fun);
+    $("#new_single_task").click(a_fun);
+    $("#new_batch_task").click(a_fun);
+
+    $("#view_all_task").click(a_fun);
+    $("#view_single_task").click(a_fun);
+    $("#view_batch_task").click(a_fun);
     
     
     //icheck插件
