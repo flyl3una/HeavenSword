@@ -2,21 +2,22 @@
 {% load staticfiles %}
 <html lang="zh-CN">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8"><!-- 最新 Bootstrap 核心 CSS 文件 -->
-{#    <link rel="stylesheet" href="{% static "css/flatui.css" %}">#}
-{#    <link rel="stylesheet" href="{% static "css/style.css" %}">#}
-{#    <link rel="stylesheet" href="{% static "sort/style.css" %}">#}
-<link href="{% static "bootstrap-3.3.7/css/bootstrap.css" %}" rel="stylesheet">
-<link href="{% static "bootstrap-3.3.7/css/bootstrap-theme.css" %}" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+    <!-- 最新 Bootstrap 核心 CSS 文件 -->
+    {#    <link rel="stylesheet" href="{% static "css/flatui.css" %}">#}
+    {#    <link rel="stylesheet" href="{% static "css/style.css" %}">#}
+    {#    <link rel="stylesheet" href="{% static "sort/style.css" %}">#}
+    <link href="{% static "bootstrap-3.3.7/css/bootstrap.css" %}" rel="stylesheet">
+    <link href="{% static "bootstrap-3.3.7/css/bootstrap-theme.css" %}" rel="stylesheet">
 
-{#    <script src="{% static "js/jquery.easyui.min.js" %}"></script>#}
-{#    <script src="{% static "js/jquery.json.js" %}"></script>#}
-{#    <script src="{% static "js/jquery.tablesorter.js" %}"></script>#}
-{#    <script src="{% static "js/go.js" %}"></script>#}
+    {#    <script src="{% static "js/jquery.easyui.min.js" %}"></script>#}
+    {#    <script src="{% static "js/jquery.json.js" %}"></script>#}
+    {#    <script src="{% static "js/jquery.tablesorter.js" %}"></script>#}
+    {#    <script src="{% static "js/go.js" %}"></script>#}
     <!-- 新加的东西放在后面，有顺序加载 -->
-{% block extracss %}
+    {% block extracss %}
 
-{% endblock %}
+    {% endblock %}
     <title>{% block title %}倚天剑{% endblock %}</title>
 </head>
 <body>
@@ -26,8 +27,8 @@
 <script src="{% static "js/jquery-3.1.1.min.js" %}"></script>
 <script src="{% static "bootstrap-3.3.7/js/bootstrap.min.js" %}"></script>
 {% block js %}
-{#    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>#}
-{#    <script src="http://libs.baidu.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>#}
+    {#    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>#}
+    {#    <script src="http://libs.baidu.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>#}
 
 {% endblock %}
 {% block extrajs %}

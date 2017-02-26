@@ -1,10 +1,12 @@
 body {
   padding-top: 40px;
   padding-bottom: 40px;
-  background-color: #eee;
+  /*background-color: #eee;*/   /*白*/
+  background-color: #444; /*黑*/
 }
 
 .form-signin {
+    /*margin: 30% 30% auto 30%;*/
   max-width: 330px;
   padding: 15px;
   margin: 0 auto;
@@ -44,9 +46,11 @@ body {
   text-align: center;
 }
 
-.col-centered{
-    display:inline-block;
+
+.login-form{
+    margin:20% auto auto auto;
     float:none;
-    text-align:left;
-    margin-right:-4px;
+    text-align:center;
+    width: 350px;
+    height: 330px;
 }

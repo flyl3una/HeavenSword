@@ -32,14 +32,14 @@ $(document).ready(function(){
     $("#view_batch_task").click(a_fun);
     
     
-    //icheck插件
-    icheck = function () {
-        $('input').iCheck({
-            checkboxClass: 'icheckbox_minimal-blue',
-            radioClass: 'iradio_minimal-blue',
-            increaseArea: '20%' // optional
-        });
-    };
-    $('input').iCheck(icheck());
+    // //icheck插件
+    // icheck = function () {
+    //     $('input').iCheck({
+    //         checkboxClass: 'icheckbox_minimal-blue',
+    //         radioClass: 'iradio_minimal-blue',
+    //         increaseArea: '20%' // optional
+    //     });
+    // };
+    // $('input').iCheck(icheck());
 });
 
