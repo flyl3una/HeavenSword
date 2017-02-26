@@ -5,6 +5,7 @@ from django.shortcuts import render
 # from django.template import RequestContext
 # from django.shortcuts import render_to_response
 # Create your views here.
+from model.models import User, SwordUser
 
 
 def index(request):
@@ -17,7 +18,20 @@ def index(request):
 
 
 def login(request):
-    return render(request, 'login.html')
+    if request.method == 'GET':
+        return render(request, 'login.html')
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        print username, password
+        user = SwordUser.objects.filter(username=username, password=password)
+        if user:
+            response = HttpResponseRedirect('/index/')
+            response.set_cookie('username', username, 3600)
+            return response
+        else:
+            return render(request, 'login1.html')
+
 
 
 def logout(request):

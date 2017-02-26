@@ -10,6 +10,7 @@ body {
   max-width: 330px;
   padding: 15px;
   margin: 0 auto;
+    /*height: 370px;*/
 }
 .form-signin .form-signin-heading,
 .form-signin .checkbox {
@@ -52,5 +53,16 @@ body {
     float:none;
     text-align:center;
     width: 350px;
-    height: 330px;
+    height: 350px;
+}
+
+.control-wapper{
+    position: relative;
+    padding-left: 30px;
+}
+
+.input-icon{
+    position: absolute;
+    left: 4px;
+    top: 8px;
 }
