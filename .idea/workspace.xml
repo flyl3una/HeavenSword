@@ -2,16 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d8fdc23c-940b-4aa6-9070-64ed94b156c5" name="Default" comment="init">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/images/4.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/master.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/HeavenSword.iml" afterPath="$PROJECT_DIR$/.idea/HeavenSword.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/HeavenSword/urls.py" afterPath="$PROJECT_DIR$/HeavenSword/urls.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/admin.py" afterPath="$PROJECT_DIR$/model/admin.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/models.py" afterPath="$PROJECT_DIR$/model/models.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/views.py" afterPath="$PROJECT_DIR$/model/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/operation.css" afterPath="$PROJECT_DIR$/static/css/operation.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/index.html" afterPath="$PROJECT_DIR$/templates/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/operation.html" afterPath="$PROJECT_DIR$/templates/operation.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/login.css" afterPath="$PROJECT_DIR$/static/css/login.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/register.css" afterPath="$PROJECT_DIR$/static/css/register.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/login1.html" afterPath="$PROJECT_DIR$/templates/login1.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/register.html" afterPath="$PROJECT_DIR$/templates/register.html" />
     </list>
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -37,23 +36,48 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/index.html">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/model/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="260">
-              <caret line="20" column="36" lean-forward="true" selection-start-line="20" selection-start-column="36" selection-end-line="20" selection-end-column="36" />
+            <state relative-caret-position="747">
+              <caret line="66" column="57" lean-forward="false" selection-start-line="66" selection-start-column="57" selection-end-line="66" selection-end-column="57" />
+              <folding>
+                <element signature="e#15#26#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="register.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/templates/register.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="132">
+              <caret line="67" column="34" lean-forward="false" selection-start-line="67" selection-start-column="34" selection-end-line="67" selection-end-column="34" />
+              <folding>
+                <element signature="e#781#802#0#HTML" expanded="true" />
+                <marker date="1488187371035" expanded="false" signature="3367:3409" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="register.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/css/register.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="408">
+              <caret line="79" column="15" lean-forward="true" selection-start-line="79" selection-start-column="15" selection-end-line="79" selection-end-column="15" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model/views.py">
+      <file leaf-file-name="login1.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/login1.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="241">
-              <caret line="47" column="18" lean-forward="true" selection-start-line="47" selection-start-column="18" selection-end-line="47" selection-end-column="18" />
+            <state relative-caret-position="232">
+              <caret line="30" column="41" lean-forward="false" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="41" />
               <folding>
-                <element signature="e#15#51#0" expanded="true" />
+                <element signature="e#3071#3113#0#HTML" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -62,38 +86,33 @@
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/HeavenSword/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="279">
-              <caret line="27" column="33" lean-forward="false" selection-start-line="27" selection-start-column="27" selection-end-line="27" selection-end-column="33" />
+            <state relative-caret-position="263">
+              <caret line="27" column="38" lean-forward="false" selection-start-line="27" selection-start-column="38" selection-end-line="27" selection-end-column="38" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="operation.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/templates/operation.html">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/model/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
-              <caret line="74" column="46" lean-forward="false" selection-start-line="74" selection-start-column="46" selection-end-line="74" selection-end-column="46" />
+            <state relative-caret-position="132">
+              <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
               <folding>
-                <element signature="e#1026#1050#0#HTML" expanded="true" />
-                <element signature="e#3089#3106#0#HTML" expanded="true" />
-                <element signature="e#3375#3419#0#HTML" expanded="true" />
-                <element signature="e#3523#3567#0#HTML" expanded="true" />
-                <element signature="e#3669#3712#0#HTML" expanded="true" />
-                <element signature="e#3784#3827#0#HTML" expanded="true" />
-                <element signature="e#3898#3941#0#HTML" expanded="true" />
-                <element signature="e#4012#4055#0#HTML" expanded="true" />
+                <element signature="e#0#39#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="operation.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/css/operation.css">
+      <file leaf-file-name="admin.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/model/admin.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="42" column="12" lean-forward="false" selection-start-line="42" selection-start-column="12" selection-end-line="42" selection-end-column="12" />
-              <folding />
+            <state relative-caret-position="176">
+              <caret line="8" column="19" lean-forward="true" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="19" />
+              <folding>
+                <element signature="e#0#13#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -104,8 +123,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="HTML File" />
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -119,24 +138,20 @@
     </findStrings>
   </component>
   <component name="Git.Settings">
+    <option name="UPDATE_TYPE" value="MERGE" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/templates/register.html" />
         <option value="$PROJECT_DIR$/static/css/home.css" />
         <option value="$PROJECT_DIR$/templates/manage.html" />
-        <option value="$PROJECT_DIR$/model/models.py" />
         <option value="$PROJECT_DIR$/static/css/base.css" />
-        <option value="$PROJECT_DIR$/templates/base.html" />
         <option value="$PROJECT_DIR$/templates/login.html" />
-        <option value="$PROJECT_DIR$/static/css/login.css" />
         <option value="$PROJECT_DIR$/templates/index2.html" />
         <option value="$PROJECT_DIR$/templates/batch.html" />
         <option value="$PROJECT_DIR$/static/css/index.css" />
         <option value="$PROJECT_DIR$/templates/1.html" />
-        <option value="$PROJECT_DIR$/model/admin.py" />
         <option value="$PROJECT_DIR$/templates/finger.html" />
         <option value="$PROJECT_DIR$/model/setting/apps.json" />
         <option value="$PROJECT_DIR$/model/scan/finger.py" />
@@ -151,11 +166,30 @@
         <option value="$PROJECT_DIR$/model/scan/exploit_attack.py" />
         <option value="$PROJECT_DIR$/model/scan/DomainBrute.py" />
         <option value="$PROJECT_DIR$/model/scan/Exploit_attack.py" />
+        <option value="$PROJECT_DIR$/templates/task/new_task.html" />
+        <option value="$PROJECT_DIR$/templates/task/show_task.html" />
+        <option value="$PROJECT_DIR$/templates/scan/port.html" />
+        <option value="$PROJECT_DIR$/templates/scan/spider.html" />
+        <option value="$PROJECT_DIR$/templates/scan/exploit_attack.html" />
+        <option value="$PROJECT_DIR$/templates/help.html" />
         <option value="$PROJECT_DIR$/templates/index.html" />
-        <option value="$PROJECT_DIR$/static/css/operation.css" />
-        <option value="$PROJECT_DIR$/HeavenSword/urls.py" />
-        <option value="$PROJECT_DIR$/model/views.py" />
+        <option value="$PROJECT_DIR$/templates/task/new_batch_task.html" />
+        <option value="$PROJECT_DIR$/templates/scan/domain_scan.html" />
+        <option value="$PROJECT_DIR$/templates/base.html" />
+        <option value="$PROJECT_DIR$/static/js/operation.js" />
         <option value="$PROJECT_DIR$/templates/operation.html" />
+        <option value="$PROJECT_DIR$/static/css/operation.css" />
+        <option value="$PROJECT_DIR$/templates/task/task_list.html" />
+        <option value="$PROJECT_DIR$/templates/task/new_single_task.html" />
+        <option value="$PROJECT_DIR$/templates/task/task_info.html" />
+        <option value="$PROJECT_DIR$/model/models.py" />
+        <option value="$PROJECT_DIR$/static/css/login.css" />
+        <option value="$PROJECT_DIR$/templates/login1.html" />
+        <option value="$PROJECT_DIR$/model/admin.py" />
+        <option value="$PROJECT_DIR$/HeavenSword/urls.py" />
+        <option value="$PROJECT_DIR$/static/css/register.css" />
+        <option value="$PROJECT_DIR$/model/views.py" />
+        <option value="$PROJECT_DIR$/templates/register.html" />
       </list>
     </option>
   </component>
@@ -202,6 +236,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -257,7 +292,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="images" />
+              <option name="myItemId" value="js" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -272,6 +307,54 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="static" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="icheck" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="skins" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HeavenSword" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HeavenSword" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="static" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="icheck" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HeavenSword" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HeavenSword" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="static" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="icheck" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -293,7 +376,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="bootstrap-3.3.7" />
+              <option name="myItemId" value="css" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -363,7 +446,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -376,20 +458,534 @@
     <property name="js-jscs-nodeInterpreter" value="D:\study\node.js\install\node.exe" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\work\pycharm\workspace\github\HeavenSword\static\icheck\css" />
+      <recent name="D:\work\pycharm\workspace\github\HeavenSword\static\icheck" />
+      <recent name="D:\work\pycharm\workspace\github\HeavenSword\static\images" />
+      <recent name="D:\work\pycharm\workspace\github\HeavenSword\model\setting\dict" />
+      <recent name="D:\work\pycharm\workspace\github\HeavenSword\model\setting\exp\drupal" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\work\pycharm\workspace\github\HeavenSword\static\icheck\js" />
       <recent name="D:\work\pycharm\workspace\github\HeavenSword\model\setting" />
       <recent name="D:\study\python\pycharm\workspace\HeavenSword\model\setting" />
       <recent name="D:\study\python\pycharm\workspace\HeavenSword\model" />
       <recent name="D:\study\python\pycharm\workspace\HeavenSword\templates\scan" />
-      <recent name="D:\study\python\pycharm\workspace\HeavenSword\static\startbootstrap-sb-admin-2-gh-pages\css" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\work\pycharm\workspace\github\HeavenSword\static\images" />
-      <recent name="D:\work\pycharm\workspace\github\HeavenSword\model\setting\dict" />
-      <recent name="D:\work\pycharm\workspace\github\HeavenSword\model\setting\exp\drupal" />
-      <recent name="D:\study\python\pycharm\workspace\HeavenSword\static\images" />
-      <recent name="D:\study\python\pycharm\workspace\HeavenSword\static\js" />
-    </key>
+  </component>
+  <component name="RestoreUpdateTree" date="Moments ago" ActionInfo="_Update">
+    <UpdatedFiles>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Updated from server" />
+        <option name="myStatusName" value="Changed on server" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="CHANGED_ON_SERVER" />
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Updated" />
+          <option name="myStatusName" value="Changed" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="UPDATED" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/HeavenSword/urls.py</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/model/admin.py</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/model/models.py</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/model/views.py</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/css/login.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/css/operation.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/js/operation.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/templates/1.html</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/templates/base.html</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/templates/login.html</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/templates/operation.html</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/templates/register.html</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Created" />
+          <option name="myStatusName" value="Created" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="CREATED" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/css/register.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/DT_bootstrap.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/about-us.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/animate.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/blog.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/blue.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/bootstrap-fileupload.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/bootstrap-modal.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/bootstrap-responsive.min.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/bootstrap-responsive1.min.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/bootstrap-tag.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/bootstrap-toggle-buttons.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/bootstrap-tree.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/bootstrap-wysihtml5.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/bootstrap.min.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/brown.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/chosen.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/clockface.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/colorpicker.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/coming-soon.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/datepicker.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/daterangepicker.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/datetimepicker.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/default.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/dropzone.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/email.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/error.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/font-awesome.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/font-awesome.min.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/fullcalendar.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/glyphicons.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/grey.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/halflings.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/inbox.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/invoice.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/jquery-ui-1.10.1.custom.min.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/jquery.easy-pie-chart.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/jquery.fancybox.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/jquery.fileupload-ui.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/jquery.gritter.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/jquery.nestable.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/jquery.tagsinput.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/jquery.ui.slider.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/jqvmap.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/light.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/lock.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/login-soft.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/login.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/multi-select-metro.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/news.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/pricing-tables.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/print.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/profile.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/promo.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/purple.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/search.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/select2_metro.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/style-metro.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/style-non-responsive.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/style-responsive.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/style.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/timeline.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/timepicker.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/css/uniform.default.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/1.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/10.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/11.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/2.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/3.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/4.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/5.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/6.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/7.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/8.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/9.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/KwPYo.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/alpha.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/amazon.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/animated-overlay.gif</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/avatar.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/avatar1.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/avatar1_small.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/avatar2.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/avatar3.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/behance.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/bg-input-focus.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/bg-input.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/bg-opacity.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/bg-white-lock.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/bg/1.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/bg/2.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/bg/3.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/bg/4.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/blank.gif</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/blogger.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/bstree-halflings.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/chosen-sprite.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/datatable-row-openclose.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/deviantart.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/dribbble.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/dropbox.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/earth.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/evernote.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/facebook.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/fancybox_loading.gif</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/fancybox_overlay.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/fancybox_sprite.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/favicon.ico</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/fontawesome-webfont.eot</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/fontawesome-webfont.svg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/fontawesome-webfont.ttf</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/fontawesome-webfont.woff</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/forrst.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/github.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/glyphicons-halflings-white.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/glyphicons-halflings.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/glyphicons-regular.eot</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/glyphicons-regular.svg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/glyphicons-regular.ttf</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/glyphicons-regular.woff</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/glyphicons-white.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/glyphicons-white.svg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/glyphicons.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/glyphicons_halflings-white.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/glyphicons_halflings-white.svg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/glyphicons_halflings.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/glyphicons_halflings.svg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/glyphiconshalflings-regular.eot</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/glyphiconshalflings-regular.svg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/glyphiconshalflings-regular.ttf</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/glyphiconshalflings-regular.woff</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/googleplus.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/gritter-light.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/gritter.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/hor-menu-search-close-white.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/hor-menu-search-close.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/hor-menu-search.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/hue.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/icon-color-close.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/icon-color.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/icon-img-down.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/icon-img-up.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/ie-spacer.gif</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/image1.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/image2.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/image3.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/image4.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/image5.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/img1.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/img1_2.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/img2.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/img3.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/img4.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/inbox-nav-arrow-blue.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/instagram.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/iphone.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/item_img.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/item_img1.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/jolicloud.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/last-fm.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/linkedin.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/loading.gif</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/logo-big.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/logo.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/logo_azteca.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/logo_conquer.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/logo_metronic.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/menu-toggler.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/overlay-icon.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/photo1.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/photo2.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/photo3.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/photo4.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/photo5.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/photo6.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/picasa.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/pintrest.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/portlet-collapse-icon-white.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/portlet-collapse-icon.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/portlet-config-icon-white.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/portlet-config-icon.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/portlet-expand-icon-white.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/portlet-expand-icon.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/portlet-reload-icon-white.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/portlet-reload-icon.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/portlet-remove-icon-white.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/portlet-remove-icon.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/preview_02.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/preview_03.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/preview_04.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/preview_05.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/preview_06.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/preview_07.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/preview_08.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/preview_09.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/preview_10.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/preview_11.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/preview_12.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/preview_13.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/preview_14.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/preview_15.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/preview_16.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/preview_17.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/profile-img.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/profile.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/progressbar.gif</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/remove-icon-small.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/rss.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/saturation.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/search-icon.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/select2-spinner.gif</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/select2.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/select2x2.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/sidebar-menu-arrow.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/sidebar-search-close.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/sidebar-toggler.jpg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/skype.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/social_facebook.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/social_googleplus.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/social_linkedin.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/social_rss.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/social_twitter.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/sort_asc.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/sort_asc_disabled.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/sort_both.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/sort_desc.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/sort_desc_disabled.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/spotify.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/sprite.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/spritemap.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/spritemap@2x.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/stumbleupon.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/switch.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/syncfusion-icons-white.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/syncfusion-icons.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/tumblr.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/twitter.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/ui-bg_diagonals-thick_18_b81900_40x40.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/ui-bg_diagonals-thick_20_666666_40x40.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/ui-bg_flat_10_000000_40x100.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/ui-bg_glass_100_f6f6f6_1x400.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/ui-bg_glass_100_fdf5ce_1x400.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/ui-bg_glass_65_ffffff_1x400.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/ui-bg_gloss-wave_35_f6a828_500x100.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/ui-bg_highlight-soft_100_eeeeee_1x100.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/ui-bg_highlight-soft_75_ffe45c_1x100.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/ui-icons_222222_256x240.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/ui-icons_228ef1_256x240.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/ui-icons_888888_256x240.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/ui-icons_ef8c08_256x240.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/ui-icons_ffd27a_256x240.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/ui-icons_ffffff_256x240.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/vimeo.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/vk.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/walmart.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/wordpress.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/xing.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/yahoo.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/image/youtube.png</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/DT_bootstrap.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/additional-methods.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/app.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/bootstrap-colorpicker.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/bootstrap-datepicker.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/bootstrap-datetimepicker.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/bootstrap-fileupload.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/bootstrap-modal.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/bootstrap-modalmanager.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/bootstrap-rtl.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/bootstrap-tag.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/bootstrap-timepicker.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/bootstrap-tree.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/bootstrap-wysihtml5.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/bootstrap.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/breakpoints.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/breakpoints.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/calendar.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/canvas-to-blob.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/charts.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/chosen.jquery.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/ckeditor.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/clockface.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/coming-soon.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/contact-us.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/date.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/daterangepicker.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/dropzone.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/excanvas.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/excanvas.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/form-components.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/form-fileupload.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/form-samples.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/form-validation.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/form-wizard.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/fullcalendar.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/gallery.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/gmaps.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/inbox.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/index.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery-1.10.1.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery-1.8.3.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery-migrate-1.2.1.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery-ui-1.10.1.custom.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.backstretch.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.blockui.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.bootpag.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.bootstrap.wizard.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.cookie.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.countdown.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.dataTables.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.dataTables.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.easy-pie-chart.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.fancybox.pack.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.fileupload-fp.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.fileupload-ui.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.fileupload.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.flot.crosshair.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.flot.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.flot.pie.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.flot.resize.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.flot.stack.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.gritter.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.iframe-transport.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.input-ip-address-control-1.0.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.inputmask.bundle.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.knob.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.multi-select.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.nestable.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.pulsate.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.slimscroll.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.sparkline.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.tagsinput.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.toggle.buttons.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.ui.widget.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.uniform.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.validate.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.vmap.europe.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.vmap.germany.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.vmap.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.vmap.russia.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.vmap.sampledata.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.vmap.usa.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.vmap.world.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/jquery.xdr-transport.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/load-image.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/lock.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/login-soft.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/login.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/maps-google.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/maps-vector.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/portlet-draggable.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/respond.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/respond.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/search.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/select2.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/table-advanced.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/table-editable.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/table-managed.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/tmpl.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/ui-general.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/ui-jqueryui.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/ui-modals.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/ui-nestable.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/ui-sliders.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/ui-tree.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/metronic/js/wysihtml5-0.3.0.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/sb/css/dataTables.bootstrap.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/sb/css/dataTables.responsive.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/sb/css/font-awesome.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/sb/css/metisMenu.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/sb/css/sb-admin-2.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/sb/fonts/FontAwesome.otf</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/sb/fonts/fontawesome-webfont.eot</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/sb/fonts/fontawesome-webfont.svg</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/sb/fonts/fontawesome-webfont.ttf</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/sb/fonts/fontawesome-webfont.woff</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/sb/fonts/fontawesome-webfont.woff2</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/sb/js/dataTables.bootstrap.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/sb/js/dataTables.responsive.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/sb/js/jquery.dataTables.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/sb/js/jquery.dataTables.min.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/sb/js/metisMenu.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/sb/js/sb-admin-2.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/templates/login1.html</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/templates/task/view_all_task.html</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/templates/task/view_batch_task.html</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/templates/task/view_single_task.html</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Deleted" />
+          <option name="myStatusName" value="Deleted" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="true" />
+          <option name="myId" value="REMOVED_FROM_REPOSITORY" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/css/dataTables.bootstrap.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/css/dataTables.responsive.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/css/sb-admin-2.min.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/js/sb-admin-2.min.js</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Restored" />
+          <option name="myStatusName" value="Will be restored" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="RESTORED" />
+        </FILE-GROUP>
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Modified" />
+        <option name="myStatusName" value="Modified" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MODIFIED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Skipped" />
+        <option name="myStatusName" value="Skipped" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="SKIPPED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with conflicts" />
+        <option name="myStatusName" value="Will be merged with conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_CONFLICTS" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with tree conflicts" />
+        <option name="myStatusName" value="Merged with tree conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with property conflicts" />
+        <option name="myStatusName" value="Will be merged with property conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged" />
+        <option name="myStatusName" value="Will be merged" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Not in repository" />
+        <option name="myStatusName" value="Not in repository" />
+        <option name="mySupportsDeletion" value="true" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="UNKNOWN" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Locally added" />
+        <option name="myStatusName" value="Locally added" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="LOCALLY_ADDED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Locally removed" />
+        <option name="myStatusName" value="Locally removed" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="LOCALLY_REMOVED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Switched" />
+        <option name="myStatusName" value="Switched" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="SWITCHED" />
+      </FILE-GROUP>
+    </UpdatedFiles>
   </component>
   <component name="RunManager" selected="Django server.HeavenSword">
     <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
@@ -633,8 +1229,8 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="DJANGO_SETTINGS_MODULE" value="HeavenSword.settings" />
         <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DJANGO_SETTINGS_MODULE" value="HeavenSword.settings" />
       </envs>
       <option name="SDK_HOME" value="D:\work\python\install-2.7.13\python.exe" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -704,7 +1300,21 @@
       <option name="project" value="LOCAL" />
       <updated>1487578453808</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="init">
+      <created>1487583903959</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1487583903959</updated>
+    </task>
+    <task id="LOCAL-00004" summary="init">
+      <created>1487669354265</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1487669354265</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TodoView">
@@ -720,11 +1330,10 @@
     <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2732274" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27689487" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295964" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39910313" sideWeight="0.502445" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32847533" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32847533" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295964" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32735425" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -737,6 +1346,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32847533" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -763,7 +1373,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/model/views.py</url>
-          <line>35</line>
+          <line>75</line>
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/model/scan/PortScan.py</url>
@@ -835,178 +1445,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/static/js/jquery-3.1.1.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/batch.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="7" column="5" lean-forward="false" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/login.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="16" column="111" lean-forward="false" selection-start-line="16" selection-start-column="64" selection-end-line="16" selection-end-column="111" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/index3.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="401">
-          <caret line="30" column="43" lean-forward="false" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/css/index.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
-          <caret line="180" column="17" lean-forward="false" selection-start-line="180" selection-start-column="17" selection-end-line="180" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/css/login.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="533">
-          <caret line="31" column="19" lean-forward="false" selection-start-line="31" selection-start-column="19" selection-end-line="31" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1166">
-          <caret line="56" column="6" lean-forward="false" selection-start-line="56" selection-start-column="6" selection-end-line="56" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/css/base.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="164">
-          <caret line="78" column="25" lean-forward="false" selection-start-line="78" selection-start-column="25" selection-end-line="78" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/images/1.jpg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/images/2.jpg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/bootstrap-3.3.7/css/bootstrap.min.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="287">
-          <caret line="4" column="7222" lean-forward="false" selection-start-line="4" selection-start-column="7222" selection-end-line="4" selection-end-column="7222" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model/admin.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="11" column="28" lean-forward="false" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../install-2.7.12/Lib/site-packages/requests/__init__.py" />
-    <entry file="file://$PROJECT_DIR$/../../../install-2.7.12/Lib/site-packages/simplejson/__init__.py" />
-    <entry file="file://$PROJECT_DIR$/../../../install-2.7.12/Lib/site-packages/simplejson/decoder.py" />
-    <entry file="file://$PROJECT_DIR$/../../../install-2.7.12/Lib/json/decoder.py" />
-    <entry file="file://$PROJECT_DIR$/../../../install-2.7.12/Lib/site-packages/bs4/__init__.py" />
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/python-skeletons/multiprocessing/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="91" column="8" lean-forward="false" selection-start-line="91" selection-start-column="8" selection-end-line="91" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/scan/finger.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="44">
-          <caret line="2" column="19" lean-forward="false" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/python-skeletons/builtins.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="43">
-          <caret line="1041" column="8" lean-forward="false" selection-start-line="1041" selection-start-column="8" selection-end-line="1041" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../install-2.7.12/Lib/multiprocessing/pool.py" />
-    <entry file="file://$PROJECT_DIR$/../../../install-2.7.12/Lib/threading.py" />
-    <entry file="file://$PROJECT_DIR$/../../../install-2.7.12/Lib/bsddb/dbshelve.py" />
-    <entry file="file://$PROJECT_DIR$/../../../install-2.7.12/Lib/Queue.py" />
-    <entry file="file://$PROJECT_DIR$/model/setting/apps.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="173" column="48" lean-forward="false" selection-start-line="173" selection-start-column="44" selection-end-line="173" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../../python/install-2.7.13/Lib/site-packages/django/core/handlers/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="148" column="0" lean-forward="false" selection-start-line="148" selection-start-column="0" selection-end-line="148" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model/setting/exp/drupal/drupal-7.31-exp.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="550">
-          <caret line="26" column="21" lean-forward="true" selection-start-line="26" selection-start-column="21" selection-end-line="26" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model/scan_setting.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/requirements.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="4" column="16" lean-forward="true" selection-start-line="4" selection-start-column="16" selection-end-line="4" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HeavenSword/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="373">
-          <caret line="139" column="45" lean-forward="false" selection-start-line="139" selection-start-column="45" selection-end-line="139" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../../python/install-2.7.13/Lib/site-packages/dns/resolver.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="169">
-          <caret line="860" column="8" lean-forward="false" selection-start-line="860" selection-start-column="8" selection-end-line="860" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="367">
@@ -1019,20 +1457,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="565">
           <caret line="181" column="18" lean-forward="false" selection-start-line="181" selection-start-column="11" selection-end-line="181" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model/scan/Spider.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-477">
-          <caret line="56" column="8" lean-forward="false" selection-start-line="56" selection-start-column="8" selection-end-line="58" selection-end-column="21" />
-          <folding>
-            <element signature="e#33#45#0" expanded="true" />
-            <element signature="e#1038#1236#0" expanded="false" />
-            <element signature="e#4837#4891#0" expanded="false" />
-            <element signature="e#6100#7315#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1040,28 +1464,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model/scan/Exploit_attack.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="709">
-          <caret line="54" column="32" lean-forward="true" selection-start-line="54" selection-start-column="32" selection-end-line="54" selection-end-column="32" />
-          <folding>
-            <element signature="e#33#42#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model/scan/PortScan.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="511">
-          <caret line="140" column="31" lean-forward="false" selection-start-line="140" selection-start-column="31" selection-end-line="140" selection-end-column="31" />
-          <folding>
-            <element signature="e#33#46#0" expanded="true" />
-            <element signature="e#2205#4303#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1073,51 +1475,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/scan/DomainBrute.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
-          <caret line="37" column="65" lean-forward="false" selection-start-line="37" selection-start-column="65" selection-end-line="37" selection-end-column="65" />
-          <folding>
-            <element signature="e#32#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model/scan/Finger.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="511">
-          <caret line="204" column="31" lean-forward="false" selection-start-line="204" selection-start-column="21" selection-end-line="204" selection-end-column="31" />
-          <folding>
-            <element signature="e#33#42#0" expanded="false" />
-            <element signature="e#462#505#0" expanded="false" />
-            <element signature="e#2506#2817#0" expanded="false" />
-            <element signature="e#2869#3210#0" expanded="false" />
-            <element signature="e#3259#5478#0" expanded="false" />
-            <element signature="e#5515#5901#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/lib/pycharm.jar!/resources/html5-schema/html5/meta.rnc">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="190">
           <caret line="52" column="16" lean-forward="false" selection-start-line="52" selection-start-column="16" selection-end-line="52" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="21" column="4" lean-forward="false" selection-start-line="21" selection-start-column="4" selection-end-line="21" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/bootstrap-3.3.7/css/bootstrap.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="4211" column="24" lean-forward="false" selection-start-line="4211" selection-start-column="24" selection-end-line="4211" selection-end-column="24" />
           <folding />
         </state>
       </provider>
@@ -1135,61 +1496,386 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../../../python/install-2.7.13/Lib/site-packages/xadmin/static/xadmin/vendor/bootstrap/css/bootstrap.min.css">
+    <entry file="file://$PROJECT_DIR$/templates/index3.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-74">
-          <caret line="8" column="44232" lean-forward="false" selection-start-line="8" selection-start-column="44232" selection-end-line="8" selection-end-column="44232" />
+        <state relative-caret-position="660">
+          <caret line="30" column="43" lean-forward="false" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/batch.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="7" column="5" lean-forward="false" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/scan/finger.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="2" column="19" lean-forward="false" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/scan/port_scan.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="13" lean-forward="false" selection-start-line="0" selection-start-column="13" selection-end-line="0" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/scan/spider.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="10" lean-forward="false" selection-start-line="0" selection-start-column="10" selection-end-line="0" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/scan/exploit_attack.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="18" lean-forward="false" selection-start-line="0" selection-start-column="18" selection-end-line="0" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/help.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="7" column="6" lean-forward="false" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/task/new_batch_task.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="23" lean-forward="false" selection-start-line="0" selection-start-column="23" selection-end-line="0" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/task/show_task.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="13" lean-forward="false" selection-start-line="0" selection-start-column="13" selection-end-line="0" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="20" column="36" lean-forward="true" selection-start-line="20" selection-start-column="36" selection-end-line="20" selection-end-column="36" />
+        <state relative-caret-position="330">
+          <caret line="27" column="75" lean-forward="false" selection-start-line="27" selection-start-column="75" selection-end-line="27" selection-end-column="75" />
+          <folding>
+            <element signature="e#781#827#0#HTML" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/jquery-3.1.1.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/scan/domain_scan.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="16" lean-forward="false" selection-start-line="0" selection-start-column="16" selection-end-line="0" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/scan/DomainBrute.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-243">
+          <caret line="37" column="65" lean-forward="false" selection-start-line="37" selection-start-column="65" selection-end-line="37" selection-end-column="65" />
+          <folding>
+            <element signature="e#32#41#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/scan/Exploit_attack.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="54" column="32" lean-forward="true" selection-start-line="54" selection-start-column="32" selection-end-line="54" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/scan/Finger.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="204" column="31" lean-forward="false" selection-start-line="204" selection-start-column="21" selection-end-line="204" selection-end-column="31" />
+          <folding>
+            <element signature="e#462#505#0" expanded="false" />
+            <element signature="e#2506#2817#0" expanded="false" />
+            <element signature="e#2869#3210#0" expanded="false" />
+            <element signature="e#3259#5478#0" expanded="false" />
+            <element signature="e#5515#5901#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/scan/PortScan.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="140" column="31" lean-forward="false" selection-start-line="140" selection-start-column="31" selection-end-line="140" selection-end-column="31" />
+          <folding>
+            <element signature="e#2205#4303#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../../python/install-2.7.13/Lib/site-packages/xadmin/static/xadmin/vendor/bootstrap/css/bootstrap.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="334">
+          <caret line="8" column="11339" lean-forward="false" selection-start-line="8" selection-start-column="11326" selection-end-line="8" selection-end-column="11339" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../../python/install-2.7.13/Lib/site-packages/xadmin/static/xadmin/css/xadmin.mobile.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="41" column="1" lean-forward="false" selection-start-line="41" selection-start-column="1" selection-end-line="41" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/bootstrap-3.3.7/css/bootstrap.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="2096" column="3" lean-forward="false" selection-start-line="2096" selection-start-column="3" selection-end-line="2096" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../../python/install-2.7.13/Lib/site-packages/django/contrib/admin/static/admin/css/base.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-932">
+          <caret line="282" column="1" lean-forward="false" selection-start-line="282" selection-start-column="1" selection-end-line="282" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/bootstrap-3.3.7/css/bootstrap.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="4" column="117443" lean-forward="false" selection-start-line="4" selection-start-column="117443" selection-end-line="4" selection-end-column="117443" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/icheck/skins/flat/red.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="12" column="17" lean-forward="true" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/icheck/js/zepto.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-264">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/icheck/css/custom.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/icheck/js/icheck.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2134">
+          <caret line="33" column="2" lean-forward="false" selection-start-line="33" selection-start-column="2" selection-end-line="33" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/operation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="571">
+          <caret line="66" column="3" lean-forward="true" selection-start-line="66" selection-start-column="3" selection-end-line="66" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="36" column="0" lean-forward="false" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+          <folding>
+            <marker date="1488161282875" expanded="true" signature="1654:1689" ph="{% block extrajs ... %}" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/css/operation.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="42" column="12" lean-forward="false" selection-start-line="42" selection-start-column="12" selection-end-line="42" selection-end-column="12" />
+        <state relative-caret-position="532">
+          <caret line="180" column="1" lean-forward="false" selection-start-line="180" selection-start-column="1" selection-end-line="180" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/HeavenSword/urls.py">
+    <entry file="file://$PROJECT_DIR$/templates/task/task_list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
-          <caret line="27" column="33" lean-forward="false" selection-start-line="27" selection-start-column="27" selection-end-line="27" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="241">
-          <caret line="47" column="18" lean-forward="true" selection-start-line="47" selection-start-column="18" selection-end-line="47" selection-end-column="18" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="2" />
           <folding>
-            <element signature="e#15#51#0" expanded="true" />
+            <marker date="1487904359007" expanded="true" signature="833:934" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-978">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/task/new_single_task.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-220">
+          <caret line="14" column="12" lean-forward="false" selection-start-line="14" selection-start-column="12" selection-end-line="14" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/task/task_info.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="583">
+          <caret line="35" column="14" lean-forward="false" selection-start-line="35" selection-start-column="14" selection-end-line="35" selection-end-column="14" />
+          <folding>
+            <marker date="1487904359006" expanded="true" signature="1161:1171" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/operation.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="74" column="46" lean-forward="false" selection-start-line="74" selection-start-column="46" selection-end-line="74" selection-end-column="46" />
+        <state relative-caret-position="329">
+          <caret line="128" column="79" lean-forward="false" selection-start-line="128" selection-start-column="79" selection-end-line="128" selection-end-column="79" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/metronic/css/bootstrap.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="8" column="46098" lean-forward="false" selection-start-line="8" selection-start-column="46098" selection-end-line="8" selection-end-column="46098" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/scan/Spider.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="439">
+          <caret line="222" column="30" lean-forward="false" selection-start-line="222" selection-start-column="30" selection-end-line="222" selection-end-column="30" />
           <folding>
-            <element signature="e#1026#1050#0#HTML" expanded="true" />
-            <element signature="e#3089#3106#0#HTML" expanded="true" />
-            <element signature="e#3375#3419#0#HTML" expanded="true" />
-            <element signature="e#3523#3567#0#HTML" expanded="true" />
-            <element signature="e#3669#3712#0#HTML" expanded="true" />
-            <element signature="e#3784#3827#0#HTML" expanded="true" />
-            <element signature="e#3898#3941#0#HTML" expanded="true" />
-            <element signature="e#4012#4055#0#HTML" expanded="true" />
+            <element signature="e#1038#1236#0" expanded="false" />
+            <element signature="e#4837#4891#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/css/login.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-264">
+          <caret line="33" column="29" lean-forward="false" selection-start-line="33" selection-start-column="29" selection-end-line="33" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/login1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="232">
+          <caret line="30" column="41" lean-forward="false" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="41" />
+          <folding>
+            <element signature="e#3071#3113#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/admin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="8" column="19" lean-forward="true" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HeavenSword/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="263">
+          <caret line="27" column="38" lean-forward="false" selection-start-line="27" selection-start-column="38" selection-end-line="27" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/css/register.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="79" column="15" lean-forward="true" selection-start-line="79" selection-start-column="15" selection-end-line="79" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="747">
+          <caret line="66" column="57" lean-forward="false" selection-start-line="66" selection-start-column="57" selection-end-line="66" selection-end-column="57" />
+          <folding>
+            <element signature="e#15#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/register.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="67" column="34" lean-forward="false" selection-start-line="67" selection-start-column="34" selection-end-line="67" selection-end-column="34" />
+          <folding>
+            <element signature="e#781#802#0#HTML" expanded="true" />
+            <marker date="1488187371035" expanded="false" signature="3367:3409" ph="..." />
           </folding>
         </state>
       </provider>

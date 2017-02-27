@@ -7,11 +7,12 @@ body {
 
 .form-register {
     position: relative;
-    display: table;
+    /*display: table;*/
     /*margin: 30% 30% auto 30%;*/
-  max-width: 330px;
+  max-width: 350px;
   padding: 15px;
   margin: 0 auto;
+    /*height: auto;*/
 }
 .form-register .form-signin-heading,
 .form-register .checkbox {
@@ -32,16 +33,16 @@ body {
 .form-register .form-control:focus {
   z-index: 2;
 }
-.form-register input[type="email"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.form-register input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
+/*.form-register input[type="email"] {*/
+  /*margin-bottom: -1px;*/
+  /*border-bottom-right-radius: 0;*/
+  /*border-bottom-left-radius: 0;*/
+/*}*/
+/*.form-register input[type="password"] {*/
+  /*margin-bottom: 10px;*/
+  /*border-top-left-radius: 0;*/
+  /*border-top-right-radius: 0;*/
+/*}*/
 
 .input-div{
     margin-bottom: 10px;
@@ -49,12 +50,14 @@ body {
     border-top-right-radius: 0;
 }
 
-.login-form{
-    margin:20% auto auto auto;
+.register-form{
+    margin:10% auto auto auto;
     float:none;
-    text-align:center;
-    width: 350px;
-    height: 330px;
+
+    /*text-align:center;*/
+    max-width: 350px;
+    /*height: 400px;*/
+    height:auto;
 }
 
 .control-wapper{
@@ -62,8 +65,17 @@ body {
     padding-left: 30px;
 }
 
+.register_info{
+    margin-left:15px;
+    font-size: 16px;
+}
+
 .input-icon{
     position: absolute;
     left: 4px;
     top: 8px;
+}
+
+.error_info{
+    color: red;
 }

@@ -18,30 +18,66 @@
 
 {% block body %}
     <div class="container">
-        <div class="well login-form">
-            <form class="form-register" method="post">
-                <legend><h2>注册</h2></legend>
+        <div class="well register-form">
+            <iframe id="frame_registerForm" name="frame_registerForm" style="display: none"></iframe>
+            <form class="form-register" method="post" target="frame_registerForm">
+                {% csrf_token %}
+                <legend><h2 class="text-center">注册</h2></legend>
+                <div class="row">
+                <label class="register_info">邮箱地址</label>
+                </div>
                 <div class="form-group">
-                    <div class="control-wapper">
-                        <label class="input-icon">
-                        <i class="fa-user fa"></i>
-                        </label>
+{#                    <div class="control-wapper">#}
+{#                        <label class="input-icon">#}
+{#                        <i class="fa-user fa"></i>#}
+{#                        </label>#}
+                        <label for="inputEmail" class="sr-only">邮箱</label>
+                        <input type="email" id="inputEmail" class="form-control" name="email" placeholder="Email" required autofocus>
+{#                    </div>#}
+                </div>
+                <div class="row">
+                <label class="register_info">用户名</label>
+                </div>
+                <div class="form-group">
+{#                    <div class="control-wapper">#}
+{#                        <label class="input-icon">#}
+{#                        <i class="fa-user fa"></i>#}
+{#                        </label>#}
+
                         <label for="inputUsername" class="sr-only">用户名</label>
                         <input type="text" id="inputUsername" class="form-control" name="username" placeholder="Username" required autofocus>
-                    </div>
+{#                    </div>#}
                 </div>
-                <label for="inputPassword" class="sr-only">密码</label>
-                <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password"
-                       required>
+
                 <div class="row">
-                    <div class="checkbox col-md-6" style="margin-left: -30px;">
-                        <label>
-                            <input type="checkbox" value="remember-me">
-                            <span style="font-size: 16px; vertical-align: text-top;">记住密码</span>
-                        </label>
-                    </div>
+                <label class="register_info">请输入密码</label>
                 </div>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">注册</button>
+                <div class="form-group">
+                    <label for="inputPassword" class="sr-only">密码</label>
+                    <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password"
+                           required>
+                </div>
+                <div class="row">
+                <label class="register_info">请再次输入密码</label>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword2" class="sr-only">密码</label>
+                    <input type="password" id="inputPassword2" class="form-control" name="password2" placeholder="Password again!"
+                           required>
+                </div>
+{#                <div class="form-group">#}
+{#                    <div class="checkbox col-md-6" style="margin-left: -30px;">#}
+{#                        <label>#}
+{#                            <input type="checkbox" value="remember-me">#}
+{#                            <span style="font-size: 16px; vertical-align: text-top;">记住密码</span>#}
+{#                        </label>#}
+{#                    </div>#}
+{#                </div>#}
+                <button id="submit" class="btn btn-lg btn-primary btn-block" type="submit">注册</button>
+                <br>
+                <div id="result_info" class="register_info error_info">
+                    <br>
+                </div>
             </form>
         </div>
     </div> <!-- /container -->
@@ -49,8 +85,9 @@
 
 {% block extrajs %}
     <script src="{% static "icheck/js/icheck.js" %}"></script>
+        <script src="{% static "sb/js/metisMenu.js" %}"></script>
     <script src="{% static "sb/js/sb-admin-2.js" %}" type="text/javascript"></script>
-    {#    <script src="{% static "sb/js/metisMenu.js" %}"></script>#}
+
     <script>
         $(document).ready(function () {
             //icheck插件
@@ -59,6 +96,13 @@
                 radioClass: 'iradio_minimal-blue',
                 increaseArea: '20%' // optional
             });
+
+            register_error1 = function () {
+                $('#result_info').text("两次密码不相同，请重新输入");
+            };
+            register_success = function () {
+                location.href='/login/';
+            }
         });
     </script>
 

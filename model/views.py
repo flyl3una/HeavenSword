@@ -1,11 +1,15 @@
 # coding=utf-8
+import json
+
+from django.contrib.auth import authenticate, logout
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
+from django.http import JsonResponse
 from django.shortcuts import render
 # from django.template import RequestContext
 # from django.shortcuts import render_to_response
 # Create your views here.
-from model.models import User, SwordUser
+# from model.models import User, SwordUser
 
 
 def index(request):
@@ -18,29 +22,51 @@ def index(request):
 
 
 def login(request):
+    if request.user.is_authenticated():
+        return HttpResponse("""您已经登陆!<br/><a href="/index/">点击跳转到主页</a>""")
     if request.method == 'GET':
-        return render(request, 'login.html')
+        return render(request, 'login1.html')
     if request.method == 'POST':
-        username = request.POST.get('username')
+        # username = request.POST.get('username')
+        email = request.POST.get('email')
         password = request.POST.get('password')
-        print username, password
-        user = SwordUser.objects.filter(username=username, password=password)
+        user = authenticate(email=email, password=password)
+        print email, password
         if user:
-            response = HttpResponseRedirect('/index/')
-            response.set_cookie('username', username, 3600)
-            return response
+            if user.is_active:
+                login(request, user)
+                response = HttpResponseRedirect('/index/')
+                response.set_cookie('email', email, max_age=None)
+                return response
+            else:
+                return HttpResponse("Your account is disabled.")
         else:
-            return render(request, 'login1.html')
+            print "Invalid login details: {0}, {1}".format(email, password)
+            return HttpResponse("Invalid login details supplied.")
 
 
-
-def logout(request):
-    return render(request, '/')
-    # return HttpResponseRedirect('/')
+def logoutView(request):
+    logout(request)
+    # return render(request, '/')
+    return HttpResponseRedirect('/')
 
 
 def register(request):
-    return render(request, 'register.html')
+    if request.method == 'GET':
+        return render(request, 'register.html')
+    if request.method == 'POST':
+        params = request.POST
+        email = params['email']
+        password = params['password']
+        password2 = params['password2']
+        username = params['username']
+        if password != password2:
+            # result={}
+            # result['status'] = 0
+            # result['error'] = '两次输入密码不相同，请重新输入。'
+            return HttpResponse("<script>parent.register_error1();</script>")
+        else:
+            return HttpResponse("<script>parent.register_success();</script>")
 
 
 def help(request):
