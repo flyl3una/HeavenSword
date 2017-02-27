@@ -24,7 +24,7 @@ urlpatterns = [
     url(r'^admin/', include(xadmin.site.urls)),
     url(r'^index/$', views.index),
     url(r'^$', views.index),
-    url(r'^login/$', views.login),
+    url(r'^login/$', views.loginView),
     url(r'^logout/$', views.logoutView),
     url(r'^register/$', views.register),
     url(r'^batch/$', views.batch),

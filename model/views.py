@@ -1,7 +1,8 @@
 # coding=utf-8
 import json
 
-from django.contrib.auth import authenticate, logout
+from django.contrib.auth import authenticate, logout, login
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
@@ -21,22 +22,24 @@ def index(request):
     # return render_to_response('index.html', {"key":"value"})
 
 
-def login(request):
+def loginView(request):
     if request.user.is_authenticated():
-        return HttpResponse("""您已经登陆!<br/><a href="/index/">点击跳转到主页</a>""")
+        return HttpResponseRedirect('/')
+        # return HttpResponse("""您已经登陆!<br/><a href="/index/">点击跳转到主页</a>""")
     if request.method == 'GET':
         return render(request, 'login1.html')
     if request.method == 'POST':
         # username = request.POST.get('username')
         email = request.POST.get('email')
         password = request.POST.get('password')
-        user = authenticate(email=email, password=password)
+        username = User.objects.get(email=email).get_username()
+        user = authenticate(username=username, password=password)
         print email, password
         if user:
             if user.is_active:
                 login(request, user)
                 response = HttpResponseRedirect('/index/')
-                response.set_cookie('email', email, max_age=None)
+                response.set_cookie('username', username, max_age=None)
                 return response
             else:
                 return HttpResponse("Your account is disabled.")
@@ -60,13 +63,24 @@ def register(request):
         password = params['password']
         password2 = params['password2']
         username = params['username']
-        if password != password2:
-            # result={}
-            # result['status'] = 0
-            # result['error'] = '两次输入密码不相同，请重新输入。'
-            return HttpResponse("<script>parent.register_error1();</script>")
-        else:
-            return HttpResponse("<script>parent.register_success();</script>")
+        try:
+            user = User.objects.get(username=username)
+            return HttpResponse("<script>parent.register_has_user();</script>")
+        except:
+            pass
+        try:
+            user = User.objects.get(email=email)
+            return HttpResponse("<script>parent.register_has_email();</script>")
+        except:
+            if password is None or password2 is None:
+                return HttpResponse("<script>parent.register_error2();</script>")
+            if password != password2:
+                return HttpResponse("<script>parent.register_error1();</script>")
+        user = User(username=username, email=email)
+        user.set_password(password)
+        user.is_active = False
+        user.save()
+        return HttpResponse("<script>parent.register_success();</script>")
 
 
 def help(request):
