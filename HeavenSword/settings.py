@@ -16,7 +16,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
@@ -27,7 +26,6 @@ SECRET_KEY = 'xqlpniip)kgj&dod5e=k95!q6su!m$tsy__&li3-vx)tflp#yr'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -75,7 +73,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'HeavenSword.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
@@ -83,10 +80,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'HeavenSword',
-        'USER': 'root',   #你的数据库用户名
-        'PASSWORD': '', #你的数据库密码
-        'HOST': 'localhost', #你的数据库主机，留空默认为localhost
-        'PORT': '3306', #你的数据库端口
+        'USER': 'root',  # 你的数据库用户名
+        'PASSWORD': '',  # 你的数据库密码
+        'HOST': 'localhost',  # 你的数据库主机，留空默认为localhost
+        'PORT': '3306',  # 你的数据库端口
     }
 }
 
@@ -113,13 +110,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
-#后台英文
+# 后台英文
 # LANGUAGE_CODE = 'en-us'
 # TIME_ZONE = 'UTC'
-#后台简体中文zh-Hant为繁体中文
+# 后台简体中文zh-Hant为繁体中文
 LANGUAGE_CODE = 'zh-Hans'
 TIME_ZONE = 'Asia/Shanghai'
 
@@ -128,7 +124,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
@@ -139,9 +134,18 @@ STATICFILES_DIRS = [STATIC_PATH, ]
 
 MODEL_PATH = os.path.join(BASE_DIR, 'model', 'setting')
 
-
 # 关闭浏览器session失效设置
-SESSION_EXPIRE_AT_BROWSER_CLOSE=True  # 浏览器关闭session失效
-SESSION_EXPIRY=0  # session０秒失效
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # 浏览器关闭session失效
+SESSION_EXPIRY = 0  # session０秒失效
 # 设置cookies为httponly
 SESSION_COOKIE_HTTPONLY = True
+
+EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+# 邮箱服务
+EMAIL_HOST='smtp.qq.com'
+EMAIL_HOST_USER='1249742284@qq.com'
+EMAIL_USE_SSL = True
+EMAIL_HOST_PASSWORD='lfllryjbiejcgffe'
+EMAIL_PORT=465
+EMAIL_USE_TLS=False
+DEFAULT_FROM_EMAIL='fly_luna@outlook.com'

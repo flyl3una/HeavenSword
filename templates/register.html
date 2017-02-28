@@ -114,8 +114,10 @@
                 $('#result_info').text("该邮箱已被注册。");
             };
             register_success = function () {
-                location.href = '/login/';
+                alert('请登录邮箱激活用户完成注册');
+                location.href = '/user/login/';
             }
+
         });
     </script>
 
