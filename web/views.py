@@ -108,7 +108,10 @@ def user_register(request):
 
 def user_activate(request, token):
     token_confirm = EmailToken('xqlpniip)kgj&dod5e=k95!q6su!m$tsy__&li3-vx)tflp#yr')
-    username = token_confirm.confirm_validate_token(token)
+    try:
+        username = token_confirm.confirm_validate_token(token)
+    except:
+        return HttpResponse("连接已超时，请重新注册。")
     user = User.objects.get(username=username)
     user.is_active = True
     user.save()
