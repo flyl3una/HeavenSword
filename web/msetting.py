@@ -1,4 +1,4 @@
 #!env/bin/python
 #coding:utf-8
 
-DOMAIN='localhost:8000'
+DOMAIN='http://localhost:8000'

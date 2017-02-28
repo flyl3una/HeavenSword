@@ -114,8 +114,9 @@
                 $('#result_info').text("该邮箱已被注册。");
             };
             register_success = function () {
-                alert('请登录邮箱激活用户完成注册');
-                location.href = '/user/login/';
+{#                alert('请登录邮箱激活用户完成注册，有效期为1个小时。');#}
+{#                location.href = '/user/login/';#}
+                $("#result_info").html('<label>请登录邮箱激活用户完成注册，有效期为1个小时。</label><br><a href="/user/login/">登录</a>')
             }
 
         });

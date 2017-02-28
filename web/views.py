@@ -7,15 +7,15 @@ from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render, render_to_response, redirect
 # from django.template import RequestContext
 # from django.shortcuts import render_to_response
 # Create your views here.
 # from model.models import User, SwordUser
 # import model.dir.EmailToken
 from HeavenSword.settings import DEFAULT_FROM_EMAIL, EMAIL_HOST_USER
-from model.dir.EmailToken import EmailToken
-from model.msetting import DOMAIN
+from web.dir.EmailToken import EmailToken
+from web.msetting import DOMAIN
 
 
 def index(request):
@@ -46,8 +46,10 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request, user)
-                response = HttpResponseRedirect('/index/')
+                response = HttpResponseRedirect('/')
+
                 response.set_cookie('username', username, max_age=None)
+                # return redirect(reverse('views.index'), args=[])
                 return response
             else:
                 return HttpResponse("Your account is disabled.")
@@ -95,7 +97,7 @@ def user_register(request):
         message = "\n".join([
             u'{0},欢迎使用倚天剑'.format(username),
             u'请访问该链接，完成用户验证:',
-            '/'.join([DOMAIN, 'account/activate', token])
+            '/'.join([DOMAIN, 'user/activate', token])
         ])
         from_email = EMAIL_HOST_USER
         send_mail(u'注册用户验证信息', message, from_email, [email])
@@ -137,6 +139,8 @@ def new_single_task(request):
     if request.method == 'POST':
         params = request.POST
         target = params['target']
+        scan_model = []
+
         finger_flag = params['finger_flag']
         port_scan_flag = params['port_scan_flag']
         domain_brute_flag = params['domain_brute_flag']
@@ -148,7 +152,6 @@ def new_single_task(request):
         spider_thread = params['spider_thread']
         print params
         return render(request, 'task/new_single_task.html')
-
 
 
 def new_batch_task(request):

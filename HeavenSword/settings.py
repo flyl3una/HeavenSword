@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
-    'model',
+    'web',
+    'core',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -132,7 +133,7 @@ STATIC_URL = '/static/'
 STATIC_PATH = os.path.join(BASE_DIR, 'static')  # 静态文件目录设置
 STATICFILES_DIRS = [STATIC_PATH, ]
 
-MODEL_PATH = os.path.join(BASE_DIR, 'model', 'setting')
+MODEL_PATH = os.path.join(BASE_DIR, 'web', 'setting')
 
 # 关闭浏览器session失效设置
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # 浏览器关闭session失效
@@ -140,8 +141,8 @@ SESSION_EXPIRY = 0  # session０秒失效
 # 设置cookies为httponly
 SESSION_COOKIE_HTTPONLY = True
 
-EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
 # 邮箱服务
+EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST='smtp.qq.com'
 EMAIL_HOST_USER='1249742284@qq.com'
 EMAIL_USE_SSL = True
