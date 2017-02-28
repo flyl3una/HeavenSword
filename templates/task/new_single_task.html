@@ -1,75 +1,76 @@
 {#<h1>New Task</h1>#}
-<div role="form-group" class="col-md-10 col-md-offset-1">
-    {% csrf_token %}
-    <h2 class="text-center">新建一个任务</h2>
-    <br>
-    <div class="form-group row">
-        <label class="col-3 control-label col-form-label">
-        目标
-        </label>
-        <input type="text" class="form-control" name="target" placeholder="目标网址">
-    </div>
-    <hr>
-    <div class="form-group row">
-        <label class="control-label col-form-label col-3">
-        指纹识别
-        <input type="checkbox" checked name="open">
-        </label>
-    </div>
-    <hr>
-    <div class="form-group row inline-group">
-        <label class="control-label col-4 col-form-label">
-            端口扫描
-            <input type="checkbox" class="" name="open">
-{#            &nbsp;&nbsp;&nbsp;&nbsp;#}
-        </label>
-        <label class="col-4 col-form-label" style="float: right">线程：
-            <input type="number" maxlength="2" value="2" class="">
-        </label>
-        <label class="col-4col-form-label" style="float: right; margin-right: 3%">
-            扫描模式：
-            <select class="input-sm mb-1 inline-group">
-                <option value="useually">默认</option>
-                <option value="useually">常用端口</option>
-                <option value="all">所有端口</option>
-            </select>
-        </label>
-    </div>
-    <hr>
-    <div class="form-group row">
+
+    <div class="col-md-10 col-md-offset-1">
+        <form>
+        {% csrf_token %}
+        <h2 class="text-center">新建一个任务</h2>
+        <div class="form-group row">
+            <label class="col-3 control-label col-form-label">
+                目标
+            </label>
+            <input type="url" class="form-control" name="target" placeholder="目标网址">
+        </div>
+        <hr>
+        <div class="form-group row">
+            <label class="control-label col-form-label col-3">
+                指纹识别
+                <input type="checkbox" checked name="finger_flag">
+            </label>
+        </div>
+        <hr>
+        <div class="form-group row inline-group">
             <label class="control-label col-4 col-form-label">
-            域名爆破
-                <input type="checkbox" name="open">
+                端口扫描
+                <input type="checkbox" class="" name="port_scan_flag">
+                {#            &nbsp;&nbsp;&nbsp;&nbsp;#}
             </label>
-
+            <label class="col-4 col-form-label" style="float: right">线程：
+                <input type="number" maxlength="2" value="2" class="" name="port_scan_thread">
+            </label>
+            <label class="col-4col-form-label" style="float: right; margin-right: 3%">
+                扫描模式：
+                <select class="input-sm mb-1 inline-group" name="port_scan_model">
+                    <option value="useually">默认</option>
+                    <option value="useually">常用端口</option>
+                    <option value="all">所有端口</option>
+                </select>
+            </label>
+        </div>
+        <hr>
+        <div class="form-group row">
+            <label class="control-label col-4 col-form-label">
+                域名爆破
+                <input type="checkbox" name="domain_brute_flag">
+            </label>
             <label style="float: right">线程：
-            <input type="number" class="" maxlength="2" value="2">
+                <input type="number" class="" maxlength="2" value="2" name="domain_brute_thread">
             </label>
-    </div>
-    <hr>
-    <div class="form-group row">
-        <label class="col-4 control-label col-form-label">
-        网页爬虫
-        <input type="checkbox" name="open">
-        </label>
-        <label style="float: right">线程：
-            <input type="number" maxlength="2" value="2">
-        </label>
+        </div>
+        <hr>
+        <div class="form-group row">
+            <label class="col-4 control-label col-form-label">
+                网页爬虫
+                <input type="checkbox" name="spider_flag">
+            </label>
+            <label style="float: right">线程：
+                <input type="number" maxlength="2" value="2" name="spider_thread">
+            </label>
 
+        </div>
+        <hr>
+        <div class="form-group row">
+            <label class="col-4 control-label col-form-label">
+                漏洞扫描
+            </label>
+            <input type="checkbox" name="exploit_flag">
+        </div>
+        <hr>
+        <div class="form-group row col-12">
+            <button class="btn btn-default" style="float: left" type="submit">取消</button>
+            <button class="btn btn-success" style="float: right" type="submit">确认</button>
+        </div>
+    </form>
     </div>
-    <hr>
-    <div class="form-group row">
-        <label class="col-4 control-label col-form-label">
-        漏洞扫描
-        </label>
-        <input type="checkbox" name="open">
-    </div>
-    <hr>
-    <div class="form-group row col-12">
-        <button class="btn btn-default" style="float: left"  type="submit">取消</button>
-        <button class="btn btn-success" style="float: right"  type="submit">确认</button>
-    </div>
-</div>
 
 
 <script>

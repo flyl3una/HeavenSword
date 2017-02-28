@@ -130,7 +130,25 @@ def operation(request):
 
 
 def new_single_task(request):
-    return render(request, 'task/new_single_task.html')
+    if not request.user.is_authenticated():
+        return HttpResponse("<div style='text-align:center;margin-top:20%'><h3>请登录</h3><br><br><a href='/user/login/'>点击跳转到登陆页面</a>")
+    if request.method == 'GET':
+        return render(request, 'task/new_single_task.html')
+    if request.method == 'POST':
+        params = request.POST
+        target = params['target']
+        finger_flag = params['finger_flag']
+        port_scan_flag = params['port_scan_flag']
+        domain_brute_flag = params['domain_brute_flag']
+        spider_flag = params['spider_flag']
+        exploit_attack_flag = params['exploit_flag']
+        port_scan_thread = params['port_scan_thread']
+        port_scan_model = params['port_scan_model']
+        domain_brute_thread = params['domain_brute_thread']
+        spider_thread = params['spider_thread']
+        print params
+        return render(request, 'task/new_single_task.html')
+
 
 
 def new_batch_task(request):
