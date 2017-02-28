@@ -151,7 +151,7 @@ def new_single_task(request):
         domain_brute_thread = params['domain_brute_thread']
         spider_thread = params['spider_thread']
         print params
-        return render(request, 'task/new_single_task.html')
+        return HttpResponse("任务开启成功")
 
 
 def new_batch_task(request):
