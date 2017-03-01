@@ -143,6 +143,13 @@ class ScanPort:
         #     thread.task_done()
 
 
+def port_scan(ip, model, thread_num):
+    scanPort = ScanPort(ipaddr=ip, model=model, thread_num=thread_num)
+    scanPort.start()
+
+    scanPort.show_ports_information()
+
+
 if __name__ == '__main__':
     # scanPort = ScanPort(target_host="www.runoob.com", model="usually", thread_num=8)
     scanPort = ScanPort(ipaddr="113.105.245.122", model="usually", thread_num=8)

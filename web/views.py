@@ -159,15 +159,16 @@ def new_single_task(request):
             if 'finger_flag' in params.keys():
                 m_finger = models.Finger(task_id=m_single_task)
                 m_finger.save()
-                ret = core.get_finger(target)
+                ret = core.Finger.get_finger(target)
                 print json.dumps(ret)
             if 'port_scan_flag' in params.keys():
-                m_port_scan = models.PortScan(target_ip='127.0.0.1', task_id=m_single_task)
+                m_port_scan = models.PortScan(target_ip='113.105.245.122', task_id=m_single_task)
                 if 'port_scan_thread' in params.keys():
                     m_port_scan.port_scan_thread = params['port_scan_thread']
                 if 'port_scan_model' in params.keys():
                     m_port_scan.port_scan_model = params['port_scan_model']
                 m_port_scan.save()
+            core.port_scan(ip='113.105.245.122', model=params['port_scan_model'], thread_num=params['port_scan_thread'])
             if 'domain_brute_flag' in params.keys():
                 m_domain_brute = models.DomainBrute(target_domain=target, task_id=m_single_task)
                 if 'domain_brute_thread' in params.keys():
