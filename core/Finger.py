@@ -103,7 +103,6 @@ class WebFinger:
                 break
         return matched
 
-
 #匹配script还存在问题
     def analyse(self):
         '''
@@ -199,6 +198,20 @@ class WebFinger:
             finger['implies'] = implies
             self.__finger_list.append(finger)
         return self.__finger_list
+
+
+def get_finger(url):
+    json_file_path = MODEL_PATH + '/setting/apps.json'
+    apps = getApps(json_file_path)
+    finger = WebFinger(url, apps)
+    ret = finger.request()
+    if ret == '[ERROR]: target url is None':
+        return 'error'
+    finger.analyse()
+    finger.show_result()
+    result = finger.get_finger_list()
+    return result
+
 
 if __name__ == '__main__':
     print 'finger'
