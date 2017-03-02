@@ -1,5 +1,6 @@
 #! env/bin/python
 # coding:utf-8
+import os
 import re
 
 import requests
@@ -7,7 +8,7 @@ import json
 
 from bs4 import BeautifulSoup
 
-from HeavenSword.settings import MODEL_PATH
+from HeavenSword.settings import WEB_PATH
 
 
 def getApps(path):
@@ -48,8 +49,8 @@ class WebFinger:
             head_key = unicode(head_key)
             head_value = unicode(head_value)
             head_lower[head_key] = head_value
-        print '-----------------------head------------------------'
-        print head_lower
+        # print '-----------------------head------------------------'
+        # print head_lower
         content_type = head_lower.get('content-type')
         # print '-----------------------charset----------------------'
         try:
@@ -60,8 +61,8 @@ class WebFinger:
             print e
         # print charset
         html = response.content.decode(charset)
-        print '-----------------------html------------------------'
-        print html
+        # print '-----------------------html------------------------'
+        # print html
 
         self.__charset = charset
         self.__html = html
@@ -201,7 +202,7 @@ class WebFinger:
 
 
 def get_finger(url):
-    json_file_path = MODEL_PATH + '/setting/apps.json'
+    json_file_path = WEB_PATH + os.sep + 'setting'+os.sep + 'apps.json'
     apps = getApps(json_file_path)
     finger = WebFinger(url, apps)
     ret = finger.request()
@@ -215,7 +216,7 @@ def get_finger(url):
 
 if __name__ == '__main__':
     print 'finger'
-    json_file_path = MODEL_PATH + '/setting/apps.json'
+    json_file_path = WEB_PATH + os.sep + 'setting'+os.sep + 'apps.json'
     apps = getApps(json_file_path)
     finger = WebFinger('https://zh-cn.wordpress.com/', apps)
     ret = finger.request()

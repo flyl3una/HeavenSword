@@ -11,10 +11,9 @@ from django.shortcuts import render, render_to_response, redirect
 # from django.template import RequestContext
 # from django.shortcuts import render_to_response
 # Create your views here.
-# from model.models import User, SwordUser
-# import model.dir.EmailToken
-import core
+from core.Finger import get_finger
 from HeavenSword.settings import DEFAULT_FROM_EMAIL, EMAIL_HOST_USER
+from core.PortScan import new_port_scan
 from web import models
 from web.dir.EmailToken import EmailToken
 # from web.models import Domain, IpAddr, Finger, SingleTask, PortScan, DomainBrute, Spider, ExploitAttack
@@ -159,8 +158,8 @@ def new_single_task(request):
             if 'finger_flag' in params.keys():
                 m_finger = models.Finger(task_id=m_single_task)
                 m_finger.save()
-                ret = core.Finger.get_finger(target)
-                print json.dumps(ret)
+                finger_ret = get_finger(target)
+                print finger_ret
             if 'port_scan_flag' in params.keys():
                 m_port_scan = models.PortScan(target_ip='113.105.245.122', task_id=m_single_task)
                 if 'port_scan_thread' in params.keys():
@@ -168,7 +167,7 @@ def new_single_task(request):
                 if 'port_scan_model' in params.keys():
                     m_port_scan.port_scan_model = params['port_scan_model']
                 m_port_scan.save()
-            core.port_scan(ip='113.105.245.122', model=params['port_scan_model'], thread_num=params['port_scan_thread'])
+                new_port_scan(ip='113.105.245.122', model=str(params['port_scan_model']), thread_num=params['port_scan_thread'])
             if 'domain_brute_flag' in params.keys():
                 m_domain_brute = models.DomainBrute(target_domain=target, task_id=m_single_task)
                 if 'domain_brute_thread' in params.keys():
