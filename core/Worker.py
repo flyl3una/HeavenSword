@@ -30,7 +30,7 @@ def start(params):
         new_port_scan(ip='113.105.245.122', model=str(params['port_scan_model']), thread_num=params['port_scan_thread'])
     if 'domain_brute_flag' in params.keys():
         pass
-        
+
     #     if 'domain_brute_thread' in params.keys():
     #         domain_brute.domain_brute_thread = params['domain_brute_thread']
     if 'spider_flag' in params.keys():
