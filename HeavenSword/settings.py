@@ -134,6 +134,7 @@ STATIC_PATH = os.path.join(BASE_DIR, 'static')  # 静态文件目录设置
 STATICFILES_DIRS = [STATIC_PATH, ]
 
 WEB_PATH = os.path.join(BASE_DIR, 'web', )
+CORE_PATH = os.path.join(BASE_DIR, 'core', )
 
 # 关闭浏览器session失效设置
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # 浏览器关闭session失效

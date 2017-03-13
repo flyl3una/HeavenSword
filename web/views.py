@@ -1,5 +1,7 @@
 # coding=utf-8
 import json
+import os
+import subprocess
 
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.models import User
@@ -12,7 +14,7 @@ from django.shortcuts import render, render_to_response, redirect
 # from django.shortcuts import render_to_response
 # Create your views here.
 from core.Finger import get_finger
-from HeavenSword.settings import DEFAULT_FROM_EMAIL, EMAIL_HOST_USER
+from HeavenSword.settings import DEFAULT_FROM_EMAIL, EMAIL_HOST_USER, CORE_PATH
 from core.PortScan import new_port_scan
 from web import models
 from web.dir.EmailToken import EmailToken
@@ -155,33 +157,37 @@ def new_single_task(request):
             m_domain.save()
             m_single_task = models.SingleTask(target_url=target)
             m_single_task.save()
-            if 'finger_flag' in params.keys():
-                m_finger = models.Finger(task_id=m_single_task)
-                m_finger.save()
-                finger_ret = get_finger(target)
-                print finger_ret
-            if 'port_scan_flag' in params.keys():
-                m_port_scan = models.PortScan(target_ip='113.105.245.122', task_id=m_single_task)
-                if 'port_scan_thread' in params.keys():
-                    m_port_scan.port_scan_thread = params['port_scan_thread']
-                if 'port_scan_model' in params.keys():
-                    m_port_scan.port_scan_model = params['port_scan_model']
-                m_port_scan.save()
-                new_port_scan(ip='113.105.245.122', model=str(params['port_scan_model']), thread_num=params['port_scan_thread'])
-            if 'domain_brute_flag' in params.keys():
-                m_domain_brute = models.DomainBrute(target_domain=target, task_id=m_single_task)
-                if 'domain_brute_thread' in params.keys():
-                    domain_brute.domain_brute_thread = params['domain_brute_thread']
-                m_domain_brute.save()
-            if 'spider_flag' in params.keys():
-                m_spider = models.Spider(target_domain=target, task_id=m_single_task)
-                if 'spider_thread' in params.keys():
-                    m_spider.spider_thread = params['spider_thread']
-            if 'exploit_attack_flag' in params.keys():
-                m_exploit_attack = models.ExploitAttack(target_domain=target, task_id=m_single_task)
-                m_exploit_attack.save()
+            # if 'finger_flag' in params.keys():
+            #     m_finger = models.Finger(task_id=m_single_task)
+            #     m_finger.save()
+            #     finger_ret = get_finger(target)
+            #     print finger_ret
+            # if 'port_scan_flag' in params.keys():
+            #     m_port_scan = models.PortScan(target_ip='113.105.245.122', task_id=m_single_task)
+            #     if 'port_scan_thread' in params.keys():
+            #         m_port_scan.port_scan_thread = params['port_scan_thread']
+            #     if 'port_scan_model' in params.keys():
+            #         m_port_scan.port_scan_model = params['port_scan_model']
+            #     m_port_scan.save()
+            #     new_port_scan(ip='113.105.245.122', model=str(params['port_scan_model']), thread_num=params['port_scan_thread'])
+            # if 'domain_brute_flag' in params.keys():
+            #     m_domain_brute = models.DomainBrute(target_domain=target, task_id=m_single_task)
+            #     if 'domain_brute_thread' in params.keys():
+            #         domain_brute.domain_brute_thread = params['domain_brute_thread']
+            #     m_domain_brute.save()
+            # if 'spider_flag' in params.keys():
+            #     m_spider = models.Spider(target_domain=target, task_id=m_single_task)
+            #     if 'spider_thread' in params.keys():
+            #         m_spider.spider_thread = params['spider_thread']
+            # if 'exploit_attack_flag' in params.keys():
+            #     m_exploit_attack = models.ExploitAttack(target_domain=target, task_id=m_single_task)
+            #     m_exploit_attack.save()
 
-            print params
+            json_args = json.dumps(dict(params))
+            work = 'python ' + CORE_PATH + os.sep + 'worker.py ' + json_args
+            p = subprocess.Popen(work)
+            print 'open success:', p
+            # print params
             return HttpResponse("任务开启成功")
         except Exception as e:
             print e

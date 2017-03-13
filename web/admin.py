@@ -1,8 +1,9 @@
+from django.contrib.auth.models import User
+
 import xadmin
 from django.contrib import admin
 
 # Register your models here.
-from model.models import User
 
 '''
 user:admin
