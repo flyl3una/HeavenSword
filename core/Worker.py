@@ -2,14 +2,18 @@
 #coding:utf-8
 import getopt
 import json
+import threading
 
 import MySQLdb
 
 # def listen_db():
 import sys
 
-from core.Finger import get_finger
-from core.PortScan import new_port_scan
+from DomainBrute import new_domain_brute
+from Exploit_attack import new_exploit_attack
+from Finger import get_finger
+from PortScan import new_port_scan
+from Spider import new_spider
 
 
 def echo():
@@ -17,46 +21,76 @@ def echo():
 
 
 def start(params):
-    target = params['target']
-    if 'finger_flag' in params.keys():
-        finger_ret = get_finger(target)
-        print finger_ret
-    if 'port_scan_flag' in params.keys():
-        pass
-        # if 'port_scan_thread' in params.keys():
-        #     m_port_scan.port_scan_thread = params['port_scan_thread']
-        # if 'port_scan_model' in params.keys():
-        #     m_port_scan.port_scan_model = params['port_scan_model']
-        new_port_scan(ip='113.105.245.122', model=str(params['port_scan_model']), thread_num=params['port_scan_thread'])
-    if 'domain_brute_flag' in params.keys():
-        pass
-
-    #     if 'domain_brute_thread' in params.keys():
-    #         domain_brute.domain_brute_thread = params['domain_brute_thread']
-    if 'spider_flag' in params.keys():
-        pass
-    #     if 'spider_thread' in params.keys():
-    #         m_spider.spider_thread = params['spider_thread']
-    if 'exploit_attack_flag' in params.keys():
-        pass
-        # m_exploit_attack = models.ExploitAttack(target_domain=target, task_id=m_single_task)
-
-
-if __name__ == '__main__':
     conn = MySQLdb.connect(host='127.0.0.1', port=3306, user='root', passwd='', db='HeavenSword', charset='utf8')
     cursor = conn.cursor()
+    thread_list = []
+    target_url = params['target']
+    if 'finger_flag' in params.keys():
+        finger_thread = threading.Thread(target=get_finger, args=(target_url, ))
+        thread_list.append(finger_thread)
+        finger_thread.start()
+        # finger_ret = get_finger(target_url)
+        # print finger_ret
+    if 'port_scan_flag' in params.keys():
+        if 'port_scan_thread' in params.keys():
+            port_scan_thread_num = params['port_scan_thread']
+        else:
+            port_scan_thread_num = 4
+        if 'port_scan_model' in params.keys():
+            port_scan_model = str(params['port_scan_model'])
+        else:
+            port_scan_model = 'useually'
+        port_scan_thread = threading.Thread(target=new_port_scan, args=('113.105.245.122', port_scan_model, port_scan_thread_num, ))
+        # new_port_scan(ip='113.105.245.122', model=port_scan_model, thread_num=port_scan_thread)
+        thread_list.append(port_scan_thread)
+        port_scan_thread.start()
+    if 'domain_brute_flag' in params.keys():
+        if 'domain_brute_thread' in params.keys():
+            domain_brute_thread = params['domain_brute_thread']
+        else:
+            domain_brute_thread = 4
+        # new_domain_brute('runboo.com', domain_brute_thread)
+        domain_brute_thread = threading.Thread(target=new_domain_brute, args=('runboo.com', domain_brute_thread))
+        thread_list.append(domain_brute_thread)
+        domain_brute_thread.start()
+    if 'spider_flag' in params.keys():
+        if 'spider_thread' in params.keys():
+            spider_thread = params['spider_thread']
+        else:
+            spider_thread = 4
+        # new_spider(target_url, spider_thread)
+        spider_thread = threading.Thread(target=new_spider, args=(target_url, spider_thread))
+        thread_list.append(spider_thread)
+        spider_thread.start()
+    if 'exploit_attack_flag' in params.keys():
+        # new_exploit_attack(target_url, app_type='drupal')
+        exploit_thread = threading.Thread(target=new_exploit_attack, args=(target_url, 'drupal'))
+        thread_list.append(exploit_thread)
+        exploit_thread.start()
+
+    for thread in thread_list:
+        thread.join()
+
+'''
+python D:\work\pycharm\workspace\github\HeavenSword\core\worker.py {'task_id': 28, 'domain_brute_thread': 6, 'target': 'http://www.runoob.com/', 'port_scan_thread': 4, 'spider_flag': true, 'port_scan_flag': true, 'domain_brute_flag': true, 'spider_thread': 7, 'port_scan_model': 'usually', 'finger_flag': true}
+'''
+
+if __name__ == '__main__':
+    # conn = MySQLdb.connect(host='127.0.0.1', port=3306, user='root', passwd='', db='HeavenSword', charset='utf8')
+    # cursor = conn.cursor()
     # while True:
     #     pass
-    json_args = str(sys.argv[1:])
+    json_args = ' '.join(sys.argv[1:])
     # opts, args = getopt.getopt(sys.argv[1:], "hi:o:")
     # for opt, value in opts:
     #     if opt == '-json':
     #         json_args = value
     #         args = json.loads(json_args)
     #         print args
+    json_args = json_args.replace("'", '"')
     args = json.loads(json_args)
     print args
     start(args)
-    cursor.close()
-    conn.close()
+    # cursor.close()
+    # conn.close()
 

@@ -10,7 +10,7 @@ import dns.query
 import re
 import requests
 
-from HeavenSword.settings import MODEL_PATH
+from core.config import DICT_PATH
 
 
 class DomainBrute:
@@ -33,9 +33,9 @@ class DomainBrute:
     def load_dict(self):
         dict_name = ''
         if self.__option == 'useually':
-            dict_name = MODEL_PATH + os.sep + 'dict' + os.sep + 'domain_subnames.txt'
+            dict_name = os.path.join(DICT_PATH, 'domain_subnames.txt')
         elif self.__option == 'all':
-            dict_name = MODEL_PATH + os.sep + 'dict' + os.sep + 'domain_subnames_full.txt'
+            dict_name = os.path.join(DICT_PATH, 'domain_subnames_full.txt')
         dict_file = file(dict_name)
         for line in dict_file:
             if line not in self.__dict:
@@ -67,6 +67,12 @@ class DomainBrute:
 
     def percent(self):
         return self.__current_index
+
+
+def new_domain_brute(domain, thread_num=2):
+    domainBrute = DomainBrute(domain, thread_num=4)
+    domainBrute.load_dict()
+    domainBrute.start()
 
 
 # 没有递归爆破

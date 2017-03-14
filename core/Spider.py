@@ -102,23 +102,6 @@ class SpiderManager:
             t.join()
 
 
-# class MonitorThread(threading.Thread):
-#
-#     def __init__(self, dic):
-#         self.__lock = dic['lock']
-#         self.__run = dic['run']
-#         self.__end_flag = dic['end_flag']
-#
-#     def run(self):
-#         while True:
-#             self.__lock.acquire()
-#             if self.__run or self.__end_flag >= 0:
-#                 time.sleep(1)
-#                 self.__lock.release()
-#             else:
-#                 return
-
-
 class SpiderThread(threading.Thread):
 
     __url_queue = None
@@ -252,6 +235,12 @@ class SpiderThread(threading.Thread):
             else:
                 url = ''.join(self.__domain) + '/' + href
         return url
+
+
+def new_spider(url, thread_num=4):
+    spider = SpiderManager("http://www.runoob.com/", thread_num=thread_num)
+    spider.start()
+    # print 'spider end!'
 
 
 if __name__ == '__main__':

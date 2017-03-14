@@ -9,6 +9,7 @@ import json
 from bs4 import BeautifulSoup
 
 from HeavenSword.settings import WEB_PATH
+from core.config import FINGER_PATH
 
 
 def getApps(path):
@@ -202,7 +203,7 @@ class WebFinger:
 
 
 def get_finger(url):
-    json_file_path = WEB_PATH + os.sep + 'setting'+os.sep + 'apps.json'
+    json_file_path = os.path.join(FINGER_PATH, 'apps.json')
     apps = getApps(json_file_path)
     finger = WebFinger(url, apps)
     ret = finger.request()
@@ -211,12 +212,13 @@ def get_finger(url):
     finger.analyse()
     finger.show_result()
     result = finger.get_finger_list()
-    return result
+    print result
+    # return result
 
 
 if __name__ == '__main__':
     print 'finger'
-    json_file_path = WEB_PATH + os.sep + 'setting'+os.sep + 'apps.json'
+    json_file_path = os.path.join(FINGER_PATH, 'apps.json')
     apps = getApps(json_file_path)
     finger = WebFinger('https://zh-cn.wordpress.com/', apps)
     ret = finger.request()

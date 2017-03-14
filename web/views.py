@@ -13,9 +13,12 @@ from django.shortcuts import render, render_to_response, redirect
 # from django.template import RequestContext
 # from django.shortcuts import render_to_response
 # Create your views here.
+from core.DomainBrute import new_domain_brute
+from core.Exploit_attack import new_exploit_attack
 from core.Finger import get_finger
 from HeavenSword.settings import DEFAULT_FROM_EMAIL, EMAIL_HOST_USER, CORE_PATH
 from core.PortScan import new_port_scan
+from core.Spider import new_spider
 from web import models
 from web.dir.EmailToken import EmailToken
 # from web.models import Domain, IpAddr, Finger, SingleTask, PortScan, DomainBrute, Spider, ExploitAttack
@@ -148,7 +151,9 @@ def new_single_task(request):
         try:
             if 'target' not in params:
                 return HttpResponse("目标错误")
+            args = {}
             target = params['target']
+            args['target'] = target
             m_ipaddr = models.IpAddr(ip='127.0.0.1')
             m_ipaddr.save()
             m_domain = models.Domain(domain=target, level=0)
@@ -157,33 +162,53 @@ def new_single_task(request):
             m_domain.save()
             m_single_task = models.SingleTask(target_url=target)
             m_single_task.save()
-            # if 'finger_flag' in params.keys():
-            #     m_finger = models.Finger(task_id=m_single_task)
-            #     m_finger.save()
-            #     finger_ret = get_finger(target)
-            #     print finger_ret
-            # if 'port_scan_flag' in params.keys():
-            #     m_port_scan = models.PortScan(target_ip='113.105.245.122', task_id=m_single_task)
-            #     if 'port_scan_thread' in params.keys():
-            #         m_port_scan.port_scan_thread = params['port_scan_thread']
-            #     if 'port_scan_model' in params.keys():
-            #         m_port_scan.port_scan_model = params['port_scan_model']
-            #     m_port_scan.save()
-            #     new_port_scan(ip='113.105.245.122', model=str(params['port_scan_model']), thread_num=params['port_scan_thread'])
-            # if 'domain_brute_flag' in params.keys():
-            #     m_domain_brute = models.DomainBrute(target_domain=target, task_id=m_single_task)
-            #     if 'domain_brute_thread' in params.keys():
-            #         domain_brute.domain_brute_thread = params['domain_brute_thread']
-            #     m_domain_brute.save()
-            # if 'spider_flag' in params.keys():
-            #     m_spider = models.Spider(target_domain=target, task_id=m_single_task)
-            #     if 'spider_thread' in params.keys():
-            #         m_spider.spider_thread = params['spider_thread']
-            # if 'exploit_attack_flag' in params.keys():
-            #     m_exploit_attack = models.ExploitAttack(target_domain=target, task_id=m_single_task)
-            #     m_exploit_attack.save()
+            args['task_id'] = m_single_task.id
+            if 'finger_flag' in params.keys():
+                m_finger = models.Finger(task_id=m_single_task)
+                m_finger.save()
+                args['finger_flag'] = True
+                # finger_ret = get_finger(target)
+                # print finger_ret
+            if 'port_scan_flag' in params.keys():
+                m_port_scan = models.PortScan(target_ip='113.105.245.122', task_id=m_single_task)
+                args['port_scan_flag'] = True
+                if 'port_scan_thread' in params.keys():
+                    m_port_scan.port_scan_thread = params['port_scan_thread']
+                    args['port_scan_thread'] = int(params['port_scan_thread'])
+                if 'port_scan_model' in params.keys():
+                    m_port_scan.port_scan_model = params['port_scan_model']
+                    args['port_scan_model'] = params['port_scan_model']
+                m_port_scan.save()
+                # new_port_scan(ip='113.105.245.122', model=str(params['port_scan_model']),
+                #               thread_num=params['port_scan_thread'])
+            if 'domain_brute_flag' in params.keys():
+                m_domain_brute = models.DomainBrute(target_domain=target, task_id=m_single_task)
+                args['domain_brute_flag'] = True
+                if 'domain_brute_thread' in params.keys():
+                    m_domain_brute.domain_brute_thread = params['domain_brute_thread']
+                    args['domain_brute_thread'] = int(params['domain_brute_thread'])
+                    # domain_brute_thread_num = params['domain_brute_thread']
+                    # new_domain_brute('runboo.com', domain_brute_thread_num)
+                m_domain_brute.save()
+            if 'spider_flag' in params.keys():
+                m_spider = models.Spider(target_domain=target, task_id=m_single_task)
+                args['spider_flag'] = True
+                if 'spider_thread' in params.keys():
+                    m_spider.spider_thread = params['spider_thread']
+                    args['spider_thread'] = int(params['spider_thread'])
+                    # spider_thread_num = params['spider_thread']
+                    # new_spider(target, spider_thread_num)
+                m_spider.save()
 
-            json_args = json.dumps(dict(params))
+            if 'exploit_attack_flag' in params.keys():
+                args['exploit_attack_flag'] = True
+                m_exploit_attack = models.ExploitAttack(target_domain=target, task_id=m_single_task)
+                m_exploit_attack.save()
+                # new_exploit_attack(target, app_type='drupal')
+
+            # json_args = json.dumps(dict(params))
+            json_args = json.dumps(args)
+            json_args = json_args.replace('"', "'")
             work = 'python ' + CORE_PATH + os.sep + 'worker.py ' + json_args
             p = subprocess.Popen(work)
             print 'open success:', p
