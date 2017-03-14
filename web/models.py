@@ -67,18 +67,23 @@ class BatchTask(models.Model):
     complete_num = models.IntegerField(default=0)
 
 
+# class Apps
+
+
 class Finger(models.Model):
     # id = models.IntegerField(max_length=32, auto_created=1, primary_key=True)
     task_id = models.ForeignKey(SingleTask)
     task_type = models.IntegerField(default=0)          # 0为单个任务，1为批量任务
     target = models.CharField(max_length=32)
-    finger_status = models.SmallIntegerField(default=0)     # 0未开始，1开始，2完成
+
+    # 31,request请求目标地址错误。
+    finger_status = models.SmallIntegerField(default=0)     # 0未开始，1开始，2完成, 3xxx异常出错
     # finger_rate = models.IntegerField(default=0)
     finger_count = models.IntegerField(default=3000)        #所有待指纹类型
     current_index = models.IntegerField(default=0)          #当前匹配指纹位置
     # 指纹结果，暂时使用json存取所有，后期分猜为多个字段
     # 指纹对应json和cata后期可存放于数据库
-    finger_result_json = models.CharField(max_length=256, null=True)
+    finger_result_json = models.CharField(max_length=1024, null=True)
 
 
 class PortScan(models.Model):

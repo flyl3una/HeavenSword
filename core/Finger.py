@@ -3,6 +3,7 @@
 import os
 import re
 
+import MySQLdb
 import requests
 import json
 
@@ -14,7 +15,6 @@ from core.config import FINGER_PATH
 
 def getApps(path):
     fp = file(path)
-
     app_dic = json.load(fp, encoding='utf-8')
     return app_dic
 
@@ -28,9 +28,10 @@ class WebFinger:
     __result = []
     __finger_list=[]
 
-    def __init__(self, url=None, apps=None):
+    def __init__(self, url=None, apps=None, task_id=0):
         self.__url = url
         self.__apps = apps
+        self.__task_id = task_id
 
     def request(self):
         if self.__url is None:
@@ -59,6 +60,14 @@ class WebFinger:
             # charset = content_type[charset_index + 8:]
             charset = content_type.split("charset=")[1]
         except Exception as e:
+            conn = MySQLdb.connect(host='127.0.0.1', port=3306, user='root', passwd='', db='HeavenSword',
+                                   charset='utf8')
+            cursor = conn.cursor()
+            sql = 'update web_finger set finger_status=31 where task_id_id=%d' % self.__task_id
+            cursor.execute(sql)
+            conn.commit()
+            cursor.close()
+            conn.close()
             print e
         # print charset
         html = response.content.decode(charset)
@@ -119,6 +128,12 @@ class WebFinger:
         head的Server里面包含服务器或者语言。
         :return:
         """
+
+        conn = MySQLdb.connect(host='127.0.0.1', port=3306, user='root', passwd='', db='HeavenSword',
+                               charset='utf8')
+        cursor = conn.cursor()
+
+        index = 0
         for name, app in self.__apps[u'apps'].items():
             # for key, obj in app.items():
             keys = app.keys()
@@ -154,7 +169,7 @@ class WebFinger:
 
             # if u'env' in keys:
             #     env = self.match_item(self.__html, app[u'env'])
-                pass
+            #     pass
             if url or html or script or headers or env or meta:
                 result = {}
                 imp = []
@@ -169,6 +184,13 @@ class WebFinger:
                 if imp != []:
                     result['implies'] = imp
                 self.__result.append(result)
+            index += 1
+            sql = 'update web_finger set current_index=%d where task_id_id=%d' % (index, self.__task_id)
+            cursor.execute(sql)
+            conn.commit()
+
+        cursor.close()
+        conn.close()
 
     def show_result(self):
         for i in self.__result:
@@ -207,17 +229,32 @@ def get_finger(task_id, url):
     # 获取指纹json字典
     apps = getApps(json_file_path)
 
+    conn = MySQLdb.connect(host='127.0.0.1', port=3306, user='root', passwd='', db='HeavenSword', charset='utf8')
+    cursor = conn.cursor()
     # 获取指纹总数，写入数据库
-    finger_count = apps[u'apps'].items().count()
-    sql = ''
+    finger_count = len(apps[u'apps'])
+    sql = 'update web_finger set finger_count=%d, finger_status=1 where task_id_id=%d' % (finger_count, task_id)
+    cursor.execute(sql)
+    # commit提交后才会执行该sql语句
+    conn.commit()
 
-    finger = WebFinger(url, apps)
+    finger = WebFinger(url, apps, task_id=task_id)
     ret = finger.request()
     if ret == '[ERROR]: target url is None':
         return 'error'
     finger.analyse()
     finger.show_result()
     result = finger.get_finger_list()
+    json_result = json.dumps(result)
+    print json_result
+    #数据库不存json，直接存一个app对应表
+    # sql = 'update web_finger set finger_status=2, finger_result_json=%s where task_id_id=%d' % (json_result, task_id)
+    # cursor.execute(sql)
+    # conn.commit()
+
+    # 数据库使用完后一定要关闭连接。
+    cursor.close()
+    conn.close()
     print result
     # return result
 
