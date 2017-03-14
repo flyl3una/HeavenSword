@@ -105,9 +105,9 @@ class WebFinger:
                 break
         return matched
 
-#匹配script还存在问题
+    #匹配script还存在问题
     def analyse(self):
-        '''
+        """
         cate:app类型
         meta和headers能获取到版本信息
         meta:meta信息
@@ -118,7 +118,7 @@ class WebFinger:
 
         head的Server里面包含服务器或者语言。
         :return:
-        '''
+        """
         for name, app in self.__apps[u'apps'].items():
             # for key, obj in app.items():
             keys = app.keys()
@@ -202,9 +202,15 @@ class WebFinger:
         return self.__finger_list
 
 
-def get_finger(url):
+def get_finger(task_id, url):
     json_file_path = os.path.join(FINGER_PATH, 'apps.json')
+    # 获取指纹json字典
     apps = getApps(json_file_path)
+
+    # 获取指纹总数，写入数据库
+    finger_count = apps[u'apps'].items().count()
+    sql = ''
+
     finger = WebFinger(url, apps)
     ret = finger.request()
     if ret == '[ERROR]: target url is None':

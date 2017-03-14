@@ -200,8 +200,8 @@ def new_single_task(request):
                     # new_spider(target, spider_thread_num)
                 m_spider.save()
 
-            if 'exploit_attack_flag' in params.keys():
-                args['exploit_attack_flag'] = True
+            if 'exploit_flag' in params.keys():
+                args['exploit_flag'] = True
                 m_exploit_attack = models.ExploitAttack(target_domain=target, task_id=m_single_task)
                 m_exploit_attack.save()
                 # new_exploit_attack(target, app_type='drupal')

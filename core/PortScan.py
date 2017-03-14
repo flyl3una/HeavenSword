@@ -143,7 +143,7 @@ class ScanPort:
         #     thread.task_done()
 
 
-def new_port_scan(ip, model, thread_num):
+def new_port_scan(task_id, ip, model, thread_num):
     scanPort = ScanPort(ipaddr=ip, option=model, thread_num=thread_num)
     scanPort.start()
 

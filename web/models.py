@@ -27,12 +27,12 @@ from django.db import models
 
 class IpAddr(models.Model):
     # id = models.IntegerField(max_length=32, auto_created=1, primary_key=True)
-    ip = models.CharField(max_length=56)
+    ip = models.CharField(max_length=56, unique=True)
 
 
 class Domain(models.Model):
     # id = models.IntegerField(max_length=32, auto_created=1, primary_key=True)
-    domain = models.CharField(max_length=128)
+    domain = models.CharField(max_length=128, unique=True)
     level = models.IntegerField()       #二级，三级，四级域名，0为target目标域名
     ip = models.ManyToManyField(IpAddr, null=True)
 
@@ -72,8 +72,10 @@ class Finger(models.Model):
     task_id = models.ForeignKey(SingleTask)
     task_type = models.IntegerField(default=0)          # 0为单个任务，1为批量任务
     target = models.CharField(max_length=32)
-    finger_status = models.SmallIntegerField(default=0)
-    finger_rate = models.IntegerField(default=0)
+    finger_status = models.SmallIntegerField(default=0)     # 0未开始，1开始，2完成
+    # finger_rate = models.IntegerField(default=0)
+    finger_count = models.IntegerField(default=3000)        #所有待指纹类型
+    current_index = models.IntegerField(default=0)          #当前匹配指纹位置
     # 指纹结果，暂时使用json存取所有，后期分猜为多个字段
     # 指纹对应json和cata后期可存放于数据库
     finger_result_json = models.CharField(max_length=256, null=True)
@@ -86,7 +88,9 @@ class PortScan(models.Model):
     task_id = models.ForeignKey(SingleTask)
     task_type = models.IntegerField(default=0)  # 0为单个任务，1为批量任务
     port_scan_status = models.SmallIntegerField(default=0)
-    port_scan_rate = models.IntegerField(default=0)
+    # port_scan_rate = models.IntegerField(default=0)
+    port_count = models.IntegerField(default=53325)         # 所有待端口个数
+    current_index = models.IntegerField(default=0)          # 当前扫描端口索引
     port_scan_thread = models.IntegerField(default=4)
     port_scan_model = models.CharField(max_length=16, default='usually')
     # 扫描结果每个端口对应信息，后期可存放于数据库。目前使用json数据存取结果。
@@ -99,7 +103,9 @@ class DomainBrute(models.Model):
     task_type = models.IntegerField(default=0)  # 0为单个任务，1为批量任务
     target_domain = models.CharField(max_length=32)
     domain_brute_status = models.SmallIntegerField(default=0)
-    domain_brute_rate = models.IntegerField(default=0)
+    # domain_brute_rate = models.IntegerField(default=0)
+    domain_count = models.IntegerField(default=10000)       # 所有待爆破域名数
+    current_index = models.IntegerField(default=0)          # 当前端口爆破索引
     domain_brute_thread = models.IntegerField(default=4)
     # domain_brute_rate，后期可以增加多个模式，分为二级域名爆破及递归爆破子域名。
     domain_brute_result_json = models.CharField(max_length=512, null=True)     #后期可将所有子域名分别存为domain表中
@@ -111,7 +117,8 @@ class Spider(models.Model):
     task_type = models.IntegerField(default=0)  # 0为单个任务，1为批量任务
     target_domain = models.CharField(max_length=32)
     spider_status = models.SmallIntegerField(default=0)
-    spider_rate = models.IntegerField(default=0)
+    all_url = models.IntegerField(default=1)        # 当前爬取到的链接总数
+    # spider_rate = models.IntegerField(default=0)
     spider_thread = models.IntegerField(default=4)
     # spider_result = models.ManyToManyField(Url, null=True)
     spider_result_json = models.TextField(max_length=102400, null=True)      #改为分别存放url
@@ -122,6 +129,8 @@ class ExploitAttack(models.Model):
     task_type = models.IntegerField(default=0)  # 0为单个任务，1为批量任务
     target_domain = models.CharField(max_length=32)
     exploit_attack_status = models.SmallIntegerField(default=0)
-    exploit_attack_rate = models.IntegerField(default=0)
+    exploit_count = models.IntegerField(default=10)         # 该指纹的所有exp个数
+    current_index = models.IntegerField(default=0)          # 当前匹配指纹索引
+    # exploit_attack_rate = models.IntegerField(default=0)
     # exploit_attack_thread =
     exploit_attack_result_json = models.CharField(max_length=256, null=True)   #后期可改为每个漏洞分表

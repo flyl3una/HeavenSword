@@ -24,7 +24,7 @@ class DomainBrute:
     __current_index = 0
     __run = True
 
-    def __init__(self, father_domain, option='useually', thread_num=4):
+    def __init__(self, father_domain, option='usually', thread_num=4):
         self.__father_domain = father_domain
         self.__option = option
         self.__thread_num = thread_num
@@ -32,7 +32,7 @@ class DomainBrute:
 
     def load_dict(self):
         dict_name = ''
-        if self.__option == 'useually':
+        if self.__option == 'usually':
             dict_name = os.path.join(DICT_PATH, 'domain_subnames.txt')
         elif self.__option == 'all':
             dict_name = os.path.join(DICT_PATH, 'domain_subnames_full.txt')
@@ -69,7 +69,7 @@ class DomainBrute:
         return self.__current_index
 
 
-def new_domain_brute(domain, thread_num=2):
+def new_domain_brute(task_id, domain, thread_num=2):
     domainBrute = DomainBrute(domain, thread_num=4)
     domainBrute.load_dict()
     domainBrute.start()

@@ -237,7 +237,7 @@ class SpiderThread(threading.Thread):
         return url
 
 
-def new_spider(url, thread_num=4):
+def new_spider(task_id, url, thread_num=4):
     spider = SpiderManager("http://www.runoob.com/", thread_num=thread_num)
     spider.start()
     # print 'spider end!'

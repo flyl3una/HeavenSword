@@ -24,9 +24,13 @@ def start(params):
     conn = MySQLdb.connect(host='127.0.0.1', port=3306, user='root', passwd='', db='HeavenSword', charset='utf8')
     cursor = conn.cursor()
     thread_list = []
+    task_id = params['task_id']
+    if task_id is None:
+        print 'task id error!!!'
+        return
     target_url = params['target']
     if 'finger_flag' in params.keys():
-        finger_thread = threading.Thread(target=get_finger, args=(target_url, ))
+        finger_thread = threading.Thread(target=get_finger, args=(task_id, target_url, ))
         thread_list.append(finger_thread)
         finger_thread.start()
         # finger_ret = get_finger(target_url)
@@ -39,8 +43,8 @@ def start(params):
         if 'port_scan_model' in params.keys():
             port_scan_model = str(params['port_scan_model'])
         else:
-            port_scan_model = 'useually'
-        port_scan_thread = threading.Thread(target=new_port_scan, args=('113.105.245.122', port_scan_model, port_scan_thread_num, ))
+            port_scan_model = 'usually'
+        port_scan_thread = threading.Thread(target=new_port_scan, args=(task_id, '113.105.245.122', port_scan_model, port_scan_thread_num, ))
         # new_port_scan(ip='113.105.245.122', model=port_scan_model, thread_num=port_scan_thread)
         thread_list.append(port_scan_thread)
         port_scan_thread.start()
@@ -50,7 +54,7 @@ def start(params):
         else:
             domain_brute_thread = 4
         # new_domain_brute('runboo.com', domain_brute_thread)
-        domain_brute_thread = threading.Thread(target=new_domain_brute, args=('runboo.com', domain_brute_thread))
+        domain_brute_thread = threading.Thread(target=new_domain_brute, args=(task_id, 'runboo.com', domain_brute_thread))
         thread_list.append(domain_brute_thread)
         domain_brute_thread.start()
     if 'spider_flag' in params.keys():
@@ -59,20 +63,19 @@ def start(params):
         else:
             spider_thread = 4
         # new_spider(target_url, spider_thread)
-        spider_thread = threading.Thread(target=new_spider, args=(target_url, spider_thread))
+        spider_thread = threading.Thread(target=new_spider, args=(task_id, target_url, spider_thread))
         thread_list.append(spider_thread)
         spider_thread.start()
-    if 'exploit_attack_flag' in params.keys():
-        # new_exploit_attack(target_url, app_type='drupal')
-        exploit_thread = threading.Thread(target=new_exploit_attack, args=(target_url, 'drupal'))
-        thread_list.append(exploit_thread)
-        exploit_thread.start()
+    # if 'exploit_flag' in params.keys():
+    #     exploit_thread = threading.Thread(target=new_exploit_attack, args=(task_id, target_url, 'drupal'))
+    #     thread_list.append(exploit_thread)
+    #     exploit_thread.start()
 
     for thread in thread_list:
         thread.join()
 
 '''
-python D:\work\pycharm\workspace\github\HeavenSword\core\worker.py {'task_id': 28, 'domain_brute_thread': 6, 'target': 'http://www.runoob.com/', 'port_scan_thread': 4, 'spider_flag': true, 'port_scan_flag': true, 'domain_brute_flag': true, 'spider_thread': 7, 'port_scan_model': 'usually', 'finger_flag': true}
+python D:\work\pycharm\workspace\github\HeavenSword\core\worker.py {'task_id': 1, 'domain_brute_thread': 6, 'target': 'http://www.runoob.com', 'port_scan_thread': 4, 'spider_flag': true, 'port_scan_flag': true, 'domain_brute_flag': true, 'spider_thread': 8, 'exploit_flag': true, 'port_scan_model': 'usually', 'finger_flag': true}
 '''
 
 if __name__ == '__main__':
