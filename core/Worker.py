@@ -29,23 +29,26 @@ def start(params):
     if task_id is None:
         print 'task id error!!!'
         return
+    # 指纹识别
     target_url = params['target']
     # if 'finger_flag' in params.keys():
     #     finger_thread = threading.Thread(target=get_finger, args=(task_id, target_url, ))
     #     thread_list.append(finger_thread)
     #     finger_thread.start()
-    if 'port_scan_flag' in params.keys():
-        if 'port_scan_thread' in params.keys():
-            port_scan_thread_num = params['port_scan_thread']
-        else:
-            port_scan_thread_num = 4
-        if 'port_scan_model' in params.keys():
-            port_scan_model = str(params['port_scan_model'])
-        else:
-            port_scan_model = 'usually'
-        port_scan_thread = threading.Thread(target=new_port_scan, args=(task_id, '113.105.245.122', port_scan_model, port_scan_thread_num, ))
-        thread_list.append(port_scan_thread)
-        port_scan_thread.start()
+    # 端口扫描
+    # if 'port_scan_flag' in params.keys():
+    #     if 'port_scan_thread' in params.keys():
+    #         port_scan_thread_num = params['port_scan_thread']
+    #     else:
+    #         port_scan_thread_num = 4
+    #     if 'port_scan_model' in params.keys():
+    #         port_scan_model = str(params['port_scan_model'])
+    #     else:
+    #         port_scan_model = 'usually'
+    #     port_scan_thread = threading.Thread(target=new_port_scan, args=(task_id, '113.105.245.122', port_scan_model, port_scan_thread_num, ))
+    #     thread_list.append(port_scan_thread)
+    #     port_scan_thread.start()
+    # 二级域名爆破
     # if 'domain_brute_flag' in params.keys():
     #     if 'domain_brute_thread' in params.keys():
     #         domain_brute_thread = params['domain_brute_thread']
@@ -54,6 +57,8 @@ def start(params):
     #     domain_brute_thread = threading.Thread(target=new_domain_brute, args=(task_id, 'runboo.com', domain_brute_thread))
     #     thread_list.append(domain_brute_thread)
     #     domain_brute_thread.start()
+
+    # 网页爬虫
     # if 'spider_flag' in params.keys():
     #     if 'spider_thread' in params.keys():
     #         spider_thread = params['spider_thread']
@@ -62,6 +67,8 @@ def start(params):
     #     spider_thread = threading.Thread(target=new_spider, args=(task_id, target_url, spider_thread))
     #     thread_list.append(spider_thread)
     #     spider_thread.start()
+
+    # 漏洞测试
     # if 'exploit_flag' in params.keys():
     #     exploit_thread = threading.Thread(target=new_exploit_attack, args=(task_id, target_url, 'drupal'))
     #     thread_list.append(exploit_thread)

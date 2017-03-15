@@ -32,7 +32,7 @@ class ScanPort:
         #IP 地址格式127.0.0.1
         else:
             self.__target_ip = ipaddr
-        self.__task_id == task_id
+        self.__task_id = task_id
         self.__option = option
         self.__thread_num = thread_num
         socket.setdefaulttimeout(0.5)
@@ -55,11 +55,6 @@ class ScanPort:
         pool.map(self.scan_port, self.__ports)
         pool.close()
         pool.join()
-        sql = 'update web_portscan set port_scan_status=2 where task_id_id=%d' % self.__task_id
-        self.__cursor.execute(sql)
-        self.__conn.commit()
-        self.__cursor.close()
-        self.__conn.close()
 
     def scan_port(self, port):
         self.__lock.acquire()
@@ -184,7 +179,7 @@ class ScanPort:
             if banner != 'close':
                 if num in self.__port_map.keys():
                     info = self.__port_map[num]
-                sql = 'insert into web_openport(ip_addr, port_num, port_info) values("%s", "%s", "%s")' % (self.__target_ip, num, info)
+                sql = 'insert into web_openport(ip_addr, port_num, port_info) values("%s", %d, "%s")' % (self.__target_ip, num, info)
                 self.__cursor.execute(sql)
         sql = 'select id from web_openport where ip_addr="%s"' % self.__target_ip
         self.__cursor.execute(sql)
@@ -193,8 +188,13 @@ class ScanPort:
         self.__cursor.execute(sql)
         portscan_id = self.__cursor.fetchone()
         for openport_id in openport_ids:
-            sql = 'insert into web_portscan_port_scan_result(portscan_id, openport_id) values(%d, %d)' % (portscan_id[0], openport_ids[0])
+            sql = 'insert into web_portscan_port_scan_result(portscan_id, openport_id) values(%d, %d)' % (portscan_id[0], openport_id[0])
             self.__cursor.execute(sql)
+        # 设置完成状态2
+        sql = 'update web_portscan set port_scan_status=2 where task_id_id=%d' % self.__task_id
+        self.__cursor.execute(sql)
+        self.__conn.commit()
+        # 关闭数据库连接
         self.__cursor.close()
         self.__conn.close()
 
