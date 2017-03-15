@@ -10,7 +10,8 @@ import json
 from bs4 import BeautifulSoup
 
 from HeavenSword.settings import WEB_PATH
-from core.config import FINGER_PATH
+from core.config import FINGER_PATH, DB_HOST, DB_CHARSET, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME
+from core.function import get_domain
 
 
 def getApps(path):
@@ -60,8 +61,7 @@ class WebFinger:
             # charset = content_type[charset_index + 8:]
             charset = content_type.split("charset=")[1]
         except Exception as e:
-            conn = MySQLdb.connect(host='127.0.0.1', port=3306, user='root', passwd='', db='HeavenSword',
-                                   charset='utf8')
+            conn = MySQLdb.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME, charset=DB_CHARSET)
             cursor = conn.cursor()
             sql = 'update web_finger set finger_status=31 where task_id_id=%d' % self.__task_id
             cursor.execute(sql)
@@ -229,9 +229,16 @@ def get_finger(task_id, url):
     # 获取指纹json字典
     apps = getApps(json_file_path)
 
-    conn = MySQLdb.connect(host='127.0.0.1', port=3306, user='root', passwd='', db='HeavenSword', charset='utf8')
+    conn = MySQLdb.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME, charset=DB_CHARSET)
     cursor = conn.cursor()
     # 获取指纹总数，写入数据库
+    sql = 'select finger_status from web_finger where task_id_id=%d' % task_id
+    cursor.execute(sql)
+    # conn.commit()
+    status = cursor.fetchone()
+    if status[0] == 2:
+        print '数据库已存在该指纹'
+        return
     finger_count = len(apps[u'apps'])
     sql = 'update web_finger set finger_count=%d, finger_status=1 where task_id_id=%d' % (finger_count, task_id)
     cursor.execute(sql)
@@ -245,17 +252,41 @@ def get_finger(task_id, url):
     finger.analyse()
     finger.show_result()
     result = finger.get_finger_list()
-    json_result = json.dumps(result)
-    print json_result
-    #数据库不存json，直接存一个app对应表
-    # sql = 'update web_finger set finger_status=2, finger_result_json=%s where task_id_id=%d' % (json_result, task_id)
-    # cursor.execute(sql)
-    # conn.commit()
+    # json_result = json.dumps(result)
+    print result
 
+    sql = 'select target_url from web_singletask where id=%d' % task_id
+    cursor.execute(sql)
+    target_url = cursor.fetchone()
+    sql = 'select id from web_finger where task_id_id=%d' % task_id
+    cursor.execute(sql)
+    finger_id = cursor.fetchone()
+    domain = get_domain(target_url[0])
+    for i in result:
+        cats = i[u'cats']
+        name = i[u'name']
+        for cat in cats:
+            if 'implies' in i:
+                for implies in i['implies']:
+                    sql = 'insert into web_apptype(domain, name, cata, implies) values("%s", "%s", "%s", "%s")' % (domain, name, cat, implies)
+                    cursor.execute(sql)
+    sql = 'select id from web_apptype where domain="%s"' % domain
+    cursor.execute(sql)
+    apptype_ids = cursor.fetchall()
+    for apptype_id in apptype_ids:
+        sql = 'insert into web_finger_finger_result(finger_id, apptype_id) values("%s", "%s")' % (finger_id[0], apptype_id[0])
+        cursor.execute(sql)
+
+    #状态设置为2，完成
+    sql = 'update web_finger set finger_status=2 where task_id_id=%d' % task_id
+    cursor.execute(sql)
+    # commit保证缓冲区中的sql语句先执行后才进行后面的操作，防止多个sql语句同时执行导致出错
+    conn.commit()
     # 数据库使用完后一定要关闭连接。
     cursor.close()
     conn.close()
-    print result
+    print '指纹识别完成'
+    # print result
     # return result
 
 

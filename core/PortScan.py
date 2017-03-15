@@ -5,6 +5,11 @@ import socket
 import threading
 from multiprocessing.dummy import Pool as ThreadPool
 
+import MySQLdb
+
+from core.config import DB_CHARSET, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME
+from core.config import DB_HOST
+
 
 class ScanPort:
 
@@ -16,16 +21,31 @@ class ScanPort:
     __percent = {}
     __lock = threading.Lock()
     __run = True
+    __task_id = 0
+    __conn = None
+    __cursor = None
 
-    def __init__(self, target_host=None, ipaddr=None, option="usually", thread_num=1):
+
+    def __init__(self, task_id=0, target_host=None, ipaddr=None, option="usually", thread_num=1):
         if target_host is not None:
             self.__target_ip = socket.gethostbyname(target_host)
         #IP 地址格式127.0.0.1
         else:
             self.__target_ip = ipaddr
+        self.__task_id == task_id
         self.__option = option
         self.__thread_num = thread_num
         socket.setdefaulttimeout(0.5)
+        conn = MySQLdb.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME,
+                               charset=DB_CHARSET)
+        cursor = conn.cursor()
+        sql = 'update web_portscan set target_ip="%s", port_scan_status=1, port_scan_thread=%d, port_scan_model="%s" where task_id_id=%d' % (self.__target_ip, thread_num, option, task_id)
+        cursor.execute(sql)
+        conn.commit()
+        self.__cursor = cursor
+        self.__conn = conn
+        # cursor.close()
+        # conn.close()
 
     def start(self):
         self.init_port_map()
@@ -35,6 +55,11 @@ class ScanPort:
         pool.map(self.scan_port, self.__ports)
         pool.close()
         pool.join()
+        sql = 'update web_portscan set port_scan_status=2 where task_id_id=%d' % self.__task_id
+        self.__cursor.execute(sql)
+        self.__conn.commit()
+        self.__cursor.close()
+        self.__conn.close()
 
     def scan_port(self, port):
         self.__lock.acquire()
@@ -56,22 +81,34 @@ class ScanPort:
             s.close()
             self.__lock.acquire()
             self.__percent['current'] += 1
+            sql = 'update web_portscan set current_index=%d where task_id_id=%d' % (self.__percent['current'], self.__task_id)
+            self.__cursor.execute(sql)
+            self.__conn.commit()
             self.__lock.release()
         except Exception as e:
             print str(e.message)
 
     def add_ports(self):
+        # conn = MySQLdb.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME,
+        #                        charset=DB_CHARSET)
+        # cursor = conn.cursor()
         if self.__option == 'all':
             for i in range(65534)[1:]:
                 self.__ports[i] = 'close'
             self.__percent['all'] = i
+            sql = 'update web_portscan set port_count=65534 where task_id_id=%d' % self.__task_id
         elif self.__option == 'usually':
             count = 0
             for (num, name) in self.__port_map.items():
                 self.__ports[num] = 'close'
                 count += 1
             self.__percent['all'] = count
+            sql = 'update web_portscan set port_count=%d where task_id_id=%d' % (count, self.__task_id)
         self.__percent['current'] = 0
+        self.__cursor.execute(sql)
+        self.__conn.commit()
+        # cursor.close()
+        # conn.close()
 
     def init_port_map(self):
         self.__port_map[20] = 'FTP'
@@ -142,12 +179,32 @@ class ScanPort:
         # for thread in self.__pool:
         #     thread.task_done()
 
+    def submit_result(self):
+        for num, banner in self.__ports.items():
+            if banner != 'close':
+                if num in self.__port_map.keys():
+                    info = self.__port_map[num]
+                sql = 'insert into web_openport(ip_addr, port_num, port_info) values("%s", "%s", "%s")' % (self.__target_ip, num, info)
+                self.__cursor.execute(sql)
+        sql = 'select id from web_openport where ip_addr="%s"' % self.__target_ip
+        self.__cursor.execute(sql)
+        openport_ids = self.__cursor.fetchall()
+        sql = 'select id from web_portscan where task_id_id=%d' % self.__task_id
+        self.__cursor.execute(sql)
+        portscan_id = self.__cursor.fetchone()
+        for openport_id in openport_ids:
+            sql = 'insert into web_portscan_port_scan_result(portscan_id, openport_id) values(%d, %d)' % (portscan_id[0], openport_ids[0])
+            self.__cursor.execute(sql)
+        self.__cursor.close()
+        self.__conn.close()
+
 
 def new_port_scan(task_id, ip, model, thread_num):
-    scanPort = ScanPort(ipaddr=ip, option=model, thread_num=thread_num)
+    scanPort = ScanPort(task_id=task_id, ipaddr=ip, option=model, thread_num=thread_num)
     scanPort.start()
+    scanPort.submit_result()
 
-    scanPort.show_ports_information()
+    # scanPort.show_ports_information()
 
 
 if __name__ == '__main__':

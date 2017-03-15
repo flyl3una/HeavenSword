@@ -1,6 +1,7 @@
 # coding=utf-8
 import json
 import os
+import socket
 import subprocess
 
 from django.contrib.auth import authenticate, logout, login
@@ -170,7 +171,8 @@ def new_single_task(request):
                 # finger_ret = get_finger(target)
                 # print finger_ret
             if 'port_scan_flag' in params.keys():
-                m_port_scan = models.PortScan(target_ip='113.105.245.122', task_id=m_single_task)
+                # ip_addr = socket.gethostbyname(target)
+                m_port_scan = models.PortScan(task_id=m_single_task)
                 args['port_scan_flag'] = True
                 if 'port_scan_thread' in params.keys():
                     m_port_scan.port_scan_thread = params['port_scan_thread']

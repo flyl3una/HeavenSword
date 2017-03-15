@@ -55,6 +55,7 @@ class SingleTask(models.Model):
     target_url = models.CharField(max_length=32, null=False)            #目标网址
     task_status = models.SmallIntegerField(default=0)          #任务完成状态，1完成，0未完成
     task_rate = models.IntegerField(default=0)            #任务进度百分比
+    update_date = models.DateTimeField(auto_now=True)
 
 
 class BatchTask(models.Model):
@@ -65,9 +66,21 @@ class BatchTask(models.Model):
     task_rate = models.IntegerField(default=0)
     domain_num = models.IntegerField(default=0)
     complete_num = models.IntegerField(default=0)
+    update_date = models.DateTimeField(auto_now=True)
 
 
-# class Apps
+class AppType(models.Model):
+    domain = models.CharField(max_length=128)
+    name = models.CharField(max_length=32)
+    cata = models.CharField(max_length=32)
+    implies = models.CharField(max_length=32)
+    # update_date = models.DateTimeField
+
+
+class OpenPort(models.Model):
+    ip_addr = models.CharField(max_length=32, null=False)
+    port_num = models.IntegerField(null=False)
+    port_info = models.CharField(max_length=512)
 
 
 class Finger(models.Model):
@@ -83,7 +96,9 @@ class Finger(models.Model):
     current_index = models.IntegerField(default=0)          #当前匹配指纹位置
     # 指纹结果，暂时使用json存取所有，后期分猜为多个字段
     # 指纹对应json和cata后期可存放于数据库
-    finger_result_json = models.CharField(max_length=1024, null=True)
+    # finger_result_json = models.CharField(max_length=1024, null=True)
+    finger_result = models.ManyToManyField(AppType, null=True)
+    update_date = models.DateTimeField(auto_now=True)
 
 
 class PortScan(models.Model):
@@ -99,7 +114,9 @@ class PortScan(models.Model):
     port_scan_thread = models.IntegerField(default=4)
     port_scan_model = models.CharField(max_length=16, default='usually')
     # 扫描结果每个端口对应信息，后期可存放于数据库。目前使用json数据存取结果。
-    port_scan_result_json = models.CharField(max_length=512, null=True)
+    # port_scan_result_json = models.CharField(max_length=512, null=True)
+    port_scan_result = models.ManyToManyField(OpenPort, null=True)
+    update_date = models.DateTimeField(auto_now=True)
 
 
 class DomainBrute(models.Model):
@@ -114,6 +131,7 @@ class DomainBrute(models.Model):
     domain_brute_thread = models.IntegerField(default=4)
     # domain_brute_rate，后期可以增加多个模式，分为二级域名爆破及递归爆破子域名。
     domain_brute_result_json = models.CharField(max_length=512, null=True)     #后期可将所有子域名分别存为domain表中
+    update_date = models.DateTimeField(auto_now=True)
 
 
 class Spider(models.Model):
@@ -127,6 +145,7 @@ class Spider(models.Model):
     spider_thread = models.IntegerField(default=4)
     # spider_result = models.ManyToManyField(Url, null=True)
     spider_result_json = models.TextField(max_length=102400, null=True)      #改为分别存放url
+    update_date = models.DateTimeField(auto_now=True)
 
 
 class ExploitAttack(models.Model):
@@ -139,3 +158,4 @@ class ExploitAttack(models.Model):
     # exploit_attack_rate = models.IntegerField(default=0)
     # exploit_attack_thread =
     exploit_attack_result_json = models.CharField(max_length=256, null=True)   #后期可改为每个漏洞分表
+    update_date = models.DateTimeField(auto_now=True)

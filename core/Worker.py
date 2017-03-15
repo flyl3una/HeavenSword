@@ -14,6 +14,7 @@ from Exploit_attack import new_exploit_attack
 from Finger import get_finger
 from PortScan import new_port_scan
 from Spider import new_spider
+from core.config import DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME, DB_CHARSET
 
 
 def echo():
@@ -21,7 +22,7 @@ def echo():
 
 
 def start(params):
-    conn = MySQLdb.connect(host='127.0.0.1', port=3306, user='root', passwd='', db='HeavenSword', charset='utf8')
+    conn = MySQLdb.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME, charset=DB_CHARSET)
     cursor = conn.cursor()
     thread_list = []
     task_id = params['task_id']
@@ -29,12 +30,10 @@ def start(params):
         print 'task id error!!!'
         return
     target_url = params['target']
-    if 'finger_flag' in params.keys():
-        finger_thread = threading.Thread(target=get_finger, args=(task_id, target_url, ))
-        thread_list.append(finger_thread)
-        finger_thread.start()
-        # finger_ret = get_finger(target_url)
-        # print finger_ret
+    # if 'finger_flag' in params.keys():
+    #     finger_thread = threading.Thread(target=get_finger, args=(task_id, target_url, ))
+    #     thread_list.append(finger_thread)
+    #     finger_thread.start()
     if 'port_scan_flag' in params.keys():
         if 'port_scan_thread' in params.keys():
             port_scan_thread_num = params['port_scan_thread']
@@ -45,27 +44,24 @@ def start(params):
         else:
             port_scan_model = 'usually'
         port_scan_thread = threading.Thread(target=new_port_scan, args=(task_id, '113.105.245.122', port_scan_model, port_scan_thread_num, ))
-        # new_port_scan(ip='113.105.245.122', model=port_scan_model, thread_num=port_scan_thread)
         thread_list.append(port_scan_thread)
         port_scan_thread.start()
-    if 'domain_brute_flag' in params.keys():
-        if 'domain_brute_thread' in params.keys():
-            domain_brute_thread = params['domain_brute_thread']
-        else:
-            domain_brute_thread = 4
-        # new_domain_brute('runboo.com', domain_brute_thread)
-        domain_brute_thread = threading.Thread(target=new_domain_brute, args=(task_id, 'runboo.com', domain_brute_thread))
-        thread_list.append(domain_brute_thread)
-        domain_brute_thread.start()
-    if 'spider_flag' in params.keys():
-        if 'spider_thread' in params.keys():
-            spider_thread = params['spider_thread']
-        else:
-            spider_thread = 4
-        # new_spider(target_url, spider_thread)
-        spider_thread = threading.Thread(target=new_spider, args=(task_id, target_url, spider_thread))
-        thread_list.append(spider_thread)
-        spider_thread.start()
+    # if 'domain_brute_flag' in params.keys():
+    #     if 'domain_brute_thread' in params.keys():
+    #         domain_brute_thread = params['domain_brute_thread']
+    #     else:
+    #         domain_brute_thread = 4
+    #     domain_brute_thread = threading.Thread(target=new_domain_brute, args=(task_id, 'runboo.com', domain_brute_thread))
+    #     thread_list.append(domain_brute_thread)
+    #     domain_brute_thread.start()
+    # if 'spider_flag' in params.keys():
+    #     if 'spider_thread' in params.keys():
+    #         spider_thread = params['spider_thread']
+    #     else:
+    #         spider_thread = 4
+    #     spider_thread = threading.Thread(target=new_spider, args=(task_id, target_url, spider_thread))
+    #     thread_list.append(spider_thread)
+    #     spider_thread.start()
     # if 'exploit_flag' in params.keys():
     #     exploit_thread = threading.Thread(target=new_exploit_attack, args=(task_id, target_url, 'drupal'))
     #     thread_list.append(exploit_thread)
@@ -79,7 +75,7 @@ python D:\work\pycharm\workspace\github\HeavenSword\core\worker.py {'task_id': 1
 '''
 
 if __name__ == '__main__':
-    # conn = MySQLdb.connect(host='127.0.0.1', port=3306, user='root', passwd='', db='HeavenSword', charset='utf8')
+    # conn = MySQLdb.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME, charset=DB_CHARSET)
     # cursor = conn.cursor()
     # while True:
     #     pass
