@@ -273,9 +273,9 @@ def get_finger(task_id, url):
     sql = 'select id from web_apptype where domain="%s"' % domain
     cursor.execute(sql)
     apptype_ids = cursor.fetchall()
-    for apptype_id in apptype_ids:
-        sql = 'insert into web_finger_finger_result(finger_id, apptype_id) values("%s", "%s")' % (finger_id[0], apptype_id[0])
-        cursor.execute(sql)
+    # for apptype_id in apptype_ids:
+    #     sql = 'insert into web_finger_finger_result(finger_id, apptype_id) values("%s", "%s")' % (finger_id[0], apptype_id[0])
+    #     cursor.execute(sql)
 
     #状态设置为2，完成
     sql = 'update web_finger set finger_status=2 where task_id_id=%d' % task_id

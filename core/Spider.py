@@ -5,9 +5,13 @@ import re
 import threading
 from multiprocessing.pool import ThreadPool
 
+import MySQLdb
 import requests
 import time
 from bs4 import BeautifulSoup
+
+from core.config import DB_CHARSET, DB_USER, DB_PASSWORD, DB_NAME
+from core.config import DB_HOST, DB_PORT
 
 
 class SpiderManager:
@@ -22,8 +26,10 @@ class SpiderManager:
     __flag = 0
     __end_flag = __thread_num
     __child_domain = None
+    __task_id = 0
 
-    def __init__(self, url, thread_num=4):
+    def __init__(self, task_id, url, thread_num=4):
+        self.__task_id = task_id
         self.__thread_num = thread_num
         self.__end_flag = thread_num
         self.__url_queue.put(url)
@@ -32,6 +38,16 @@ class SpiderManager:
             url = url[:-1]
         self.__domain = url.partition('//')
         self.__child_domain = set()
+
+        conn = MySQLdb.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME,
+                               charset=DB_CHARSET)
+        cursor = conn.cursor()
+        sql = 'update web_spider set target_domain="%s", spider_status=1 where task_id_id=%d' % (url, task_id)
+        cursor.execute(sql)
+        conn.commit()
+        self.__cursor = cursor
+        self.__conn = conn
+
         urls = self.read_robots()
         if urls is None:
             return
@@ -54,7 +70,11 @@ class SpiderManager:
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Referer': 'http://www.baidu.com/',
         }
-        response = requests.get(url=url, headers=headers)
+        try:
+            response = requests.get(url=url, headers=headers)
+        except:
+            print '访问该地址失败：', url
+            return ''
         if response.status_code != 200:
             return ''
         head = response.headers
@@ -93,6 +113,13 @@ class SpiderManager:
             t.start()
             self.__thread_pool.append(t)
         # monitor_thread = MonitorThread(dic)
+        for t in self.__thread_pool:
+            t.join()
+        sql = 'update web_spider set spider_status=2, where task_id_id=%d' % self.__task_id
+        self.__cursor.execute(sql)
+        self.__conn.commit()
+        self.__cursor.close()
+        self.__conn.close()
 
     def stop(self):
         self.__lock.acquire()
@@ -124,13 +151,25 @@ class SpiderThread(threading.Thread):
         self.__end_flag = dic['end_flag']
         self.__child_domain=dic['child_domain']
 
+        self.__conn = MySQLdb.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME, charset=DB_CHARSET)
+        self.__cursor = self.__conn.cursor()
+
     def run(self):
         while self.__run:
             if not self.__url_queue.empty():
+                # 从任务队列获取url，加入集合和数据库,向queue添加url时已经保证了url没有重复。
                 url = self.__url_queue.get()
                 self.__lock.acquire()
+                try:
+                    sql = 'insert into web_url(domain, url, update_date) values("%s", "%s", now())' % (self.__domain[2], url)
+                    self.__cursor.execute(sql)
+                    self.__conn.commit()
+                except:
+                    pass
+                # print url
                 self.__url_set.add(unicode(url))
                 self.__lock.release()
+                # 爬取网页
                 self.spider_url(url)
             else:
                 self.__lock.acquire()
@@ -145,6 +184,8 @@ class SpiderThread(threading.Thread):
 
     def spider_url(self, url):
         html = self.request(url)
+        if html == '':
+            return
         self.parse_html(html)
 
     def request(self, url):
@@ -153,7 +194,11 @@ class SpiderThread(threading.Thread):
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Referer': 'http://www.baidu.com/',
         }
-        response = requests.get(url=url, headers=headers)
+        try:
+            response = requests.get(url=url, headers=headers)
+        except Exception as e:
+            print '访问该地址失败', url
+            return ''
         if response.status_code != 200:
             return ''
         head = response.headers
@@ -206,7 +251,7 @@ class SpiderThread(threading.Thread):
             if url not in self.__url_set:
                 self.__url_set.add(url)
                 self.__url_queue.put(url)
-                print url
+                # print url
             self.__lock.release()
         for static in statics:
             url = self.make_url(static)
@@ -238,9 +283,9 @@ class SpiderThread(threading.Thread):
 
 
 def new_spider(task_id, url, thread_num=4):
-    spider = SpiderManager("http://www.runoob.com/", thread_num=thread_num)
-    spider.start()
-    # print 'spider end!'
+    spider_manager = SpiderManager(task_id, url, thread_num=thread_num)
+    spider_manager.start()
+    print 'spider end!'
 
 
 if __name__ == '__main__':

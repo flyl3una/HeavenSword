@@ -20,6 +20,7 @@ from core.Finger import get_finger
 from HeavenSword.settings import DEFAULT_FROM_EMAIL, EMAIL_HOST_USER, CORE_PATH
 from core.PortScan import new_port_scan
 from core.Spider import new_spider
+from core.function import get_ip, get_domain, get_first_domain
 from web import models
 from web.dir.EmailToken import EmailToken
 # from web.models import Domain, IpAddr, Finger, SingleTask, PortScan, DomainBrute, Spider, ExploitAttack
@@ -155,12 +156,22 @@ def new_single_task(request):
             args = {}
             target = params['target']
             args['target'] = target
-            m_ipaddr = models.IpAddr(ip='127.0.0.1')
-            m_ipaddr.save()
-            m_domain = models.Domain(domain=target, level=0)
-            m_domain.save()
-            m_domain.ip.add(m_ipaddr)
-            m_domain.save()
+            domain = get_domain(target)
+            first_domain = get_first_domain(domain)
+            ipaddr = ['']
+            try:
+                ipaddr = get_ip(domain)
+            except Exception as e:
+                print e
+            for ip in ipaddr:
+                m_domainip = models.DomainIP(first_domain=first_domain, domain=domain, ip=ip)
+                m_domainip.save()
+            # m_ipaddr = models.IpAddr(ip=ipaddr)
+            # m_ipaddr.save()
+            # m_domain = models.Domain(domain=domain, level=0)
+            # m_domain.save()
+            # m_domain.ip.add(m_ipaddr)
+            # m_domain.save()
             m_single_task = models.SingleTask(target_url=target)
             m_single_task.save()
             args['task_id'] = m_single_task.id
@@ -193,7 +204,7 @@ def new_single_task(request):
                     # new_domain_brute('runboo.com', domain_brute_thread_num)
                 m_domain_brute.save()
             if 'spider_flag' in params.keys():
-                m_spider = models.Spider(target_domain=target, task_id=m_single_task)
+                m_spider = models.Spider(target_domain=domain, task_id=m_single_task)
                 args['spider_flag'] = True
                 if 'spider_thread' in params.keys():
                     m_spider.spider_thread = params['spider_thread']

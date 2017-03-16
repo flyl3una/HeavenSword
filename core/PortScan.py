@@ -9,6 +9,7 @@ import MySQLdb
 
 from core.config import DB_CHARSET, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME
 from core.config import DB_HOST
+from core.function import get_ip
 
 
 class ScanPort:
@@ -28,7 +29,7 @@ class ScanPort:
 
     def __init__(self, task_id=0, target_host=None, ipaddr=None, option="usually", thread_num=1):
         if target_host is not None:
-            self.__target_ip = socket.gethostbyname(target_host)
+            self.__target_ip = get_ip(target_host)
         #IP 地址格式127.0.0.1
         else:
             self.__target_ip = ipaddr
