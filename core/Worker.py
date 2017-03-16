@@ -66,22 +66,24 @@ def start(params):
     #         domain_brute_thread.start()
 
     # 网页爬虫
-    if 'spider_flag' in params.keys():
-        if 'spider_thread' in params.keys():
-            spider_thread = params['spider_thread']
-        else:
-            spider_thread = 4
-        url_list = target_url.split('/')[:3]
-        url = url_list[0] + "//" + url_list[2]
-        spider_thread = threading.Thread(target=new_spider, args=(task_id, url, spider_thread))
-        thread_list.append(spider_thread)
-        spider_thread.start()
+    # if 'spider_flag' in params.keys():
+    #     if 'spider_thread' in params.keys():
+    #         spider_thread = params['spider_thread']
+    #     else:
+    #         spider_thread = 4
+    #     url_list = target_url.split('/')[:3]
+    #     url = url_list[0] + "//" + url_list[2]
+    #     spider_thread = threading.Thread(target=new_spider, args=(task_id, url, spider_thread))
+    #     thread_list.append(spider_thread)
+    #     spider_thread.start()
 
     # 漏洞测试
-    # if 'exploit_flag' in params.keys():
-    #     exploit_thread = threading.Thread(target=new_exploit_attack, args=(task_id, target_url, 'drupal'))
-    #     thread_list.append(exploit_thread)
-    #     exploit_thread.start()
+    # 最后一布，放后面完成
+    if 'exploit_flag' in params.keys():
+        url = 'http://localhost/drupal-7.31/'
+        exploit_thread = threading.Thread(target=new_exploit_attack, args=(task_id, url, 'drupal'))
+        thread_list.append(exploit_thread)
+        exploit_thread.start()
 
     for thread in thread_list:
         thread.join()

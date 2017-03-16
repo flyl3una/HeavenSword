@@ -42,6 +42,7 @@ class SpiderManager:
         conn = MySQLdb.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME,
                                charset=DB_CHARSET)
         cursor = conn.cursor()
+        # 后面可以将更新任务状态分离出类
         sql = 'update web_spider set target_domain="%s", spider_status=1 where task_id_id=%d' % (url, task_id)
         cursor.execute(sql)
         conn.commit()
@@ -174,7 +175,7 @@ class SpiderThread(threading.Thread):
             else:
                 self.__lock.acquire()
                 self.__flag += 1
-                if self.__flag >= 50:
+                if self.__flag >= 10:
                     self.__run = False
                 self.__lock.release()
                 time.sleep(0.1)

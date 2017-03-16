@@ -50,6 +50,13 @@ class Url(models.Model):
     update_date = models.DateTimeField(auto_now=True, unique=True)
 
 
+class Domain2Exp(models.Model):
+    domain = models.CharField(max_length=128)
+    exp_name = models.CharField(max_length=64)
+    can_use = models.IntegerField(default=0)        # 0为漏洞测试失败，1为漏洞测试成功
+    update_date = models.DateTimeField(auto_now=True, unique=True)
+
+
 # 暂时无用
 # class TargetInfo(models.Model):
 #     # id = models.IntegerField(max_length=32, auto_created=1, primary_key=True)
@@ -170,5 +177,5 @@ class ExploitAttack(models.Model):
     current_index = models.IntegerField(default=0)          # 当前匹配指纹索引
     # exploit_attack_rate = models.IntegerField(default=0)
     # exploit_attack_thread =
-    exploit_attack_result_json = models.CharField(max_length=256, null=True)   #后期可改为每个漏洞分表
+    # exploit_attack_result_json = models.CharField(max_length=256, null=True)   #后期可改为每个漏洞分表
     update_date = models.DateTimeField(auto_now=True)
