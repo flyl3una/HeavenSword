@@ -27,12 +27,12 @@ class ScanPort:
     __cursor = None
 
 
-    def __init__(self, task_id=0, target_host=None, ipaddr=None, option="usually", thread_num=1):
-        if target_host is not None:
-            self.__target_ip = get_ip(target_host)
-        #IP 地址格式127.0.0.1
-        else:
-            self.__target_ip = ipaddr
+    def __init__(self, task_id=0, ipaddr=None, option="usually", thread_num=10):
+        # if target_host is not None:
+        #     self.__target_ip = get_ip(target_host)
+        # IP 地址格式127.0.0.1
+        # else:
+        self.__target_ip = ipaddr
         self.__task_id = task_id
         self.__option = option
         self.__thread_num = thread_num
@@ -182,15 +182,16 @@ class ScanPort:
                     info = self.__port_map[num]
                 sql = 'insert into web_openport(ip_addr, port_num, port_info) values("%s", %d, "%s")' % (self.__target_ip, num, info)
                 self.__cursor.execute(sql)
-        sql = 'select id from web_openport where ip_addr="%s"' % self.__target_ip
-        self.__cursor.execute(sql)
-        openport_ids = self.__cursor.fetchall()
-        sql = 'select id from web_portscan where task_id_id=%d' % self.__task_id
-        self.__cursor.execute(sql)
-        portscan_id = self.__cursor.fetchone()
-        for openport_id in openport_ids:
-            sql = 'insert into web_portscan_port_scan_result(portscan_id, openport_id) values(%d, %d)' % (portscan_id[0], openport_id[0])
-            self.__cursor.execute(sql)
+        # 去掉了manytomany关联
+        # sql = 'select id from web_openport where ip_addr="%s"' % self.__target_ip
+        # self.__cursor.execute(sql)
+        # openport_ids = self.__cursor.fetchall()
+        # sql = 'select id from web_portscan where task_id_id=%d' % self.__task_id
+        # self.__cursor.execute(sql)
+        # portscan_id = self.__cursor.fetchone()
+        # for openport_id in openport_ids:
+        #     sql = 'insert into web_portscan_port_scan_result(portscan_id, openport_id) values(%d, %d)' % (portscan_id[0], openport_id[0])
+        #     self.__cursor.execute(sql)
         # 设置完成状态2
         sql = 'update web_portscan set port_scan_status=2 where task_id_id=%d' % self.__task_id
         self.__cursor.execute(sql)
@@ -201,10 +202,10 @@ class ScanPort:
 
 
 def new_port_scan(task_id, ip, model, thread_num):
+    # for ip in addrs:
     scanPort = ScanPort(task_id=task_id, ipaddr=ip, option=model, thread_num=thread_num)
     scanPort.start()
     scanPort.submit_result()
-
     # scanPort.show_ports_information()
 
 

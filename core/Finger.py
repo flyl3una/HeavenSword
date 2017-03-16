@@ -232,13 +232,13 @@ def get_finger(task_id, url):
     conn = MySQLdb.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME, charset=DB_CHARSET)
     cursor = conn.cursor()
     # 获取指纹总数，写入数据库
-    sql = 'select finger_status from web_finger where task_id_id=%d' % task_id
-    cursor.execute(sql)
+    # sql = 'select finger_status from web_finger where task_id_id=%d' % task_id
+    # cursor.execute(sql)
     # conn.commit()
-    status = cursor.fetchone()
-    if status[0] == 2:
-        print '数据库已存在该指纹'
-        return
+    # status = cursor.fetchone()
+    # if status[0] == 2:
+    #     print '数据库已存在该指纹'
+    #     return
     finger_count = len(apps[u'apps'])
     sql = 'update web_finger set finger_count=%d, finger_status=1 where task_id_id=%d' % (finger_count, task_id)
     cursor.execute(sql)

@@ -2,10 +2,13 @@
 # coding:utf-8
 
 import os
+from HeavenSword.settings import BASE_DIR
 
-DICT_PATH = os.path.join('setting', 'dict')
-EXP_PATH = os.path.join('setting', 'exp')
-FINGER_PATH = os.path.join('setting', 'finger')
+CORE_PATH = os.path.join(BASE_DIR, 'core')
+
+DICT_PATH = os.path.join(CORE_PATH, 'setting', 'dict')
+EXP_PATH = os.path.join(CORE_PATH, 'setting', 'exp')
+FINGER_PATH = os.path.join(CORE_PATH, 'setting', 'finger')
 
 DB_HOST = "127.0.0.1"
 DB_USER = "root"

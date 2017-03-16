@@ -116,7 +116,7 @@ class SpiderManager:
         # monitor_thread = MonitorThread(dic)
         for t in self.__thread_pool:
             t.join()
-        sql = 'update web_spider set spider_status=2, where task_id_id=%d' % self.__task_id
+        sql = 'update web_spider set spider_status=2 where task_id_id=%d' % self.__task_id
         self.__cursor.execute(sql)
         self.__conn.commit()
         self.__cursor.close()
@@ -220,7 +220,10 @@ class SpiderThread(threading.Thread):
             print e
         if charset == '':
             charset = 'utf-8'
-        html = response.content.decode(charset)
+        try:
+            html = response.content.decode(charset)
+        except:
+            return ''
         return html
 
     def parse_html(self, html):

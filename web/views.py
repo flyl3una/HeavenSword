@@ -158,14 +158,16 @@ def new_single_task(request):
             args['target'] = target
             domain = get_domain(target)
             first_domain = get_first_domain(domain)
-            ipaddr = ['']
+            ipaddrs = []
             try:
-                ipaddr = get_ip(domain)
+                ipaddrs = get_ip(domain)
             except Exception as e:
                 print e
-            for ip in ipaddr:
-                m_domainip = models.DomainIP(first_domain=first_domain, domain=domain, ip=ip)
-                m_domainip.save()
+            ips = models.DomainIP.objects.filter(domain=domain).values('ip')
+            for ip in ips:
+                if ip['ip'] not in ipaddrs:
+                    m_domainip = models.DomainIP(first_domain=first_domain, domain=domain, ip=ip)
+                    m_domainip.save()
             # m_ipaddr = models.IpAddr(ip=ipaddr)
             # m_ipaddr.save()
             # m_domain = models.Domain(domain=domain, level=0)
@@ -175,45 +177,73 @@ def new_single_task(request):
             m_single_task = models.SingleTask(target_url=target)
             m_single_task.save()
             args['task_id'] = m_single_task.id
+
             if 'finger_flag' in params.keys():
-                m_finger = models.Finger(task_id=m_single_task)
-                m_finger.save()
-                args['finger_flag'] = True
+                # 判断数据库是否已经有该域名的指纹识别了，如果有，则不在进行识别.后续加上对任务的判断，防止多个用户同时执行针对同一个目标的测试。
+                b_apptypes = models.AppType.objects.filter(domain=domain)
+                # b_finger_task = models.Finger.objects.filter()
+                if b_apptypes:
+                    args['finger_flag'] = False
+                else:
+                    args['finger_flag'] = True
+                    m_finger = models.Finger(task_id=m_single_task)
+                    m_finger.save()
                 # finger_ret = get_finger(target)
                 # print finger_ret
+
             if 'port_scan_flag' in params.keys():
                 # ip_addr = socket.gethostbyname(target)
-                m_port_scan = models.PortScan(task_id=m_single_task)
-                args['port_scan_flag'] = True
-                if 'port_scan_thread' in params.keys():
-                    m_port_scan.port_scan_thread = params['port_scan_thread']
-                    args['port_scan_thread'] = int(params['port_scan_thread'])
-                if 'port_scan_model' in params.keys():
-                    m_port_scan.port_scan_model = params['port_scan_model']
-                    args['port_scan_model'] = params['port_scan_model']
-                m_port_scan.save()
+                addrs = []
+                for ip in ipaddrs:
+                    m_ports = models.OpenPort.objects.filter(ip_addr=ip)
+                    if not m_ports:
+                        addrs.append(ip)
+                if addrs:
+                    args['port_addrs'] = addrs
+                    args['port_scan_flag'] = True
+                    m_port_scan = models.PortScan(task_id=m_single_task)
+                    if 'port_scan_thread' in params.keys():
+                        m_port_scan.port_scan_thread = params['port_scan_thread']
+                        args['port_scan_thread'] = int(params['port_scan_thread'])
+                    if 'port_scan_model' in params.keys():
+                        m_port_scan.port_scan_model = params['port_scan_model']
+                        args['port_scan_model'] = params['port_scan_model']
+                    m_port_scan.save()
+                else:
+                    args['port_scan_flag'] = False
+
                 # new_port_scan(ip='113.105.245.122', model=str(params['port_scan_model']),
                 #               thread_num=params['port_scan_thread'])
             if 'domain_brute_flag' in params.keys():
-                m_domain_brute = models.DomainBrute(target_domain=target, task_id=m_single_task)
-                args['domain_brute_flag'] = True
-                if 'domain_brute_thread' in params.keys():
-                    m_domain_brute.domain_brute_thread = params['domain_brute_thread']
-                    args['domain_brute_thread'] = int(params['domain_brute_thread'])
-                    # domain_brute_thread_num = params['domain_brute_thread']
-                    # new_domain_brute('runboo.com', domain_brute_thread_num)
-                m_domain_brute.save()
+                b_domain = models.DomainIP.objects.filter(first_domain=first_domain)
+                if not b_domain:
+                    m_domain_brute = models.DomainBrute(target_domain=target, task_id=m_single_task)
+                    args['domain_brute_flag'] = True
+                    if 'domain_brute_thread' in params.keys():
+                        m_domain_brute.domain_brute_thread = params['domain_brute_thread']
+                        args['domain_brute_thread'] = int(params['domain_brute_thread'])
+                        # domain_brute_thread_num = params['domain_brute_thread']
+                        # new_domain_brute('runboo.com', domain_brute_thread_num)
+                    m_domain_brute.save()
+                else:
+                    args['domain_brute_flag'] = False
+
             if 'spider_flag' in params.keys():
-                m_spider = models.Spider(target_domain=domain, task_id=m_single_task)
-                args['spider_flag'] = True
-                if 'spider_thread' in params.keys():
-                    m_spider.spider_thread = params['spider_thread']
-                    args['spider_thread'] = int(params['spider_thread'])
-                    # spider_thread_num = params['spider_thread']
-                    # new_spider(target, spider_thread_num)
-                m_spider.save()
+                b_spider = models.Url.objects.filter(domain=domain)
+                if not b_spider:
+                    m_spider = models.Spider(target_domain=domain, task_id=m_single_task)
+                    args['spider_flag'] = True
+                    if 'spider_thread' in params.keys():
+                        m_spider.spider_thread = params['spider_thread']
+                        args['spider_thread'] = int(params['spider_thread'])
+                        # spider_thread_num = params['spider_thread']
+                        # new_spider(target, spider_thread_num)
+                    m_spider.save()
+                else:
+                    args['spider_flag'] = False
 
             if 'exploit_flag' in params.keys():
+
                 args['exploit_flag'] = True
                 m_exploit_attack = models.ExploitAttack(target_domain=target, task_id=m_single_task)
                 m_exploit_attack.save()
