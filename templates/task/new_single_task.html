@@ -21,11 +21,11 @@
         <div class="form-group row inline-group">
             <label class="control-label col-4 col-form-label">
                 端口扫描
-                <input type="checkbox" class="" name="port_scan_flag">
+                <input type="checkbox" class="" checked name="port_scan_flag">
                 {#            &nbsp;&nbsp;&nbsp;&nbsp;#}
             </label>
             <label class="col-4 col-form-label" style="float: right">线程：
-                <input type="number" maxlength="2" value=2 class="" name="port_scan_thread">
+                <input type="number" maxlength="2" checked value=10 class="" name="port_scan_thread">
             </label>
             <label class="col-4col-form-label" style="float: right; margin-right: 3%">
                 扫描模式：
@@ -40,20 +40,20 @@
         <div class="form-group row">
             <label class="control-label col-4 col-form-label">
                 域名爆破
-                <input type="checkbox" name="domain_brute_flag">
+                <input type="checkbox" checked name="domain_brute_flag">
             </label>
             <label style="float: right">线程：
-                <input type="number" class="" maxlength=2 value=2 name="domain_brute_thread">
+                <input type="number" class="" maxlength=2 value=10 name="domain_brute_thread">
             </label>
         </div>
         <hr>
         <div class="form-group row">
             <label class="col-4 control-label col-form-label">
                 网页爬虫
-                <input type="checkbox" name="spider_flag">
+                <input type="checkbox" checked name="spider_flag">
             </label>
             <label style="float: right">线程：
-                <input type="number" maxlength=2 value=2 name="spider_thread">
+                <input type="number" maxlength=2 value=10 name="spider_thread">
             </label>
 
         </div>
@@ -62,7 +62,7 @@
             <label class="col-4 control-label col-form-label">
                 漏洞扫描
             </label>
-            <input type="checkbox" name="exploit_flag">
+            <input type="checkbox" checked name="exploit_flag">
         </div>
         <hr>
         <div class="form-group row col-12">

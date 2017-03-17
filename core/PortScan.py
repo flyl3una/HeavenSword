@@ -22,25 +22,25 @@ class ScanPort:
     __percent = {}
     __lock = threading.Lock()
     __run = True
-    __task_id = 0
+    __port_scan_id = 0
     __conn = None
     __cursor = None
 
 
-    def __init__(self, task_id=0, ipaddr=None, option="usually", thread_num=10):
+    def __init__(self, port_scan_id=0, ipaddr=None, option="usually", thread_num=10):
         # if target_host is not None:
         #     self.__target_ip = get_ip(target_host)
         # IP 地址格式127.0.0.1
         # else:
         self.__target_ip = ipaddr
-        self.__task_id = task_id
+        self.__port_scan_id = port_scan_id
         self.__option = option
         self.__thread_num = thread_num
         socket.setdefaulttimeout(0.5)
         conn = MySQLdb.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME,
                                charset=DB_CHARSET)
         cursor = conn.cursor()
-        sql = 'update web_portscan set target_ip="%s", port_scan_status=1, port_scan_thread=%d, port_scan_model="%s" where task_id_id=%d' % (self.__target_ip, thread_num, option, task_id)
+        sql = 'update web_portscan set target_ip="%s", port_scan_status=1, port_scan_thread=%d, port_scan_model="%s" where id=%d' % (self.__target_ip, thread_num, option, port_scan_id)
         cursor.execute(sql)
         conn.commit()
         self.__cursor = cursor
@@ -77,7 +77,7 @@ class ScanPort:
             s.close()
             self.__lock.acquire()
             self.__percent['current'] += 1
-            sql = 'update web_portscan set current_index=%d where task_id_id=%d' % (self.__percent['current'], self.__task_id)
+            sql = 'update web_portscan set current_index=%d where id=%d' % (self.__percent['current'], self.__port_scan_id)
             self.__cursor.execute(sql)
             self.__conn.commit()
             self.__lock.release()
@@ -92,14 +92,14 @@ class ScanPort:
             for i in range(65534)[1:]:
                 self.__ports[i] = 'close'
             self.__percent['all'] = i
-            sql = 'update web_portscan set port_count=65534 where task_id_id=%d' % self.__task_id
+            sql = 'update web_portscan set port_count=65534 where id=%d' % self.__port_scan_id
         elif self.__option == 'usually':
             count = 0
             for (num, name) in self.__port_map.items():
                 self.__ports[num] = 'close'
                 count += 1
             self.__percent['all'] = count
-            sql = 'update web_portscan set port_count=%d where task_id_id=%d' % (count, self.__task_id)
+            sql = 'update web_portscan set port_count=%d where id=%d' % (count, self.__port_scan_id)
         self.__percent['current'] = 0
         self.__cursor.execute(sql)
         self.__conn.commit()
@@ -193,7 +193,7 @@ class ScanPort:
         #     sql = 'insert into web_portscan_port_scan_result(portscan_id, openport_id) values(%d, %d)' % (portscan_id[0], openport_id[0])
         #     self.__cursor.execute(sql)
         # 设置完成状态2
-        sql = 'update web_portscan set port_scan_status=2 where task_id_id=%d' % self.__task_id
+        sql = 'update web_portscan set port_scan_status=2 where id=%d' % self.__port_scan_id
         self.__cursor.execute(sql)
         self.__conn.commit()
         # 关闭数据库连接
@@ -201,9 +201,9 @@ class ScanPort:
         self.__conn.close()
 
 
-def new_port_scan(task_id, ip, model, thread_num):
+def new_port_scan(port_scan_id, ip, model, thread_num):
     # for ip in addrs:
-    scanPort = ScanPort(task_id=task_id, ipaddr=ip, option=model, thread_num=thread_num)
+    scanPort = ScanPort(port_scan_id=port_scan_id, ipaddr=ip, option=model, thread_num=thread_num)
     scanPort.start()
     scanPort.submit_result()
     # scanPort.show_ports_information()

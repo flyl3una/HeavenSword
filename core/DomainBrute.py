@@ -26,8 +26,8 @@ class DomainBrute:
     __run = True
     __task_id = 0
 
-    def __init__(self, task_id, father_domain, option='usually', thread_num=4):
-        self.__task_id = task_id
+    def __init__(self, domain_brute_id, father_domain, option='usually', thread_num=4):
+        self.__domain_brute_id = domain_brute_id
         self.__father_domain = father_domain
         self.__option = option
         self.__thread_num = thread_num
@@ -35,7 +35,7 @@ class DomainBrute:
         conn = MySQLdb.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME,
                                charset=DB_CHARSET)
         cursor = conn.cursor()
-        sql = 'update web_domainbrute set domain_brute_status=1, domain_brute_thread=%d where task_id_id=%d' % (thread_num, task_id)
+        sql = 'update web_domainbrute set domain_brute_status=1, domain_brute_thread=%d where id=%d' % (thread_num, domain_brute_id)
         cursor.execute(sql)
         conn.commit()
         self.__conn = conn
@@ -54,14 +54,14 @@ class DomainBrute:
                 line = line.strip()
                 self.__dict.append(line)
                 count += 1
-        sql = 'update web_domainbrute set domain_count=%d where task_id_id=%d' % (count, self.__task_id)
+        sql = 'update web_domainbrute set domain_count=%d where id=%d' % (count, self.__domain_brute_id)
         self.__cursor.execute(sql)
         self.__conn.commit()
 
     def start(self):
         pool = ThreadPool(processes=self.__thread_num)
         pool.map(self.check_domain, self.__dict)
-        sql = 'update web_domainbrute set domain_brute_status=2 where task_id_id=%d' % self.__task_id
+        sql = 'update web_domainbrute set domain_brute_status=2 where id=%d' % self.__domain_brute_id
         self.__cursor.execute(sql)
         self.__conn.commit()
         self.__cursor.close()
@@ -102,8 +102,8 @@ class DomainBrute:
         return self.__current_index
 
 
-def new_domain_brute(task_id, domain, thread_num=2):
-    domainBrute = DomainBrute(task_id, domain, thread_num=thread_num)
+def new_domain_brute(domain_brute_id, domain, thread_num=2):
+    domainBrute = DomainBrute(domain_brute_id, domain, thread_num=thread_num)
     domainBrute.load_dict()
     domainBrute.start()
     print 'domain end!'

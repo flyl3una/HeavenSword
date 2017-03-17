@@ -29,10 +29,10 @@ class WebFinger:
     __result = []
     __finger_list=[]
 
-    def __init__(self, url=None, apps=None, task_id=0):
+    def __init__(self, url=None, apps=None, finger_id=0):
         self.__url = url
         self.__apps = apps
-        self.__task_id = task_id
+        self.__finger_id = finger_id
 
     def request(self):
         if self.__url is None:
@@ -63,7 +63,7 @@ class WebFinger:
         except Exception as e:
             conn = MySQLdb.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME, charset=DB_CHARSET)
             cursor = conn.cursor()
-            sql = 'update web_finger set finger_status=31 where task_id_id=%d' % self.__task_id
+            sql = 'update web_finger set finger_status=31 where id=%d' % self.__finger_id
             cursor.execute(sql)
             conn.commit()
             cursor.close()
@@ -185,7 +185,7 @@ class WebFinger:
                     result['implies'] = imp
                 self.__result.append(result)
             index += 1
-            sql = 'update web_finger set current_index=%d where task_id_id=%d' % (index, self.__task_id)
+            sql = 'update web_finger set current_index=%d where id=%d' % (index, self.__finger_id)
             cursor.execute(sql)
             conn.commit()
 
@@ -224,7 +224,7 @@ class WebFinger:
         return self.__finger_list
 
 
-def get_finger(task_id, url):
+def get_finger(finger_id, url):
     json_file_path = os.path.join(FINGER_PATH, 'apps.json')
     # 获取指纹json字典
     apps = getApps(json_file_path)
@@ -240,12 +240,12 @@ def get_finger(task_id, url):
     #     print '数据库已存在该指纹'
     #     return
     finger_count = len(apps[u'apps'])
-    sql = 'update web_finger set finger_count=%d, finger_status=1 where task_id_id=%d' % (finger_count, task_id)
+    sql = 'update web_finger set finger_count=%d, finger_status=1 where id=%d' % (finger_count, finger_id)
     cursor.execute(sql)
     # commit提交后才会执行该sql语句
     conn.commit()
 
-    finger = WebFinger(url, apps, task_id=task_id)
+    finger = WebFinger(url, apps, finger_id=finger_id)
     ret = finger.request()
     if ret == '[ERROR]: target url is None':
         return 'error'
@@ -255,10 +255,10 @@ def get_finger(task_id, url):
     # json_result = json.dumps(result)
     print result
 
-    sql = 'select target_url from web_singletask where id=%d' % task_id
+    sql = 'select target_url from web_singletask where id=%d' % finger_id
     cursor.execute(sql)
     target_url = cursor.fetchone()
-    sql = 'select id from web_finger where task_id_id=%d' % task_id
+    sql = 'select id from web_finger where id=%d' % finger_id
     cursor.execute(sql)
     finger_id = cursor.fetchone()
     domain = get_domain(target_url[0])
@@ -278,7 +278,7 @@ def get_finger(task_id, url):
     #     cursor.execute(sql)
 
     #状态设置为2，完成
-    sql = 'update web_finger set finger_status=2 where task_id_id=%d' % task_id
+    sql = 'update web_finger set finger_status=2 where id=%d' % finger_id
     cursor.execute(sql)
     # commit保证缓冲区中的sql语句先执行后才进行后面的操作，防止多个sql语句同时执行导致出错
     conn.commit()

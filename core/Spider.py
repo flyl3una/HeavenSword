@@ -26,10 +26,10 @@ class SpiderManager:
     __flag = 0
     __end_flag = __thread_num
     __child_domain = None
-    __task_id = 0
+    __spider_id = 0
 
-    def __init__(self, task_id, url, thread_num=4):
-        self.__task_id = task_id
+    def __init__(self, spider_id, url, thread_num=4):
+        self.__spider_id = spider_id
         self.__thread_num = thread_num
         self.__end_flag = thread_num
         self.__url_queue.put(url)
@@ -43,7 +43,7 @@ class SpiderManager:
                                charset=DB_CHARSET)
         cursor = conn.cursor()
         # 后面可以将更新任务状态分离出类
-        sql = 'update web_spider set target_domain="%s", spider_status=1 where task_id_id=%d' % (url, task_id)
+        sql = 'update web_spider set target_domain="%s", spider_status=1 where id=%d' % (url, spider_id)
         cursor.execute(sql)
         conn.commit()
         self.__cursor = cursor
@@ -116,7 +116,7 @@ class SpiderManager:
         # monitor_thread = MonitorThread(dic)
         for t in self.__thread_pool:
             t.join()
-        sql = 'update web_spider set spider_status=2 where task_id_id=%d' % self.__task_id
+        sql = 'update web_spider set spider_status=2 where id=%d' % self.__spider_id
         self.__cursor.execute(sql)
         self.__conn.commit()
         self.__cursor.close()
@@ -286,8 +286,8 @@ class SpiderThread(threading.Thread):
         return url
 
 
-def new_spider(task_id, url, thread_num=4):
-    spider_manager = SpiderManager(task_id, url, thread_num=thread_num)
+def new_spider(spider_id, url, thread_num=4):
+    spider_manager = SpiderManager(spider_id, url, thread_num=thread_num)
     spider_manager.start()
     print 'spider end!'
 

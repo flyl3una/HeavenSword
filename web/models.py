@@ -69,7 +69,14 @@ class SingleTask(models.Model):
     # task_name = models.CharField(max_length=32)
     target_url = models.CharField(max_length=32, null=False)            #目标网址
     task_status = models.SmallIntegerField(default=0)          #任务完成状态，1完成，0未完成
-    task_rate = models.IntegerField(default=0)            #任务进度百分比
+    # task_rate = models.IntegerField(default=0)            #任务进度百分比
+    # 关联各个扫描任务
+    finger_id = models.IntegerField(default=0)
+    port_scan_ids = models.CharField(max_length=128)
+    spider_id = models.IntegerField(default=0)
+    exploit_id = models.IntegerField(default=0)
+    domain_brute_id = models.IntegerField(default=0)
+
     update_date = models.DateTimeField(auto_now=True)
 
 
@@ -99,10 +106,10 @@ class OpenPort(models.Model):
 
 class Finger(models.Model):
     # id = models.IntegerField(max_length=32, auto_created=1, primary_key=True)
-    task_id = models.ForeignKey(SingleTask)
+    # task_id = models.ForeignKey(SingleTask)
     task_type = models.IntegerField(default=0)          # 0为单个任务，1为批量任务
-    target = models.CharField(max_length=32)
-
+    target_domain = models.CharField(max_length=32, unique=True)
+    target_url = models.CharField(max_length=128, unique=True)
     # 31,request请求目标地址错误。
     finger_status = models.SmallIntegerField(default=0)     # 0未开始，1开始，2完成, 3xxx异常出错
     # finger_rate = models.IntegerField(default=0)
@@ -119,8 +126,8 @@ class Finger(models.Model):
 class PortScan(models.Model):
     # id = models.IntegerField(max_length=32, auto_created=1, primary_key=True)
     # target_domain = models.CharField(max_length=32)
-    target_ip = models.CharField(max_length=32)
-    task_id = models.ForeignKey(SingleTask)
+    target_ip = models.CharField(max_length=32, unique=True)
+    # task_id = models.ForeignKey(SingleTask)
     task_type = models.IntegerField(default=0)  # 0为单个任务，1为批量任务
     port_scan_status = models.SmallIntegerField(default=0)
     # port_scan_rate = models.IntegerField(default=0)
@@ -137,9 +144,10 @@ class PortScan(models.Model):
 
 class DomainBrute(models.Model):
     # id = models.IntegerField(max_length=32, auto_created=1, primary_key=True)
-    task_id = models.ForeignKey(SingleTask)
+    # task_id = models.ForeignKey(SingleTask)
     task_type = models.IntegerField(default=0)  # 0为单个任务，1为批量任务
-    target_domain = models.CharField(max_length=32)
+    target_first_domain = models.CharField(max_length=32, unique=True)
+    target_domain = models.CharField(max_length=32, unique=True)
     domain_brute_status = models.SmallIntegerField(default=0)
     # domain_brute_rate = models.IntegerField(default=0)
     domain_count = models.IntegerField(default=10000)       # 所有待爆破域名数
@@ -154,9 +162,9 @@ class DomainBrute(models.Model):
 
 class Spider(models.Model):
     # id = models.IntegerField(max_length=32, auto_created=1, primary_key=True)
-    task_id = models.ForeignKey(SingleTask)
+    # task_id = models.ForeignKey(SingleTask)
     task_type = models.IntegerField(default=0)  # 0为单个任务，1为批量任务
-    target_domain = models.CharField(max_length=32)
+    target_domain = models.CharField(max_length=32, unique=True)
     spider_status = models.SmallIntegerField(default=0)
     # all_url = models.IntegerField(default=1)        # 当前爬取到的链接总数
     # spider_rate = models.IntegerField(default=0)
@@ -169,7 +177,7 @@ class Spider(models.Model):
 
 
 class ExploitAttack(models.Model):
-    task_id = models.ForeignKey(SingleTask)
+    # task_id = models.ForeignKey(SingleTask)
     task_type = models.IntegerField(default=0)  # 0为单个任务，1为批量任务
     target_domain = models.CharField(max_length=32)
     exploit_attack_status = models.SmallIntegerField(default=0)

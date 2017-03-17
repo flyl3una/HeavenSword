@@ -16,8 +16,10 @@ def get_domain(url):
 
 def get_first_domain(domain):
     domain1 = domain.split('.')
-    if len(domain1) <= 1:
-        return None
+    if domain == 'localhost':
+        return domain
+    if len(domain1) <= 2:
+        return domain
     if len(domain1) >= 3:
         if domain1[-1] == 'cn' and domain1[-2] == 'com':
             domain = '.'.join(domain1[-3:])
@@ -32,6 +34,8 @@ def get_ip(domain):
     addrs = []
     for i in res:
         addr = i[4][0]
+        if len(addr.split('.')) != 4:
+            continue
         addrs.append(addr)
     return addrs
 
