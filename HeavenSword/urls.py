@@ -42,8 +42,8 @@ urlpatterns = [
     url(r'^view_batch_task/$', views.view_batch_task),
 
     url(r'^task_list/$', views.task_list),
-    url(r'^show_task/[\d]*', views.show_task),
-    url(r'^task_info/$', views.task_info),
+    url(r'^show_task/', views.show_task),
+    url(r'^task_info/(\d+)/$', views.task_info),
 
     # scan
     url(r'^scan/finger', views.finger),

@@ -102,6 +102,11 @@ def start(params):
             thread.start()
         for thread in thread_list:
             thread.join()
+        sql = 'update web_singletask set task_status=1 where id=' % params['task_id']
+        cursor.execute(sql)
+        conn.commit()
+        cursor.close()
+        conn.close()
     except Exception as e:
         print e
         for thread in thread_list:

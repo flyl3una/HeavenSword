@@ -30,8 +30,9 @@ $(document).ready(function(){
     $("#view_all_task").click(a_fun);
     $("#view_single_task").click(a_fun);
     $("#view_batch_task").click(a_fun);
-    
-    
+
+    // 表格
+    $(".table>tbody>tr>td>a").click(a_fun);
     // //icheck插件
     // icheck = function () {
     //     $('input').iCheck({

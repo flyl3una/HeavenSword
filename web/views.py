@@ -24,6 +24,7 @@ from core.function import get_ip, get_domain, get_first_domain
 from web import models
 from web.dir.EmailToken import EmailToken
 # from web.models import Domain, IpAddr, Finger, SingleTask, PortScan, DomainBrute, Spider, ExploitAttack
+from web.models import SingleTask
 from web.msetting import DOMAIN
 
 
@@ -306,7 +307,8 @@ def show_task(request):
     return render(request, 'task/show_task.html')
 
 
-def task_info(request):
+def task_info(request, id):
+    print id
     return render(request, 'task/task_info.html')
 
 
@@ -348,11 +350,32 @@ def one(request):
 
 
 def view_all_task(request):
-    return render(request, 'task/view_all_task.html')
+
+    tasklist = []
+    single_task = SingleTask.objects.all()
+    for task in single_task:
+        a_task = {}
+        a_task['id'] = task.id
+        a_task['target_url'] = task.target_url
+        a_task['status'] = task.task_status
+        a_task['update_date'] = task.update_date
+        a_task['type'] = 'single'
+        tasklist.append(a_task)
+    return render(request, 'task/view_all_task.html', {'tasks': tasklist})
 
 
 def view_single_task(request):
-    return render(request, 'task/view_single_task.html')
+    tasklist = []
+    single_task = SingleTask.objects.all()
+    for task in single_task:
+        a_task = {}
+        a_task['id'] = task.id
+        a_task['target_url'] = task.target_url
+        a_task['status'] = task.task_status
+        a_task['update_date'] = task.update_date
+        a_task['type'] = 0      # 0 表示单个，1表示批量
+        tasklist.append(a_task)
+    return render(request, 'task/view_single_task.html', {'tasks': tasklist})
 
 
 def view_batch_task(request):
