@@ -40,6 +40,16 @@ def get_ip(domain):
     return addrs
 
 
+def get_root_url(url):
+    a = url.split("//")
+    if len(a) == 1:
+        url.split('/')
+        url = 'http://' + url[0]
+    else:
+        url = a[0] + '//' + a[1].split('/')[0]
+    return url
+
+
 if __name__ == '__main__':
     url = 'http://www.runoob.com'
     domain = get_domain(url)

@@ -50,13 +50,6 @@ class Url(models.Model):
     update_date = models.DateTimeField(auto_now=True, unique=True)
 
 
-class Domain2Exp(models.Model):
-    domain = models.CharField(max_length=128)
-    exp_name = models.CharField(max_length=64)
-    can_use = models.IntegerField(default=0)        # 0为漏洞测试失败，1为漏洞测试成功
-    update_date = models.DateTimeField(auto_now=True, unique=True)
-
-
 # 暂时无用
 # class TargetInfo(models.Model):
 #     # id = models.IntegerField(max_length=32, auto_created=1, primary_key=True)
@@ -64,21 +57,30 @@ class Domain2Exp(models.Model):
 #     ip = models.ManyToManyField(IpAddr)
 
 
-class SingleTask(models.Model):
-    # id = models.IntegerField(max_length=32, auto_created=1, primary_key=True)
-    # task_name = models.CharField(max_length=32)
-    target_url = models.CharField(max_length=32, null=False)            #目标网址
-    task_status = models.SmallIntegerField(default=0)          #任务完成状态，1完成，0未完成
-    # task_rate = models.IntegerField(default=0)            #任务进度百分比
-    # 关联各个扫描任务
-    finger_id = models.IntegerField(default=0)
-    port_scan_ids = models.CharField(max_length=128)
-    spider_id = models.IntegerField(default=0)
-    exploit_id = models.IntegerField(default=0)
-    domain_brute_id = models.IntegerField(default=0)
+# class SingleTask(models.Model):
+    # target_url = models.CharField(max_length=32, null=False)            #目标网址
+    # status = models.SmallIntegerField(default=0)          #任务完成状态，1完成，0未完成
+    # # 关联各个扫描任务
+    # finger_id = models.IntegerField(default=0)
+    # port_scan_ids = models.CharField(max_length=128)
+    # spider_id = models.IntegerField(default=0)
+    # domain_brute_id = models.IntegerField(default=0)
+    # exploit_id = models.IntegerField(default=0)
+    # update_date = models.DateTimeField(auto_now=True)
 
+
+class WebSingleTask(models.Model):
+    target_url = models.CharField(max_length=32, null=False)  # 目标网址
+    status = models.SmallIntegerField(default=0)  # 任务完成状态，1完成，0未完成
+    finger_id = models.IntegerField(default=0)
+    exploit_id = models.IntegerField(default=0)
     update_date = models.DateTimeField(auto_now=True)
 
+
+# class AutoTask(models.Model):
+#     target_url = models.CharField(max_length=32, null=False)  # 目标网址
+#     status = models.SmallIntegerField(default=0)  # 任务完成状态，1完成，0未完成
+#     update_date = models.DateTimeField(auto_now=True)
 
 # class BatchTask(models.Model):
     # task_name = models.CharField(max_length=32)
@@ -107,11 +109,11 @@ class OpenPort(models.Model):
 class Finger(models.Model):
     # id = models.IntegerField(max_length=32, auto_created=1, primary_key=True)
     # task_id = models.ForeignKey(SingleTask)
-    task_type = models.IntegerField(default=0)          # 0为单个任务，1为批量任务
+    # task_type = models.IntegerField(default=0)          # 0为单个任务，1为批量任务
     target_domain = models.CharField(max_length=32, unique=True)
     target_url = models.CharField(max_length=128, unique=True)
     # 31,request请求目标地址错误。
-    finger_status = models.SmallIntegerField(default=0)     # 0未开始，1开始，2完成, 3xxx异常出错
+    status = models.SmallIntegerField(default=0)     # 0未开始，1开始，2完成, 3xxx异常出错
     # finger_rate = models.IntegerField(default=0)
     finger_count = models.IntegerField(default=3000)        #所有待指纹类型
     current_index = models.IntegerField(default=0)          #当前匹配指纹位置
@@ -128,13 +130,13 @@ class PortScan(models.Model):
     # target_domain = models.CharField(max_length=32)
     target_ip = models.CharField(max_length=32, unique=True)
     # task_id = models.ForeignKey(SingleTask)
-    task_type = models.IntegerField(default=0)  # 0为单个任务，1为批量任务
-    port_scan_status = models.SmallIntegerField(default=0)
+    # task_type = models.IntegerField(default=0)  # 0为单个任务，1为批量任务
+    status = models.SmallIntegerField(default=0)
     # port_scan_rate = models.IntegerField(default=0)
     port_count = models.IntegerField(default=53325)         # 所有待端口个数
     current_index = models.IntegerField(default=0)          # 当前扫描端口索引
-    port_scan_thread = models.IntegerField(default=4)
-    port_scan_model = models.CharField(max_length=16, default='usually')
+    thread = models.IntegerField(default=4)
+    model = models.CharField(max_length=16, default='usually')
     # 扫描结果每个端口对应信息，后期可存放于数据库。目前使用json数据存取结果。
     # port_scan_result_json = models.CharField(max_length=512, null=True)
     # 为了防止删除该任务时把域名和ip的对应信息删除，特不做关联，直接根据一级域名查询openport表即可。
@@ -145,14 +147,14 @@ class PortScan(models.Model):
 class DomainBrute(models.Model):
     # id = models.IntegerField(max_length=32, auto_created=1, primary_key=True)
     # task_id = models.ForeignKey(SingleTask)
-    task_type = models.IntegerField(default=0)  # 0为单个任务，1为批量任务
+    # task_type = models.IntegerField(default=0)  # 0为单个任务，1为批量任务
     target_first_domain = models.CharField(max_length=32, unique=True)
     target_domain = models.CharField(max_length=32, unique=True)
-    domain_brute_status = models.SmallIntegerField(default=0)
+    status = models.SmallIntegerField(default=0)
     # domain_brute_rate = models.IntegerField(default=0)
     domain_count = models.IntegerField(default=10000)       # 所有待爆破域名数
     current_index = models.IntegerField(default=0)          # 当前端口爆破索引
-    domain_brute_thread = models.IntegerField(default=4)
+    thread = models.IntegerField(default=4)
     # domain_brute_rate，后期可以增加多个模式，分为二级域名爆破及递归爆破子域名。
     # domain_brute_result_json = models.CharField(max_length=512, null=True)     #后期可将所有子域名分别存为domain表中
     # 为了防止删除该任务时把域名和ip的对应信息删除，特不做关联，直接根据一级域名查询domain表即可。
@@ -163,7 +165,7 @@ class DomainBrute(models.Model):
 class Spider(models.Model):
     # id = models.IntegerField(max_length=32, auto_created=1, primary_key=True)
     # task_id = models.ForeignKey(SingleTask)
-    task_type = models.IntegerField(default=0)  # 0为单个任务，1为批量任务
+    # task_type = models.IntegerField(default=0)  # 0为单个任务，1为批量任务
     target_domain = models.CharField(max_length=32, unique=True)
     spider_status = models.SmallIntegerField(default=0)
     # all_url = models.IntegerField(default=1)        # 当前爬取到的链接总数
@@ -176,14 +178,24 @@ class Spider(models.Model):
     update_date = models.DateTimeField(auto_now=True)
 
 
-class ExploitAttack(models.Model):
+class WebExploit(models.Model):
     # task_id = models.ForeignKey(SingleTask)
-    task_type = models.IntegerField(default=0)  # 0为单个任务，1为批量任务
+    # task_type = models.IntegerField(default=0)  # 0为单个任务，1为批量任务
+    target_url = models.CharField(max_length=128, unique=True)
     target_domain = models.CharField(max_length=32)
-    exploit_attack_status = models.SmallIntegerField(default=0)
-    exploit_count = models.IntegerField(default=10)         # 该指纹的所有exp个数
+    status = models.SmallIntegerField(default=0)
+    exp_count = models.IntegerField(default=10)         # 该指纹的所有exp个数
     current_index = models.IntegerField(default=0)          # 当前匹配指纹索引
+    # exploit_result = models.IntegerField(default=0)         # 0表示没有漏洞，1表示exp攻击成功
+    # exploit_exp_type = models.CharField(max_length=32)      # 漏洞利用成功后
     # exploit_attack_rate = models.IntegerField(default=0)
     # exploit_attack_thread =
     # exploit_attack_result_json = models.CharField(max_length=256, null=True)   #后期可改为每个漏洞分表
     update_date = models.DateTimeField(auto_now=True)
+
+
+class WebExploitResult(models.Model):
+    domain = models.CharField(max_length=32)
+    result = models.IntegerField(default=0)         # 0表示没有漏洞，1表示exp攻击成功
+    exp_type = models.CharField(max_length=32)      # exp类型
+    exp_name = models.CharField(max_length=32)      # 成功使用的exp名称

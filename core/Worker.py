@@ -22,7 +22,7 @@ def echo():
     pass
 
 
-def start(params):
+def start_single_task(params):
     try:
         conn = MySQLdb.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME, charset=DB_CHARSET)
         cursor = conn.cursor()
@@ -33,7 +33,7 @@ def start(params):
         #     return
 
         # target_url = params['target']
-
+        finger_thread = None
         # 指纹识别
         if 'finger_flag' in params.keys() and params['finger_flag']:
             finger_thread = threading.Thread(target=get_finger, args=(params['finger_id'], params['finger_target_url']))
@@ -92,17 +92,23 @@ def start(params):
 
         # 漏洞测试
         # 最后一布，放后面完成
-        # if 'exploit_flag' in params.keys():
-        #     url = 'http://localhost/drupal-7.31/'
-        #     exploit_thread = threading.Thread(target=new_exploit_attack, args=(task_id, url, 'drupal'))
-        #     thread_list.append(exploit_thread)
-        #     exploit_thread.start()
+        if 'exploit_flag' in params.keys() and params['exploit_flag']:
+            target = args['exploit_url']
+            url = '/'.join(target.split('/')[:3])
+            exploit_id = args['exploit_id']
+            exploit_thread = threading.Thread(target=new_exploit_attack, args=(exploit_id, url))
+            # thread_list.append(exploit_thread)
+            # exploit_thread.start()
         #
         for thread in thread_list:
             thread.start()
+        if finger_thread:
+            finger_thread.join()
+        exploit_thread.start()
+        thread_list.append(exploit_thread)
         for thread in thread_list:
             thread.join()
-        sql = 'update web_singletask set task_status=1 where id=' % params['task_id']
+        sql = 'update web_singletask set task_status=1 where id="%d"' % params['task_id']
         cursor.execute(sql)
         conn.commit()
         cursor.close()
@@ -114,13 +120,15 @@ def start(params):
         print
 
 
+def start_auto_task(params):
+    target = params['target']
+    task_id = params['task_id']
+    # get_finger1(target)
 
 '''
-python D:\study\python\pycharm\workspace\HeavenSword\core\worker.py {'task_id': 14, 'port_scan_flag': true, 'port_scan_thread': 20, 'spider_flag': false, 'port_addrs': ['113.105.245.123', '120.37.140.252', '120.37.140.253'], 'domain_brute_flag': false, 'exploit_flag': true, 'finger_flag': false, 'port_scan_model': 'usually', 'target': 'http://www.runoob.com'}
+python D:\study\python\pycharm\workspace\HeavenSword\core\worker.py {'domain_brute_id': 2, 'exploit_url': 'http://drupal.xxx.com', 'domain_brute_thread': 10, 'target': 'http://drupal.xxx.com/', 'port_scan_thread': 10, 'target_first_domain': 'xxx.com', 'spider_flag': false, 'exploit_id': 1, 'port_addr2id': {'127.0.0.1': 2}, 'port_scan_model': 'usually', 'port_scan_flag': true, 'domain_brute_flag': true, 'port_addrs': ['127.0.0.1'], 'exploit_flag': true, 'finger_id': 2, 'task_id': 4, 'finger_target_url': 'http://drupal.xxx.com/', 'finger_flag': true}
 
-python D:\work\pycharm\workspace\github\HeavenSword\core\worker.py {'task_id': 1, 'domain_brute_thread': 20, 'port_scan_flag': true, 'port_scan_thread': 20, 'spider_flag': true, 'port_addrs': ['::1', '127.0.0.1'], 'domain_brute_flag': true, 'spider_thread': 20, 'finger_flag': true, 'exploit_flag': true, 'port_scan_model': 'usually', 'target': 'http://localhost/drupal-7.31/'}
-
-python D:\work\pycharm\workspace\github\HeavenSword\core\worker.py {'domain_brute_id': 1, 'task_id': 1, 'domain_brute_thread': 10, 'finger_target_domain': 'localhost', 'target': 'http://localhost/drupal-7.31/', 'port_scan_thread': 10, 'target_first_domain': 'localhost', 'spider_flag': true, 'port_addr2id': {'127.0.0.1': 1}, 'target_url': 'http://localhost/drupal-7.31/', 'spider_id': 1, 'port_scan_flag': true, 'domain_brute_flag': true, 'port_addrs': ['127.0.0.1'], 'spider_thread': 10, 'finger_id': 1, 'port_scan_model': 'usually', 'finger_flag': true}
+python D:\study\python\pycharm\workspace\HeavenSword\core\worker.py {'exploit_url': 'http://drupal.xxx.com', 'target': 'http://drupal.xxx.com', 'task_id': 7, 'exploit_id': 4, 'exploit_flag': true, 'finger_id': 4, 'finger_target_url': 'http://drupal.xxx.com', 'finger_flag': true}
 '''
 
 if __name__ == '__main__':
@@ -133,11 +141,8 @@ if __name__ == '__main__':
     json_args = json_args.replace("'", '"')
     args = json.loads(json_args)
     print args
-    start(args)
+    start_single_task(args)
 
-    f = file('D:\\1.txt')
-    f.write('END!')
-    f.close()
     # cursor.close()
     # conn.close()
 

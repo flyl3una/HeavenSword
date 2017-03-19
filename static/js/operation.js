@@ -24,15 +24,19 @@ $(document).ready(function(){
     $('#task_info').click(a_fun);
     $("#add_module").click(a_fun);
 
-    $("#new_single_task").click(a_fun);
-    $("#new_batch_task").click(a_fun);
+    $("#new_single_web_task").click(a_fun);
+    $("#new_batch_web_task").click(a_fun);
+    $("#view_web_task_list").click(a_fun);
 
-    $("#view_all_task").click(a_fun);
-    $("#view_single_task").click(a_fun);
-    $("#view_batch_task").click(a_fun);
+    $("#new_single_sys_task").click(a_fun);
+    $("#new_batch_sys_task").click(a_fun);
+    $("#view_sys_task_list").click(a_fun);
 
-    // 表格
-    $(".table>tbody>tr>td>a").click(a_fun);
+    $("#port_scan").click(a_fun);
+    $("#web_spider").click(a_fun);
+    $("#domain_brute").click(a_fun);
+
+
     // //icheck插件
     // icheck = function () {
     //     $('input').iCheck({

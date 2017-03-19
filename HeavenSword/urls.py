@@ -32,18 +32,24 @@ urlpatterns = [
     url(r'^batch/$', views.batch),
     url(r'^operation/$', views.operation),
     url(r'^about/$', views.about),
-    url(r'^one/$', views.one),
 
-    #task
-    url(r'^new_single_task/$', views.new_single_task),
-    url(r'^new_batch_task/$', views.new_batch_task),
-    url(r'^view_all_task/$', views.view_all_task),
-    url(r'^view_single_task/$', views.view_single_task),
-    url(r'^view_batch_task/$', views.view_batch_task),
+    #web
+    url(r'^new_single_web_task/$', views.new_single_web_task),
+    url(r'^new_batch_web_task/$', views.new_batch_web_task),
+    url(r'^view_web_task_list/$', views.view_web_task_list),
+    #sys
+    url(r'^new_single_sys_task/$', views.new_single_sys_task),
+    url(r'^new_batch_sys_task/$', views.new_batch_sys_task),
+    url(r'^view_sys_task_list/$', views.view_sys_task_list),
+
+    #info_collection
+    url(r'^port_scan/$', views.port_scan),
+    url(r'^web_spider/$', views.web_spider),
+    url(r'^domain_brute/$', views.domain_brute),
 
     url(r'^task_list/$', views.task_list),
     url(r'^show_task/', views.show_task),
-    url(r'^task_info/(\d+)/$', views.task_info),
+    url(r'^web_task_info/(\d+)/$', views.web_task_info),
 
     # scan
     url(r'^scan/finger', views.finger),
@@ -51,4 +57,5 @@ urlpatterns = [
     url(r'^scan/exploit_attack', views.exploit_attack),
     url(r'^scan/spider', views.spider),
     url(r'^scan/domain_brute', views.domain_brute),
+
 ]

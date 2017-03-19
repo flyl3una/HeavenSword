@@ -96,7 +96,7 @@
                     {#                        倚天不出，谁与争锋#}
                     <img src="{% static "images/4.jpg" %}" class="img-rounded" style="width:99.5%">
                     <ul id="side-menu" class="nav nav-model nav-first-level">
-                        <br><br><br><br>
+                        <br><br>
                         {#                            <li><a id="task_info" style="font-size: 20px; text-align: center;" href="#">#}
                         {#                                任务信息</a></li>#}
                         {#                            <li><a class="scan" id="finger" style="font-size: 20px; text-align: center;" href="#">#}
@@ -107,24 +107,34 @@
                         {#                            <li><a class="scan" id="exploit_attack" style="font-size: 20px; text-align: center" href="#">漏洞检测</a></li>#}
                         {#                            <li><a href="#">PHP<span class="glyphicon glyphicon-chevron-right"></span></a></li>#}
                         {#                            <li><a href="#">SQL</a><span class="fa arrow"></span></li>#}
-                        <li id="new_task">
-                            <a href="#">新建任务
+                        <li id="web_task">
+                            <a href="#">web应用检测
                                 <span class="fa-angle-right arrow fa"></span>
                             </a>
                             <ul class="nav nav-second-level collapse">
-                                <li><a id="new_single_task">单一任务</a></li>
-                                <li><a id="new_batch_task">批量任务</a></li>
+                                <li><a id="new_single_web_task">单一任务</a></li>
+                                <li><a id="new_batch_web_task">批量任务</a></li>
+                                <li><a id="view_web_task_list">任务列表</a></li>
                             </ul>
                         </li>
-                        {#                            <br>#}
-                        <li id="task_list">
-                            <a href="#">查看任务
+                        <li id="system_task">
+                            <a href="#">系统漏洞检测
+                                <span class="fa-angle-right arrow fa"></span>
+                            </a>
+                            <ul class="nav nav-second-level collapse">
+                                <li><a id="new_single_sys_task">单一任务</a></li>
+                                <li><a id="new_batch_sys_task">批量任务</a></li>
+                                <li><a id="view_sys_task_list">任务列表</a></li>
+                            </ul>
+                        </li>
+                        <li id="information_collection">
+                            <a href="#">信息搜集工具
                                 <span class="fa-angle-right fa arrow"></span>
                             </a>
                             <ul class="nav nav-second-level collapse">
-                                <li><a id="view_all_task">所有任务</a></li>
-                                <li><a id="view_single_task">单一任务</a></li>
-                                <li><a id="view_batch_task">批量任务</a></li>
+                                <li><a id="port_scan">端口扫描</a></li>
+                                <li><a id="web_spider">网页爬虫</a></li>
+                                <li><a id="domain_brute">子域名爆破</a></li>
                             </ul>
                         </li>
                     </ul>

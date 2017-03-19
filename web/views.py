@@ -4,27 +4,18 @@ import os
 import socket
 import subprocess
 
+import time
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
-from django.http import JsonResponse
 from django.shortcuts import render, render_to_response, redirect
-# from django.template import RequestContext
-# from django.shortcuts import render_to_response
-# Create your views here.
-from core.DomainBrute import new_domain_brute
-from core.Exploit_attack import new_exploit_attack
-from core.Finger import get_finger
 from HeavenSword.settings import DEFAULT_FROM_EMAIL, EMAIL_HOST_USER, CORE_PATH
-from core.PortScan import new_port_scan
-from core.Spider import new_spider
-from core.function import get_ip, get_domain, get_first_domain
+from core.function import get_ip, get_domain, get_first_domain, get_root_url
 from web import models
 from web.dir.EmailToken import EmailToken
-# from web.models import Domain, IpAddr, Finger, SingleTask, PortScan, DomainBrute, Spider, ExploitAttack
-from web.models import SingleTask
+from web.models import WebSingleTask
 from web.msetting import DOMAIN
 
 
@@ -144,7 +135,7 @@ def operation(request):
     return HttpResponse("<div style='text-align:center;margin-top:20%'><h3>请登录</h3><br><br><a href='/user/login/'>点击跳转到登陆页面</a>")
 
 
-def new_single_task(request):
+def new_single_web_task1(request):
     if not request.user.is_authenticated():
         return HttpResponse("<div style='text-align:center;margin-top:20%'><h3>请登录</h3><br><br><a href='/user/login/'>点击跳转到登陆页面</a>")
     if request.method == 'GET':
@@ -156,6 +147,7 @@ def new_single_task(request):
                 return HttpResponse("目标错误")
             args = {}
             target = params['target']
+            target = get_root_url(target)
             args['target'] = target
             domain = get_domain(target)
             first_domain = get_first_domain(domain)
@@ -169,12 +161,6 @@ def new_single_task(request):
                 if ip['ip'] not in ipaddrs:
                     m_domainip = models.DomainIP(first_domain=first_domain, domain=domain, ip=ip)
                     m_domainip.save()
-            # m_ipaddr = models.IpAddr(ip=ipaddr)
-            # m_ipaddr.save()
-            # m_domain = models.Domain(domain=domain, level=0)
-            # m_domain.save()
-            # m_domain.ip.add(m_ipaddr)
-            # m_domain.save()
 
             m_single_task = models.SingleTask(target_url=target)
             m_single_task.save()
@@ -223,15 +209,6 @@ def new_single_task(request):
                         args['port_addr2id'][ip] = port_scan_id
                     args['port_addrs'] = addrs
                     m_single_task.port_scan_ids = '|'.join(ids)     #多个id用|分隔
-
-                    # m_port_scan = models.PortScan(target_ip=ip)
-                    # if 'port_scan_thread' in params.keys():
-                    #     m_port_scan.port_scan_thread = params['port_scan_thread']
-                    #     args['port_scan_thread'] = int(params['port_scan_thread'])
-                    # if 'port_scan_model' in params.keys():
-                    #     m_port_scan.port_scan_model = params['port_scan_model']
-                    #     args['port_scan_model'] = params['port_scan_model']
-                    # m_port_scan.save()
                 else:
                     args['port_scan_flag'] = False
 
@@ -273,12 +250,18 @@ def new_single_task(request):
                 else:
                     args['spider_flag'] = False
 
-            # if 'exploit_flag' in params.keys():
-                # args['exploit_flag'] = True
-                # m_exploit_attack = models.ExploitAttack(target_domain=target, task_id=m_single_task)
-                # m_exploit_attack.save()
-
-                # new_exploit_attack(target, app_type='drupal')
+            if 'exploit_flag' in params.keys():
+                b_exploit = models.ExploitAttack.objects.filter(target_domain=domain)
+                if not b_exploit:
+                    args['exploit_flag'] = True
+                    m_exploit_attack = models.ExploitAttack(target_domain=target)
+                    m_exploit_attack.save()
+                    args['exploit_url'] = '/'.join(target.split('/')[:3])
+                    args['exploit_id'] = m_exploit_attack.id
+                    # new_exploit_attack(target)
+                    m_single_task.exploit_id = m_exploit_attack.id
+                else:
+                    args['exploit_flag'] = False
 
             m_single_task.save()
             args['task_id'] = m_single_task.id
@@ -295,7 +278,7 @@ def new_single_task(request):
             return HttpResponse("任务开启失败")
 
 
-def new_batch_task(request):
+def new_batch_web_task(request):
     return render(request, 'task/new_batch_task.html')
 
 
@@ -307,9 +290,150 @@ def show_task(request):
     return render(request, 'task/show_task.html')
 
 
-def task_info(request, id):
-    print id
-    return render(request, 'task/task_info.html')
+def new_single_web_task(request):
+    if not request.user.is_authenticated():
+        return HttpResponse("<div style='text-align:center;margin-top:20%'><h3>请登录</h3><br><br><a href='/user/login/'>点击跳转到登陆页面</a>")
+    if request.method == 'GET':
+        return render(request, 'task/new_single_task.html')
+    if request.method == 'POST':
+        params = request.POST
+        try:
+            if 'target' not in params:
+                return HttpResponse("目标错误")
+            args = {}
+            target = params['target']
+            target = get_root_url(target)
+            args['target'] = target
+            domain = get_domain(target)
+            first_domain = get_first_domain(domain)
+            ipaddrs = []
+            try:
+                ipaddrs = get_ip(domain)
+            except Exception as e:
+                print e
+            ips = models.DomainIP.objects.filter(domain=domain).values('ip')
+            for ip in ips:
+                if ip['ip'] not in ipaddrs:
+                    m_domainip = models.DomainIP(first_domain=first_domain, domain=domain, ip=ip)
+                    m_domainip.save()
+
+            m_web_single_task = models.WebSingleTask(target_url=target)
+            m_web_single_task.save()
+
+            # 判断数据库是否已经有该域名的指纹识别了，如果有，则不在进行识别，防止多个用户对同一个目标进行多次测试。
+            #finger
+            b_finger = models.Finger.objects.filter(target_domain=domain)
+            if b_finger:
+                args['finger_flag'] = False
+            else:
+                args['finger_flag'] = True
+                m_finger = models.Finger(target_domain=domain, target_url=target)
+                m_finger.save()
+                args['finger_id'] = m_finger.id
+                args['finger_target_url'] = target
+                m_web_single_task.finger_id = m_finger.id
+
+            #exploit
+            # 判断数据库是否已经有该域名的web攻击测试了，如果有，则不在进行测试
+            b_exploit = models.WebExploit.objects.filter(target_domain=domain)
+            if b_exploit:
+                args['exploit_flag'] = False
+            else:
+                args['exploit_flag'] = True
+                m_exploit_attack = models.WebExploit(target_url=target, target_domain=domain)
+                m_exploit_attack.save()
+                args['exploit_url'] = target
+                args['exploit_id'] = m_exploit_attack.id
+                # new_exploit_attack(target)
+                m_web_single_task.exploit_id = m_exploit_attack.id
+
+            m_web_single_task.save()
+            args['task_id'] = m_web_single_task.id
+            args['model'] = 1
+            json_args = json.dumps(args)
+            json_args = json_args.replace('"', "'")
+            # work = 'python ' + CORE_PATH + os.sep + 'worker.py ' + json_args
+            work = 'python ' + CORE_PATH + os.sep + 'core.py ' + json_args
+            p = subprocess.Popen(work)
+            print 'open success:', p
+            # print params
+            return HttpResponse("任务开启成功")
+        except Exception as e:
+            print e
+            return HttpResponse("任务开启失败")
+
+
+"""
+r_ result
+b_ boolean
+m_ my
+"""
+
+
+def web_task_info(request, id):
+    # print id
+    args = {}
+    task = models.WebSingleTask.objects.filter(id=id)
+    target_url = task[0].target_url
+    status = task[0].status
+    update_date = task[0].update_date
+    args['id'] = id
+    args['target_url'] = target_url
+    args['status'] = status
+    args['update_date'] = update_date
+
+    finger_id = task[0].finger_id
+    exploit_id = task[0].exploit_id
+
+    if finger_id is 0:
+        args['b_finger'] = False
+    else:
+        args['b_finger'] = True
+        finger_args = {}
+        finger_obj = models.Finger.objects.get(id=finger_id)
+        finger_domain = finger_obj.target_domain
+        finger_args['domain'] = finger_domain
+        finger_status = finger_obj.status
+        finger_args['status'] = finger_status
+        if finger_status == 2:
+            apptypes = models.AppType.objects.filter(domain=finger_domain)
+            app_list = []
+            for apptype in apptypes:
+                app = {}
+                app['name'] = apptype.name
+                app['cata'] = apptype.cata
+                app['implies'] = apptype.implies
+                app_list.append(app)
+            finger_args['app_num'] = len(apptypes)
+            finger_args['app_list'] = app_list
+        else:
+            finger_count = finger_obj.finger_count
+            finger_current = finger_obj.current_index
+            finger_rate = finger_current * 100 / finger_count
+            finger_args['rate'] = finger_rate
+        args['r_finger'] = finger_args
+    if exploit_id is 0:
+        args['b_exploit'] = False
+    else:
+        args['b_exploit'] = True
+        exp_args = {}
+        exp_obj = models.WebExploit.objects.get(id=exploit_id)
+        target_url = exp_obj.target_url
+        target_domain = exp_obj.target_domain
+        status = exp_obj.status
+        exp_args['status'] = status
+        if status == 2:
+            exp_result_objs = models.WebExploitResult.objects.filter(domain=target_domain)
+            exp_results = []
+            for exp_result_obj in exp_result_objs:
+                result = {}
+                result['type'] = exp_result_obj.exp_type
+                result['name'] = exp_result_obj.exp_name
+                exp_results.append(result)
+            exp_args['result'] = exp_results
+            exp_args['result_num'] = len(exp_result_objs)
+        args['r_exploit'] = exp_args
+    return render(request, 'task/task_info.html', {"info": args})
 
 
 def finger(request):
@@ -340,28 +464,50 @@ def fuzz(request):
     return HttpResponse("fuzz")
 
 
-def one(request):
-    return render(request, '1.html')
-
 # http://v3.bootcss.com/examples/theme/#
 # http://v3.bootcss.com/components/
 # http://www.bootcss.com/
 # http://v3.bootcss.com/examples/dashboard/
 
 
-def view_all_task(request):
+def view_web_task_list(request):
 
     tasklist = []
-    single_task = SingleTask.objects.all()
+    single_task = WebSingleTask.objects.all()
     for task in single_task:
         a_task = {}
         a_task['id'] = task.id
         a_task['target_url'] = task.target_url
-        a_task['status'] = task.task_status
+        a_task['status'] = task.status
         a_task['update_date'] = task.update_date
-        a_task['type'] = 'single'
+        a_task['type'] = 0      # 0表示单个，1表示批量
+
         tasklist.append(a_task)
-    return render(request, 'task/view_all_task.html', {'tasks': tasklist})
+    return render(request, 'task/view_web_task.html', {'tasks': tasklist})
+
+
+def new_single_sys_task(request):
+    return HttpResponse("新建系统测试任务")
+
+
+def new_batch_sys_task(request):
+    return HttpResponse("新建批量系统测试任务")
+
+
+def view_sys_task_list(request):
+    return HttpResponse("系统任务列表")
+
+
+def port_scan(request):
+    return HttpResponse("端口扫描")
+
+
+def web_spider(request):
+    return HttpResponse("网页爬虫")
+
+
+def domain_brute(request):
+    return HttpResponse("域名爆破")
 
 
 def view_single_task(request):
