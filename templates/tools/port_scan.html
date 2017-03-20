@@ -31,31 +31,48 @@
 {#</table>#}
 
 <div class="show-content">
-    <div class="panel">
-        <div class="this-title">
-            <h3>端口扫描</h3>
-        </div>
+    <div class="this-title">
+        <h3>端口扫描</h3>
+    </div>
+    <div class="translation">
         <div class="panel-body">
-        <form method="post" action="/port_scan/">
-            {% csrf_token %}
-            <div class="row">
-            <div class="col-sm-10 no-padding-left-right">
-            <input type="text" placeholder="ip" class="input-text form-control" required>
-            </div>
-            <div class="col-sm-2 no-padding-left-right">
-            {#            <input type="number" placeholder="线程数">#}
-            <input type="submit" value="扫描" class="btn form-control btn-submit">
-            </div>
+            <form method="post" action="/tools/port_scan/">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-sm-10 no-padding-left-right">
+                        <input type="text" name="ip" placeholder="ip eg:127.0.0.1" class="input-text form-control" required value="127.0.0.1">
+                    </div>
+                    <div class="col-sm-2 no-padding-left-right">
+                        {#            <input type="number" placeholder="线程数">#}
+                        <input type="submit" value="开始" class="btn form-control btn-submit">
+                    </div>
                 </div>
-        </form>
+            </form>
+            <div>
+                {{ error }}
             </div>
+        </div>
+
     </div>
     <div class="panel panel-default">
         <div class="panel-heading">
             结果
         </div>
         <div class="panel-body">
-            xxx
+            <table class="table table-horizonal">
+                <tr>
+                    <th width="20%">端口</th>
+                    <th width="80%">信息</th>
+                </tr>
+                <tr>
+                    <td>xx</td>
+                    <td>aa</td>
+                </tr>
+                <tr>
+                    <td>ww</td>
+                    <td>adf</td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>

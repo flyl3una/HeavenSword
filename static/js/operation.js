@@ -6,8 +6,8 @@ $(document).ready(function(){
 
     $("#view_module>li>a").click(function() {
         var id = $(this).attr('id');
-        console.log('/scan/' + id);
-        $.get('/scan/'+id, function (result) {
+        console.log('/tools/' + id);
+        $.get('/tools/'+id, function (result) {
             $("#content").html(result);
         });
     });
@@ -20,7 +20,16 @@ $(document).ready(function(){
             $("#content").html(result);
         });
     };
-    
+
+    var tools_fun = function() {
+        var a=$(this).attr('id');
+        var href = $(this).attr('href');
+        console.log('/' + a);
+        $.get('/tools/'+a, function (result) {
+            $("#content").html(result);
+        });
+    };
+
     $('#task_info').click(a_fun);
     $("#add_module").click(a_fun);
 
@@ -32,9 +41,9 @@ $(document).ready(function(){
     $("#new_batch_sys_task").click(a_fun);
     $("#view_sys_task_list").click(a_fun);
 
-    $("#port_scan").click(a_fun);
-    $("#web_spider").click(a_fun);
-    $("#domain_brute").click(a_fun);
+    $("#port_scan").click(tools_fun);
+    $("#web_spider").click(tools_fun);
+    $("#domain_brute").click(tools_fun);
 
 
     // //icheck插件

@@ -43,19 +43,12 @@ urlpatterns = [
     url(r'^view_sys_task_list/$', views.view_sys_task_list),
 
     #info_collection
-    url(r'^port_scan/$', views.port_scan),
-    url(r'^web_spider/$', views.web_spider),
-    url(r'^domain_brute/$', views.domain_brute),
+    url(r'^tools/port_scan/$', views.port_scan),
+    url(r'^tools/web_spider/$', views.web_spider),
+    url(r'^tools/domain_brute/$', views.domain_brute),
 
     url(r'^task_list/$', views.task_list),
     url(r'^show_task/', views.show_task),
     url(r'^web_task_info/(\d+)/$', views.web_task_info),
-
-    # scan
-    url(r'^scan/finger', views.finger),
-    url(r'^scan/port_scan', views.port_scan),
-    url(r'^scan/exploit_attack', views.exploit_attack),
-    url(r'^scan/spider', views.spider),
-    url(r'^scan/domain_brute', views.domain_brute),
 
 ]

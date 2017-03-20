@@ -10,6 +10,9 @@ DICT_PATH = os.path.join(CORE_PATH, 'setting', 'dict')
 EXP_PATH = os.path.join(CORE_PATH, 'setting', 'exp')
 FINGER_PATH = os.path.join(CORE_PATH, 'setting', 'finger')
 
+INTERNET_TIMEOUT = 0.3
+
+
 DB_HOST = "127.0.0.1"
 DB_USER = "root"
 DB_PASSWORD = ""

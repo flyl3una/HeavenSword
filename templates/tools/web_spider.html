@@ -1,0 +1,53 @@
+<div class="show-content">
+    <div class="this-title">
+        <h3>web爬虫</h3>
+    </div>
+    <div class="translation">
+        <div class="panel-body">
+            <form method="post" action="/tools/web_spider/">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-sm-10 no-padding-left-right">
+                        <input type="text" placeholder="ip eg:127.0.0.1" class="input-text form-control" required>
+                    </div>
+                    <div class="col-sm-2 no-padding-left-right">
+                        {#            <input type="number" placeholder="线程数">#}
+                        <input type="submit" value="开始" class="btn form-control btn-submit">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            web目录
+        </div>
+
+        <div class="panel-body">
+            <div>
+                <ul id="tree" class="filetree treeview">
+                    <li>
+                        <div class="hitarea collapsable-hitarea"></div>
+                        <span class="folder">www.baidu.com/</span>
+                        <ul>
+                            <li>
+                                <div class="hitarea collapsable-hitarea"></div>
+                                <span class="file">world</span></li>
+                            hello
+                        </ul>
+                    </li>
+                    <li>
+                        <div class="hitarea collapsable-hitarea"></div>
+                        <span class="fiel">pan.baidu.com/</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#tree").treeview();
+    });
+</script>

@@ -253,3 +253,7 @@ a:hover{
 .no-padding-left-right{
     padding: 0;         !important;
 }
+
+.translation{
+    background: transparent;    !important;
+}

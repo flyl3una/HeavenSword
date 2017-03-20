@@ -7,7 +7,7 @@ from multiprocessing.dummy import Pool as ThreadPool
 
 import MySQLdb
 
-from core.config import DB_CHARSET, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME
+from core.config import DB_CHARSET, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME, INTERNET_TIMEOUT
 from core.config import DB_HOST
 from core.function import get_ip
 
@@ -36,11 +36,11 @@ class ScanPort:
         self.__port_scan_id = port_scan_id
         self.__option = option
         self.__thread_num = thread_num
-        socket.setdefaulttimeout(0.5)
+        socket.setdefaulttimeout(INTERNET_TIMEOUT)
         conn = MySQLdb.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME,
                                charset=DB_CHARSET)
         cursor = conn.cursor()
-        sql = 'update web_portscan set target_ip="%s", port_scan_status=1, port_scan_thread=%d, port_scan_model="%s" where id=%d' % (self.__target_ip, thread_num, option, port_scan_id)
+        sql = 'update web_portscan set status=1 where id=%d' % port_scan_id
         cursor.execute(sql)
         conn.commit()
         self.__cursor = cursor
@@ -64,6 +64,7 @@ class ScanPort:
         self.__lock.release()
         try:
             s = socket.socket(2, 1)
+            print 'port:', port
             res = s.connect_ex((self.__target_ip, port))
             if res == 0:  # 如果端口开启 发送 hello 获取banner
                 try:
@@ -74,15 +75,19 @@ class ScanPort:
                     self.__ports[port] = ''
                 else:
                     self.__ports[port] = banner
+                    print "open:", port, banner
             s.close()
-            self.__lock.acquire()
-            self.__percent['current'] += 1
-            sql = 'update web_portscan set current_index=%d where id=%d' % (self.__percent['current'], self.__port_scan_id)
+        except Exception as e:
+            # print str(e.message)
+            pass
+        self.__lock.acquire()
+        self.__percent['current'] += 1
+        if self.__percent['current'] % 10 == 0 or self.__percent['current'] >= self.__percent['all']:
+            sql = 'update web_portscan set current_index=%d where id=%d' % (
+            self.__percent['current'], self.__port_scan_id)
             self.__cursor.execute(sql)
             self.__conn.commit()
-            self.__lock.release()
-        except Exception as e:
-            print str(e.message)
+        self.__lock.release()
 
     def add_ports(self):
         # conn = MySQLdb.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME,
@@ -193,7 +198,7 @@ class ScanPort:
         #     sql = 'insert into web_portscan_port_scan_result(portscan_id, openport_id) values(%d, %d)' % (portscan_id[0], openport_id[0])
         #     self.__cursor.execute(sql)
         # 设置完成状态2
-        sql = 'update web_portscan set port_scan_status=2 where id=%d' % self.__port_scan_id
+        sql = 'update web_portscan set status=2 where id=%d' % self.__port_scan_id
         self.__cursor.execute(sql)
         self.__conn.commit()
         # 关闭数据库连接

@@ -125,6 +125,14 @@ class Finger(models.Model):
     update_date = models.DateTimeField(auto_now=True)
 
 
+# 用户使用过的工具
+# class UserTools(models.Model):
+#     user = models.ForeignKey(User)
+#     port_scan = models.ForeignKey(PortScan)
+#     spider = models.ForeignKey(Spider)
+#     domain_brute = models.ForeignKey(domain_brute)
+
+
 class PortScan(models.Model):
     # id = models.IntegerField(max_length=32, auto_created=1, primary_key=True)
     # target_domain = models.CharField(max_length=32)

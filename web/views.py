@@ -15,7 +15,7 @@ from HeavenSword.settings import DEFAULT_FROM_EMAIL, EMAIL_HOST_USER, CORE_PATH
 from core.function import get_ip, get_domain, get_first_domain, get_root_url
 from web import models
 from web.dir.EmailToken import EmailToken
-from web.models import WebSingleTask
+from web.models import WebSingleTask, PortScan
 from web.msetting import DOMAIN
 
 
@@ -352,7 +352,6 @@ def new_single_web_task(request):
             args['model'] = 1
             json_args = json.dumps(args)
             json_args = json_args.replace('"', "'")
-            # work = 'python ' + CORE_PATH + os.sep + 'worker.py ' + json_args
             work = 'python ' + CORE_PATH + os.sep + 'core.py ' + json_args
             p = subprocess.Popen(work)
             print 'open success:', p
@@ -437,36 +436,76 @@ def web_task_info(request, id):
 
 
 def finger(request):
-    return render(request, 'scan/finger.html', {"test": "test"})
+    return render(request, 'tools/finger.html', {"test": "test"})
     # return HttpResponse("finger")
+
+
+def get_port_result(request, ip):
+    return render(request, 'tools/port_scan.html')
 
 
 def port_scan(request):
     if request.method == 'GET':
-        return render(request, 'scan/port_scan.html')
+        return render(request, 'tools/port_scan.html')
     elif request.method == 'POST':
         params = request.POST
+        #新建任务
+        if 'new' in params and params['new']:
+            pass
+        #查看任务结果
+        elif 'result' in params and params['result']:
+            pass
+
+
+        #开启新端口扫描任务
         try:
-            if 'target' not in params:
-                return HttpResponse("目标错误")
+            if 'ip' not in params:
+                return render(request, 'tools/port_scan.html', {"error":"请输入ip地址"})
+            else:
+                ip_addr = params['ip']
+                flag = False
+                try:
+                    ips = ip_addr.split('.')
+                    if len(ips) != 4:
+                        flag = True
+                    int_ips = []
+                    for ip in ips:
+                        int_ip = int(ip)
+                        if int_ip > 255 or int_ip < 0:
+                            flag = True
+                        int_ips.append(int_ip)
+                except:
+                    flag = True
+                if flag:
+                    return render(request, 'tools/port_scan.html', {"error": "ip地址格式不正确"})
+                else:
+                    args = {}
+                    args['port_scan_model'] = "usually"
+                    args['port_scan_thread'] = 10
+                    port_scan = PortScan(target_ip=ip_addr, thread=10, model=args['port_scan_model'])
+                    port_scan.save()
+                    args['port_scan_id'] = port_scan.id
+                    args['ip'] = ip_addr
+                    args['model'] = 11
+                    json_args = json.dumps(args)
+                    json_args = json_args.replace('"', "'")
+                    work = 'python ' + CORE_PATH + os.sep + 'core.py ' + json_args
+                    p = subprocess.Popen(work)
+                    print 'open success:', p
+
         except Exception as e:
             print e
-        return HttpResponse("xxx")
+        return HttpResponse("端口扫描开启成功")
     # return HttpResponse("port")
 
 
 def exploit_attack(request):
-    return render(request, 'scan/exploit_attack.html')
+    return render(request, 'tools/exploit_attack.html')
     # return HttpResponse("poc")
 
 
-def spider(request):
-    return render(request, 'scan/spider.html')
-    # return HttpResponse("spider")
-
-
 def domain_brute(request):
-    return render(request, 'scan/domain_brute.html')
+    return render(request, 'tools/domain_brute.html')
 
 
 def fuzz(request):
@@ -512,7 +551,7 @@ def view_sys_task_list(request):
 
 
 def web_spider(request):
-    return HttpResponse("网页爬虫")
+    return render(request, 'tools/web_spider.html')
 #
 #
 # def domain_brute(request):

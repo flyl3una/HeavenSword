@@ -1,0 +1,47 @@
+<div class="show-content">
+    <div class="this-title">
+        <h3>域名爆破</h3>
+    </div>
+    <div class="translation">
+        <div class="panel-body">
+            <form method="post" action="/tools/dinaub_brute/">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-sm-10 no-padding-left-right">
+                        <input type="text" placeholder="域名：www.domain.com" class="input-text form-control" required>
+                    </div>
+                    <div class="col-sm-2 no-padding-left-right">
+                        <input type="submit" value="开始" class="btn form-control btn-submit">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            结果
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-1">
+                    <label>进度</label>
+                </div>
+                <div class="col-md-11">
+                    <div class="progress  progress-striped">
+                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60"
+                             aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                            <span class="sr-only">40%完成</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h3>域名列表</h3>
+            <ul class="list-group">
+                <li class="row list-group-item">www.baidu.com</li>
+                <li class="row list-group-item">map.baidu.com</li>
+                <li class="row list-group-item">pan.baidu.com</li>
+            </ul>
+
+        </div>
+    </div>
+</div>

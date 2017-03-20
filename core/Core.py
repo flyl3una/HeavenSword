@@ -49,6 +49,30 @@ def start_single_web_task(params):
         print e
 
 
+def start_port_scan(params):
+    conn = MySQLdb.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME, charset=DB_CHARSET)
+    cursor = conn.cursor()
+    if 'port_scan_thread' in params.keys():
+        port_scan_thread_num = params['port_scan_thread']
+    else:
+        port_scan_thread_num = 4
+    if 'port_scan_model' in params.keys():
+        port_scan_model = str(params['port_scan_model'])
+    else:
+        port_scan_model = 'usually'
+    id = params['port_scan_id']
+    ip = params['ip']
+    port_scan_thread = threading.Thread(target=new_port_scan, args=(id, ip, port_scan_model, port_scan_thread_num))
+    sql = 'update web_portscan set status=1 where id="%d"' % id
+    cursor.execute(sql)
+    conn.commit()
+    cursor.close()
+    conn.close()
+    port_scan_thread.start()
+    port_scan_thread.join()
+
+
+
 '''
 
 '''
@@ -57,10 +81,13 @@ if __name__ == '__main__':
     json_args = ' '.join(sys.argv[1:])
     json_args = json_args.replace("'", '"')
     args = json.loads(json_args)
-    print args
+    # print args
     model = args['model']
     if model == 1:
         #单个web任务
         start_single_web_task(args)
+    elif model == 11:
+        #端口扫描
+        start_port_scan(args)
 
 
