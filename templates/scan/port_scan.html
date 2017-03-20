@@ -1,51 +1,61 @@
-<h2 class="text-center">端口扫描</h2>
-<br>
-<div class="row">
-    <label class="col-md-2">模式：</label>
-    <label>常用</label>
-</div>
-<div class="row">
-    <label class="col-md-2">线程：</label>
-    <label>8</label>
-</div>
-<br>
-<div class="row">
-    <label class="col-md-2">进度:</label>
-    <div class="progress progress-striped">
-        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60"
-            aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-            <span class="sr-only">40%完成</span>
+{#<h2 class="text-center">端口扫描</h2>#}
+{#<br>#}
+{#<div class="row">#}
+{#    <label class="col-md-2">模式：</label>#}
+{#    <label>常用</label>#}
+{#</div>#}
+{#<div class="row">#}
+{#    <label class="col-md-2">线程：</label>#}
+{#    <label>8</label>#}
+{#</div>#}
+{#<br>#}
+{#<div class="row">#}
+{#    <label class="col-md-2">进度:</label>#}
+{#    <div class="progress progress-striped">#}
+{#        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60"#}
+{#            aria-valuemin="0" aria-valuemax="100" style="width: 60%;">#}
+{#            <span class="sr-only">40%完成</span>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+{##}
+{#<table class="table table-bordered">#}
+{#    <tr>#}
+{#        <th class="col-md-3">开放端口</th>#}
+{#        <th class="col-md-9">端口服务描述</th>#}
+{#    </tr>#}
+{#    <tr>#}
+{#        <td class="col-md-3">80</td>#}
+{#        <td class="col-md-9">HTTP</td>#}
+{#    </tr>#}
+{#</table>#}
+
+<div class="show-content">
+    <div class="panel">
+        <div class="this-title">
+            <h3>端口扫描</h3>
+        </div>
+        <div class="panel-body">
+        <form method="post" action="/port_scan/">
+            {% csrf_token %}
+            <div class="row">
+            <div class="col-sm-10 no-padding-left-right">
+            <input type="text" placeholder="ip" class="input-text form-control" required>
+            </div>
+            <div class="col-sm-2 no-padding-left-right">
+            {#            <input type="number" placeholder="线程数">#}
+            <input type="submit" value="扫描" class="btn form-control btn-submit">
+            </div>
+                </div>
+        </form>
+            </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            结果
+        </div>
+        <div class="panel-body">
+            xxx
         </div>
     </div>
 </div>
-
-<table class="table table-bordered">
-    <tr>
-        <th class="col-md-3">开放端口</th>
-        <th class="col-md-9">端口服务描述</th>
-    </tr>
-    <tr>
-        <td class="col-md-3">80</td>
-        <td class="col-md-9">HTTP</td>
-    </tr>
-</table>
-{#<div>#}
-{#    <ul class="list-group">#}
-{#        <li class="row list-group-item-heading">#}
-{#            <label class="col-md-2">开放端口</label>#}
-{#            <label class="col-md-10">端口服务描述</label>#}
-{#        </li>#}
-{#        <li class="row list-group-item">#}
-{#            <label class="col-md-2">80</label>#}
-{#            <label class="col-md-10">HTTP</label>#}
-{#        </li>#}
-{#        <li class="row list-group-item">#}
-{#            <label class="col-md-2">22</label>#}
-{#            <label class="col-md-10">SSH</label>#}
-{#        </li>#}
-{#        <li class="row list-group-item">#}
-{#            <label class="col-md-2">443</label>#}
-{#            <label class="col-md-10">HTTPS</label>#}
-{#        </li>#}
-{#    </ul>#}
-{#</div>#}

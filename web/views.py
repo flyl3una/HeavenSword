@@ -139,7 +139,7 @@ def new_single_web_task1(request):
     if not request.user.is_authenticated():
         return HttpResponse("<div style='text-align:center;margin-top:20%'><h3>请登录</h3><br><br><a href='/user/login/'>点击跳转到登陆页面</a>")
     if request.method == 'GET':
-        return render(request, 'task/new_single_task.html')
+        return render(request, 'task/new_single_web_task.html')
     if request.method == 'POST':
         params = request.POST
         try:
@@ -279,7 +279,7 @@ def new_single_web_task1(request):
 
 
 def new_batch_web_task(request):
-    return render(request, 'task/new_batch_task.html')
+    return render(request, 'task/new_batch_web_task.html')
 
 
 def task_list(request):
@@ -294,7 +294,7 @@ def new_single_web_task(request):
     if not request.user.is_authenticated():
         return HttpResponse("<div style='text-align:center;margin-top:20%'><h3>请登录</h3><br><br><a href='/user/login/'>点击跳转到登陆页面</a>")
     if request.method == 'GET':
-        return render(request, 'task/new_single_task.html')
+        return render(request, 'task/new_single_web_task.html')
     if request.method == 'POST':
         params = request.POST
         try:
@@ -442,7 +442,16 @@ def finger(request):
 
 
 def port_scan(request):
-    return render(request, 'scan/port_scan.html')
+    if request.method == 'GET':
+        return render(request, 'scan/port_scan.html')
+    elif request.method == 'POST':
+        params = request.POST
+        try:
+            if 'target' not in params:
+                return HttpResponse("目标错误")
+        except Exception as e:
+            print e
+        return HttpResponse("xxx")
     # return HttpResponse("port")
 
 
@@ -498,30 +507,30 @@ def view_sys_task_list(request):
     return HttpResponse("系统任务列表")
 
 
-def port_scan(request):
-    return HttpResponse("端口扫描")
+# def port_scan(request):
+#     return HttpResponse("端口扫描")
 
 
 def web_spider(request):
     return HttpResponse("网页爬虫")
-
-
-def domain_brute(request):
-    return HttpResponse("域名爆破")
-
-
-def view_single_task(request):
-    tasklist = []
-    single_task = SingleTask.objects.all()
-    for task in single_task:
-        a_task = {}
-        a_task['id'] = task.id
-        a_task['target_url'] = task.target_url
-        a_task['status'] = task.task_status
-        a_task['update_date'] = task.update_date
-        a_task['type'] = 0      # 0 表示单个，1表示批量
-        tasklist.append(a_task)
-    return render(request, 'task/view_single_task.html', {'tasks': tasklist})
+#
+#
+# def domain_brute(request):
+#     return HttpResponse("域名爆破")
+#
+#
+# def view_single_task(request):
+#     tasklist = []
+#     single_task = SingleTask.objects.all()
+#     for task in single_task:
+#         a_task = {}
+#         a_task['id'] = task.id
+#         a_task['target_url'] = task.target_url
+#         a_task['status'] = task.task_status
+#         a_task['update_date'] = task.update_date
+#         a_task['type'] = 0      # 0 表示单个，1表示批量
+#         tasklist.append(a_task)
+#     return render(request, 'task/view_single_task.html', {'tasks': tasklist})
 
 
 def view_batch_task(request):
