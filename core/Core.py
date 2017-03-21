@@ -70,9 +70,31 @@ def start_port_scan(params):
     conn.close()
     port_scan_thread.start()
     port_scan_thread.join()
+    return True
 
 
-
+def start_domain_brute(params):
+    # 二级域名爆破
+    if 'domain_brute_thread' in params.keys():
+        domain_brute_thread_num = params['domain_brute_thread']
+    else:
+        domain_brute_thread_num = 4
+    first_domain = params['first_domain']
+    domain_brute_id = params['domain_brute_id']
+    model = params['domain_brute_model']
+    if not first_domain:
+        return False
+    domain_brute_thread = threading.Thread(target=new_domain_brute, args=(domain_brute_id, first_domain, domain_brute_thread_num, model))
+    conn = MySQLdb.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME, charset=DB_CHARSET)
+    cursor = conn.cursor()
+    sql = 'update web_domainbrute set status=1 where id="%d"' % domain_brute_id
+    cursor.execute(sql)
+    conn.commit()
+    cursor.close()
+    conn.close()
+    domain_brute_thread.start()
+    domain_brute_thread.join()
+    return True
 '''
 
 '''
@@ -89,5 +111,6 @@ if __name__ == '__main__':
     elif model == 11:
         #端口扫描
         start_port_scan(args)
-
+    elif model == 12:
+        start_domain_brute(args)
 

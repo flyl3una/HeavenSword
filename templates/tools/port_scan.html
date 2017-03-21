@@ -77,18 +77,6 @@
                 </div>
             </div>
             <table id="result_table" class="table table-horizonal">
-{#                <tr>#}
-{#                    <th width="20%">端口</th>#}
-{#                    <th width="80%">信息</th>#}
-{#                </tr>#}
-{#                <tr>#}
-{#                    <td>xx</td>#}
-{#                    <td>aa</td>#}
-{#                </tr>#}
-{#                <tr>#}
-{#                    <td>ww</td>#}
-{#                    <td>adf</td>#}
-{#                </tr>#}
             </table>
         </div>
     </div>
@@ -96,13 +84,8 @@
 
 <script>
     var form_result = function (ret) {
-{#    // console.log(ret);#}
     ret = eval('('+ret+')');
     flag = ret.flag;
-{#    console.log(flag);#}
-{#    console.log(ret.info);#}
-{#    console.log(ret.id);#}
-    // $("#port_scan_form_result").html(ret);
     if(flag == 0) {
         $("#port_scan_form_result").html(ret.info);
     }
@@ -120,7 +103,6 @@
 };
 var view_port_scan = function () {
     console.log("view_port_scan");
-{#    id = $("#port_scan_id").attr("value");#}
     id = $("#port_scan_id").val();
     console.log(id);
     if(id == 0){
@@ -131,7 +113,6 @@ var view_port_scan = function () {
         type: "GET",
         dataType: 'json',
         success: function (ret) {
-{#            console.log(ret);#}
             ret = eval('('+ret+')');
             if (ret.flag == 0){
                 $("#view_port_info").html(ret.info);
@@ -159,8 +140,10 @@ var view_port_scan = function () {
             }
         }
     });
-    // $.get("/tools/port_scan/"+id, function (ret) {
-    // })
 };
+
+    var show_error = function (cnt) {
+        $("#port_scan_form_result").html(cnt);
+    }
 
 </script>

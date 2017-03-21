@@ -486,9 +486,10 @@ def port_scan(request):
                 if port_scan_obj.status != 2:
                     json_dic['flag'] = 0
                     json_dic['info'] = "请等待目前任务执行完成"
-                    HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
+                    return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
             if 'ip' not in params:
-                return render(request, 'tools/port_scan.html', {"error": "请输入ip地址"})
+                # return render(request, 'tools/port_scan.html', {"error": "请输入ip地址"})
+                return HttpResponse("<script>parent.show_error('请输入ip地址');</script>")
             # 开启新端口扫描任务
             ip_addr = params['ip']
             flag = False
@@ -505,7 +506,8 @@ def port_scan(request):
             except:
                 flag = True
             if flag:
-                return render(request, 'tools/port_scan.html', {"error": "ip地址格式不正确"})
+                # return render(request, 'tools/port_scan.html', {"error": "ip地址格式不正确"})
+                return HttpResponse("<script>parent.show_error('ip地址格式不正确');</script>")
             else:
                 port_scan_objs = models.PortScan.objects.filter(target_ip=ip_addr)
                 if not port_scan_objs:
@@ -551,18 +553,18 @@ def domain_brute(request):
                     json_dic['flag'] = 0
                     json_dic['info'] = "请等待目前任务执行完成"
                     HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
-            if 'ip' not in params:
-                return render(request, 'tools/port_scan.html', {"error": "请输入ip地址"})
+            if 'domain' not in params:
+                return HttpResponse("<script>parent.show_error('请输入域名');</script>")
             # 开启新端口扫描任务
             domain = params['domain']
             domain = get_domain(domain)
             first_domain = get_first_domain(domain)
-            domain_brute_objs = models.DomainBrute.objects.filter(first_domain=first_domain)
+            domain_brute_objs = models.DomainBrute.objects.filter(target_first_domain=first_domain)
             if not domain_brute_objs:
                 args = {}
                 args['domain_brute_model'] = "usually"  # all usually
                 args['domain_brute_thread'] = 10
-                domain_brute_obj = DomainBrute(first_domain=first_domain, target_domain=domain, model=args['domain_brute_model'], thread=args['domain_brute_thread'])
+                domain_brute_obj = DomainBrute(target_first_domain=first_domain, target_domain=domain, model=args['domain_brute_model'], thread=args['domain_brute_thread'])
                 domain_brute_obj.save()
                 args['domain_brute_id'] = domain_brute_obj.id
                 args['first_domain'] = first_domain
@@ -578,11 +580,11 @@ def domain_brute(request):
             json_dic['info'] = "端口扫描开启成功"
             json_dic['flag'] = 1
             return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
-        json_dic['info'] = "端口扫描开启失败"
-        json_dic['flag'] = 0
-        return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
         except Exception as e:
             print e
+            json_dic['info'] = "端口扫描开启失败"
+            json_dic['flag'] = 0
+            return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
     return render(request, 'tools/domain_brute.html')
 
 

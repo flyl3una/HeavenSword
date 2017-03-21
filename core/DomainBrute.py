@@ -35,7 +35,7 @@ class DomainBrute:
         conn = MySQLdb.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME,
                                charset=DB_CHARSET)
         cursor = conn.cursor()
-        sql = 'update web_domainbrute set domain_brute_status=1, domain_brute_thread=%d where id=%d' % (thread_num, domain_brute_id)
+        sql = 'update web_domainbrute set status=1, thread=%d where id=%d' % (thread_num, domain_brute_id)
         cursor.execute(sql)
         conn.commit()
         self.__conn = conn
@@ -102,8 +102,8 @@ class DomainBrute:
         return self.__current_index
 
 
-def new_domain_brute(domain_brute_id, domain, thread_num=2):
-    domainBrute = DomainBrute(domain_brute_id, domain, thread_num=thread_num)
+def new_domain_brute(domain_brute_id, domain, thread_num, model):
+    domainBrute = DomainBrute(domain_brute_id, domain, thread_num=thread_num, option=model)
     domainBrute.load_dict()
     domainBrute.start()
     print 'domain end!'
