@@ -64,7 +64,7 @@ class ScanPort:
         self.__lock.release()
         try:
             s = socket.socket(2, 1)
-            print 'port:', port
+            # print 'port:', port
             res = s.connect_ex((self.__target_ip, port))
             if res == 0:  # 如果端口开启 发送 hello 获取banner
                 try:
@@ -75,7 +75,7 @@ class ScanPort:
                     self.__ports[port] = ''
                 else:
                     self.__ports[port] = banner
-                    print "open:", port, banner
+                    # print "open:", port, banner
             s.close()
         except Exception as e:
             # print str(e.message)

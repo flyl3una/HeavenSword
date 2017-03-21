@@ -46,6 +46,7 @@ urlpatterns = [
     url(r'^tools/port_scan/$', views.port_scan),
     url(r'^tools/web_spider/$', views.web_spider),
     url(r'^tools/domain_brute/$', views.domain_brute),
+    url(r'^tools/port_scan/(\d+)/$', views.view_port_scan),
 
     url(r'^task_list/$', views.task_list),
     url(r'^show_task/', views.show_task),

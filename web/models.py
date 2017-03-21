@@ -163,6 +163,7 @@ class DomainBrute(models.Model):
     domain_count = models.IntegerField(default=10000)       # 所有待爆破域名数
     current_index = models.IntegerField(default=0)          # 当前端口爆破索引
     thread = models.IntegerField(default=4)
+    model = models.CharField(max_length=16, default='usually')
     # domain_brute_rate，后期可以增加多个模式，分为二级域名爆破及递归爆破子域名。
     # domain_brute_result_json = models.CharField(max_length=512, null=True)     #后期可将所有子域名分别存为domain表中
     # 为了防止删除该任务时把域名和ip的对应信息删除，特不做关联，直接根据一级域名查询domain表即可。

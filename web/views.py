@@ -8,14 +8,14 @@ import time
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, render_to_response, redirect
 from HeavenSword.settings import DEFAULT_FROM_EMAIL, EMAIL_HOST_USER, CORE_PATH
 from core.function import get_ip, get_domain, get_first_domain, get_root_url
 from web import models
 from web.dir.EmailToken import EmailToken
-from web.models import WebSingleTask, PortScan
+from web.models import WebSingleTask, PortScan, DomainBrute
 from web.msetting import DOMAIN
 
 
@@ -444,47 +444,78 @@ def get_port_result(request, ip):
     return render(request, 'tools/port_scan.html')
 
 
+#查看端口扫描结果
+def view_port_scan(request, id):
+    args = {}
+    try:
+        portscan = models.PortScan.objects.get(id=id)
+    except Exception as e:
+        print e
+        args['flag'] = 0
+        args['info'] = "没有找到该任务"
+        # HttpResponse('<script>form_result("请等待目前任务执行完成");</script>')
+    else:
+        openports = models.OpenPort.objects.filter(ip_addr=portscan.target_ip)
+        if not openports:
+            args['flag'] = 1
+            args['info'] = "扫描未完成，请耐心等待"
+            args['rate'] = portscan.current_index * 100 / portscan.port_count
+        else:
+            result_list = []
+            for openport in openports:
+                dic = {}
+                dic['port'] = openport.port_num
+                dic['info'] = openport.port_info
+                result_list.append(dic)
+            args['flag'] = 2
+            args['result_list'] = result_list
+    return JsonResponse(json.dumps(args), safe=False)
+
+
 def port_scan(request):
     if request.method == 'GET':
         return render(request, 'tools/port_scan.html')
     elif request.method == 'POST':
         params = request.POST
-        #新建任务
-        if 'new' in params and params['new']:
-            pass
-        #查看任务结果
-        elif 'result' in params and params['result']:
-            pass
-
-
-        #开启新端口扫描任务
+        # 开启新端口扫描任务
+        json_dic = {}
         try:
+            if 'id' in params and int(params['id']) != 0:
+                id = int(params['id'])
+                port_scan_obj = models.PortScan.objects.get(id=id)
+                if port_scan_obj.status != 2:
+                    json_dic['flag'] = 0
+                    json_dic['info'] = "请等待目前任务执行完成"
+                    HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
             if 'ip' not in params:
-                return render(request, 'tools/port_scan.html', {"error":"请输入ip地址"})
-            else:
-                ip_addr = params['ip']
-                flag = False
-                try:
-                    ips = ip_addr.split('.')
-                    if len(ips) != 4:
-                        flag = True
-                    int_ips = []
-                    for ip in ips:
-                        int_ip = int(ip)
-                        if int_ip > 255 or int_ip < 0:
-                            flag = True
-                        int_ips.append(int_ip)
-                except:
+                return render(request, 'tools/port_scan.html', {"error": "请输入ip地址"})
+            # 开启新端口扫描任务
+            ip_addr = params['ip']
+            flag = False
+            try:
+                ips = ip_addr.split('.')
+                if len(ips) != 4:
                     flag = True
-                if flag:
-                    return render(request, 'tools/port_scan.html', {"error": "ip地址格式不正确"})
-                else:
+                int_ips = []
+                for ip in ips:
+                    int_ip = int(ip)
+                    if int_ip > 255 or int_ip < 0:
+                        flag = True
+                    int_ips.append(int_ip)
+            except:
+                flag = True
+            if flag:
+                return render(request, 'tools/port_scan.html', {"error": "ip地址格式不正确"})
+            else:
+                port_scan_objs = models.PortScan.objects.filter(target_ip=ip_addr)
+                if not port_scan_objs:
                     args = {}
-                    args['port_scan_model'] = "usually"
+                    args['port_scan_model'] = "usually" #all usually
                     args['port_scan_thread'] = 10
-                    port_scan = PortScan(target_ip=ip_addr, thread=10, model=args['port_scan_model'])
-                    port_scan.save()
-                    args['port_scan_id'] = port_scan.id
+                    port_scan_obj = PortScan(target_ip=ip_addr, thread=10, model=args['port_scan_model'])
+                    port_scan_obj.save()
+                    port_scan_id = port_scan_obj.id
+                    args['port_scan_id'] = port_scan_obj.id
                     args['ip'] = ip_addr
                     args['model'] = 11
                     json_args = json.dumps(args)
@@ -492,20 +523,72 @@ def port_scan(request):
                     work = 'python ' + CORE_PATH + os.sep + 'core.py ' + json_args
                     p = subprocess.Popen(work)
                     print 'open success:', p
-
+                else:
+                    port_scan_id = port_scan_objs[0].id
+                json_dic['id'] = port_scan_id
+                json_dic['info'] = "端口扫描开启成功"
+                json_dic['flag'] = 1
+                return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
         except Exception as e:
             print e
-        return HttpResponse("端口扫描开启成功")
-    # return HttpResponse("port")
+            json_dic['info'] = "端口扫描开启失败"
+            json_dic['flag'] = 0
+            return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
+
+
+def domain_brute(request):
+    if request.method == 'GET':
+        return render(request, 'tools/domain_brute.html')
+    elif request.method == 'POST':
+        params = request.POST
+        # 开启新端口扫描任务
+        json_dic = {}
+        try:
+            if 'id' in params and int(params['id']) != 0:
+                id = int(params['id'])
+                domain_brute_obj = models.DomainBrute.objects.get(id=id)
+                if domain_brute_obj.status != 2:
+                    json_dic['flag'] = 0
+                    json_dic['info'] = "请等待目前任务执行完成"
+                    HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
+            if 'ip' not in params:
+                return render(request, 'tools/port_scan.html', {"error": "请输入ip地址"})
+            # 开启新端口扫描任务
+            domain = params['domain']
+            domain = get_domain(domain)
+            first_domain = get_first_domain(domain)
+            domain_brute_objs = models.DomainBrute.objects.filter(first_domain=first_domain)
+            if not domain_brute_objs:
+                args = {}
+                args['domain_brute_model'] = "usually"  # all usually
+                args['domain_brute_thread'] = 10
+                domain_brute_obj = DomainBrute(first_domain=first_domain, target_domain=domain, model=args['domain_brute_model'], thread=args['domain_brute_thread'])
+                domain_brute_obj.save()
+                args['domain_brute_id'] = domain_brute_obj.id
+                args['first_domain'] = first_domain
+                args['model'] = 12
+                json_args = json.dumps(args)
+                json_args = json_args.replace('"', "'")
+                work = 'python ' + CORE_PATH + os.sep + 'core.py ' + json_args
+                p = subprocess.Popen(work)
+                print 'open success:', p
+            else:
+                domain_brute_obj = domain_brute_objs[0].id
+            json_dic['id'] = domain_brute_obj
+            json_dic['info'] = "端口扫描开启成功"
+            json_dic['flag'] = 1
+            return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
+        json_dic['info'] = "端口扫描开启失败"
+        json_dic['flag'] = 0
+        return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
+        except Exception as e:
+            print e
+    return render(request, 'tools/domain_brute.html')
 
 
 def exploit_attack(request):
     return render(request, 'tools/exploit_attack.html')
     # return HttpResponse("poc")
-
-
-def domain_brute(request):
-    return render(request, 'tools/domain_brute.html')
 
 
 def fuzz(request):

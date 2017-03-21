@@ -36,43 +36,131 @@
     </div>
     <div class="translation">
         <div class="panel-body">
-            <form method="post" action="/tools/port_scan/">
+            <iframe id="frame_port_scan_Form" name="frame_port_scan_Form" style="display: none"></iframe>
+            <form method="post" action="/tools/port_scan/" target="frame_port_scan_Form">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-sm-10 no-padding-left-right">
                         <input type="text" name="ip" placeholder="ip eg:127.0.0.1" class="input-text form-control" required value="127.0.0.1">
                     </div>
+                    <input id="port_scan_id" type="number" hidden name="id" value=0>
                     <div class="col-sm-2 no-padding-left-right">
                         {#            <input type="number" placeholder="线程数">#}
                         <input type="submit" value="开始" class="btn form-control btn-submit">
                     </div>
                 </div>
             </form>
-            <div>
+            <div id="port_scan_form_result" class="form-result">
                 {{ error }}
             </div>
         </div>
 
     </div>
-    <div class="panel panel-default">
+    <div id="panel_result" class="panel panel-default" hidden>
         <div class="panel-heading">
             结果
         </div>
         <div class="panel-body">
-            <table class="table table-horizonal">
-                <tr>
-                    <th width="20%">端口</th>
-                    <th width="80%">信息</th>
-                </tr>
-                <tr>
-                    <td>xx</td>
-                    <td>aa</td>
-                </tr>
-                <tr>
-                    <td>ww</td>
-                    <td>adf</td>
-                </tr>
+            <div id="view_port_info">
+
+            </div>
+            <div id="process_div" class="row" hidden>
+                <div class="col-md-2">
+                    <label>进度</label>
+                </div>
+                <div class="col-md-10">
+                    <div class="progress  progress-striped">
+                        <div id="process_bar" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0;">
+                            <span class="sr-only">40%完成</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <table id="result_table" class="table table-horizonal">
+{#                <tr>#}
+{#                    <th width="20%">端口</th>#}
+{#                    <th width="80%">信息</th>#}
+{#                </tr>#}
+{#                <tr>#}
+{#                    <td>xx</td>#}
+{#                    <td>aa</td>#}
+{#                </tr>#}
+{#                <tr>#}
+{#                    <td>ww</td>#}
+{#                    <td>adf</td>#}
+{#                </tr>#}
             </table>
         </div>
     </div>
 </div>
+
+<script>
+    var form_result = function (ret) {
+{#    // console.log(ret);#}
+    ret = eval('('+ret+')');
+    flag = ret.flag;
+{#    console.log(flag);#}
+{#    console.log(ret.info);#}
+{#    console.log(ret.id);#}
+    // $("#port_scan_form_result").html(ret);
+    if(flag == 0) {
+        $("#port_scan_form_result").html(ret.info);
+    }
+    else if(flag == 1){
+
+        id = ret.id;
+{#        console.log(id);#}
+        $("#port_scan_id").val(ret.id);
+        $("#panel_result").show();
+        $("#process_div").show();
+        $("#process_bar").width("0");
+        $("#view_port_info").html(ret.info+"<br>正在扫描中，请耐心等待，不要切换页面。。。");
+        timer = window.setInterval("view_port_scan()",1000);
+    }
+};
+var view_port_scan = function () {
+    console.log("view_port_scan");
+{#    id = $("#port_scan_id").attr("value");#}
+    id = $("#port_scan_id").val();
+    console.log(id);
+    if(id == 0){
+        return;
+    }
+    $.ajax({
+        url: "/tools/port_scan/"+id,
+        type: "GET",
+        dataType: 'json',
+        success: function (ret) {
+{#            console.log(ret);#}
+            ret = eval('('+ret+')');
+            if (ret.flag == 0){
+                $("#view_port_info").html(ret.info);
+            }
+            else if (ret.flag == 1){
+                rate = ret.rate;
+                $("#process_div").show();
+                $("#process_bar").width(rate+"%");
+                cnt = ret.info + "<br>正在扫描中，请耐心等待，不要切换页面。。。";
+                $("#view_port_info").html(cnt);
+            }else if(ret.flag == 2){
+                $("#view_port_info").text("");
+                $("#process_bar").width("100%");
+                ret_list = ret.result_list;
+                tb = '<tr><th width="20%">端口</th><th width="80%">信息</th></tr>';
+
+                for(var i = 0; i < ret_list.length; i++){
+                    dic = ret_list[i];
+                    port = dic.port;
+                    info = dic.info;
+                    tb += "<tr><td>"+port+"</td><td>"+info+"</td></tr>"
+                }
+                $("#result_table").html(tb);
+                window.clearInterval(timer);
+            }
+        }
+    });
+    // $.get("/tools/port_scan/"+id, function (ret) {
+    // })
+};
+
+</script>

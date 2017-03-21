@@ -30,20 +30,27 @@ $(document).ready(function(){
         });
     };
 
+    var xx = function () {
+        consolo.log("xx");
+    };
+
     $('#task_info').click(a_fun);
     $("#add_module").click(a_fun);
 
-    $("#new_single_web_task").click(a_fun);
-    $("#new_batch_web_task").click(a_fun);
-    $("#view_web_task_list").click(a_fun);
+    $(".web_task").click(a_fun);
+    // $("#new_single_web_task").click(a_fun);
+    // $("#new_batch_web_task").click(a_fun);
+    // $("#view_web_task_list").click(a_fun);
+    $(".sys_task").click(a_fun);
+    // $("#new_single_sys_task").click(a_fun);
+    // $("#new_batch_sys_task").click(a_fun);
+    // $("#view_sys_task_list").click(a_fun);
 
-    $("#new_single_sys_task").click(a_fun);
-    $("#new_batch_sys_task").click(a_fun);
-    $("#view_sys_task_list").click(a_fun);
+    $(".tools-a").click(tools_fun);
 
-    $("#port_scan").click(tools_fun);
-    $("#web_spider").click(tools_fun);
-    $("#domain_brute").click(tools_fun);
+    // $("#port_scan").click(tools_fun);
+    // $("#web_spider").click(tools_fun);
+    // $("#domain_brute").click(tools_fun);
 
 
     // //icheck插件
@@ -56,4 +63,12 @@ $(document).ready(function(){
     // };
     // $('input').iCheck(icheck());
 });
+
+
+//定义js函数不要在ready里面定义。
+// var form_result = function(ret) {
+//     console.log(ret);
+//     $("#port_scan_form_result").html(ret);
+// };
+
 
