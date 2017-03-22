@@ -61,7 +61,7 @@ class DomainBrute:
     def start(self):
         pool = ThreadPool(processes=self.__thread_num)
         pool.map(self.check_domain, self.__dict)
-        sql = 'update web_domainbrute set domain_brute_status=2 where id=%d' % self.__domain_brute_id
+        sql = 'update web_domainbrute set status=2 where id=%d' % self.__domain_brute_id
         self.__cursor.execute(sql)
         self.__conn.commit()
         self.__cursor.close()
@@ -73,7 +73,7 @@ class DomainBrute:
         try:
             self.__lock.acquire()
             self.__current_index += 1
-            sql = 'update web_domainbrute set current_index=%d' % self.__current_index
+            sql = 'update web_domainbrute set current_index=%d where id=%d' % (self.__current_index, self.__domain_brute_id)
             self.__cursor.execute(sql)
             self.__conn.commit()
             self.__lock.release()

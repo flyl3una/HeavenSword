@@ -515,8 +515,8 @@ def port_scan(request):
                 if not port_scan_objs:
                     args = {}
                     args['port_scan_model'] = "usually" #all usually
-                    args['port_scan_thread'] = 10
-                    port_scan_obj = PortScan(target_ip=ip_addr, thread=10, model=args['port_scan_model'])
+                    args['port_scan_thread'] = 4
+                    port_scan_obj = PortScan(target_ip=ip_addr, thread=args['port_scan_thread'], model=args['port_scan_model'])
                     port_scan_obj.save()
                     port_scan_id = port_scan_obj.id
                     args['port_scan_id'] = port_scan_obj.id
@@ -577,19 +577,21 @@ def view_domain_brute(request, id):
             args['flag'] = 1
             args['info'] = "扫描未完成，请耐心等待"
             args['rate'] = domainbrute.current_index * 100 / domainbrute.domain_count
-        else:
             result_dic = {}
-            for domainip in domainips:
-                dic = {}
-                domain = domainip.domain
-                ip = domainip.ip
-                dic['domain'] = domainip.domain
-                if domain in result_dic.keys():
-                    result_dic[domain].append(ip)
-                else:
-                    result_dic[domain] = [ip]
+        else:
             args['flag'] = 2
-            args['result_dic'] = result_dic
+            args['rate'] = 100
+        for domainip in domainips:
+            dic = {}
+            domain = domainip.domain
+            ip = domainip.ip
+            dic['domain'] = domainip.domain
+            if domain in result_dic.keys():
+                if ip not in result_dic[domain]:
+                    result_dic[domain].append(ip)
+            else:
+                result_dic[domain] = [ip]
+        args['result_dic'] = result_dic
     return JsonResponse(json.dumps(args), safe=False)
 
 
@@ -621,7 +623,7 @@ def domain_brute(request):
             if not domain_brute_objs:
                 args = {}
                 args['domain_brute_model'] = "usually"  # all usually
-                args['domain_brute_thread'] = 10
+                args['domain_brute_thread'] = 4
                 domain_brute_obj = DomainBrute(target_first_domain=first_domain, target_domain=domain, model=args['domain_brute_model'], thread=args['domain_brute_thread'])
                 domain_brute_obj.save()
                 domain_brute_obj_id = domain_brute_obj.id
@@ -642,7 +644,8 @@ def domain_brute(request):
                         domain = domain_ip_obj.domain
                         ip = domain_ip_obj.ip
                         if domain in results.keys():
-                            results[domain].append(ip)
+                            if ip not in results[domain]:
+                                results[domain].append(ip)
                         else:
                             results[domain] = [ip]
                     json_dic['flag'] = 2
@@ -665,7 +668,7 @@ def domain_brute(request):
 
 
 def view_web_spider(request, id):
-    return render(request, 'tools/domain_brute.html')
+    return render(request, 'tools/web_spider.html')
 
 
 def web_spider(request):
@@ -694,7 +697,7 @@ def web_spider(request):
             if not web_spider_objs:
                 args = {}
                 # args['spider_model'] = "usually"  # all usually
-                args['spider_thread'] = 10
+                args['spider_thread'] = 4
                 spider_obj = Spider(target_domain=domain, target_url=url, thread=args['spider_thread'])
                 spider_obj.save()
                 spider_obj_id = spider_obj.id
@@ -710,7 +713,7 @@ def web_spider(request):
             else:
                 if web_spider_objs[0].status == 2:
                     domain = web_spider_objs[0].target_domain
-                    spider_objs = models.Spider.objects.filter(target_domain=domain)
+                    spider_objs = models.Url.objects.filter(target_domain=domain)
                     results = {}
                     for spider_obj in spider_objs:
                         domain = spider_obj.domain
@@ -721,7 +724,7 @@ def web_spider(request):
                             results[domain] = [ip]
                     json_dic['flag'] = 2
                     json_dic['id'] = 0
-                    json_dic['info'] = '端口扫描完成'
+                    json_dic['info'] = 'web爬虫扫描完成'
                     json_dic['result_dic'] = results
                     return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
                 else:

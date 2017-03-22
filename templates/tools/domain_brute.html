@@ -10,7 +10,7 @@
                 <div class="row">
                     <input id="domain_brute_id" type="number" hidden name="id" value=0>
                     <div class="col-sm-10 no-padding-left-right">
-                        <input type="text" placeholder="域名：www.domain.com" name="domain" class="input-text form-control" required value="www.flyl3una.cc">
+                        <input type="text" placeholder="域名：www.domain.com" name="domain" class="input-text form-control" required value="www.baidu.com">
                     </div>
                     <div class="col-sm-2 no-padding-left-right">
                         <input type="submit" value="开始" class="btn form-control btn-submit">
@@ -33,11 +33,12 @@
             <div id="process_div" class="row">
                 <div class="col-md-2">
                     <label>进度</label>
+                    <label id="rate"></label>
                 </div>
                 <div class="col-md-10">
                     <div class="progress  progress-striped">
-                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60"
-                             aria-valuemin="0" aria-valuemax="100" style="width: 10%;">
+                        <div id="process_bar" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60"
+                             aria-valuemin="0" aria-valuemax="100" style="width: 0;">
                             <span class="sr-only">40%完成</span>
                         </div>
                     </div>
@@ -73,6 +74,7 @@
         $("#panel_result").show();
         $("#process_div").show();
         $("#process_bar").width("0");
+        $("#rate").text("0");
         $("#view_domain_info").html(ret.info+"<br>正在爆破中，请耐心等待，不要切换页面。。。");
         timer = window.setInterval("view_domain_brute()",3000);
     }
@@ -80,17 +82,17 @@
         $("#panel_result").show();
         $("#process_div").hide();
         $("#view_domain_info").html(ret.info);
-        result_dic = ret.result_dic
+        result_dic = ret.result_dic;
         tb = '<tr><th width="35%">域名</th><th width="65%">ip地址</th></tr>';
         for(var domain in result_dic){
             ips = result_dic[domain];
             tb += '<tr><td>'+ domain +'</td><td>';
             for (var i=0; i < ips.length; i++){
                 ip = ips[i];
-                ip_div = '<div>'+ip+'</div>';
+                ip_div = '<div class="result-ip">'+ip+'</div>';
                 tb += ip_div;
             }
-            tb += '</td></tr>'
+            tb += '</td></tr>';
         }
         $("#result_table").html(tb);
     }
@@ -110,30 +112,33 @@ var view_domain_brute = function () {
             ret = eval('('+ret+')');
             if (ret.flag == 0){
                 $("#view_domain_info").html(ret.info);
+                return;
             }
             else if (ret.flag == 1){
-                rate = ret.rate;
                 $("#process_div").show();
-                $("#process_bar").width(rate+"%");
                 cnt = ret.info + "<br>正在扫描中，请耐心等待，不要切换页面。。。";
                 $("#view_domain_info").html(cnt);
             }else if(ret.flag == 2){
                 $("#view_domain_info").text("");
+                $("#rate").text("100%");
                 $("#process_bar").width("100%");
-                result_dic = ret.result_dic
+                window.clearInterval(timer);
+            }
+            rate = ret.rate;
+            $("#rate").text(rate+"%");
+            $("#process_bar").width(rate+"%");
+            result_dic = ret.result_dic
                 tb = '<tr><th width="30%">域名</th><th width="70%">ip地址</th></tr>';
                 for(var domain in result_dic){
                     ips = result_dic[domain];
                     tb += '<tr><td>'+ domain +'</td><td>';
-                    for (var ip in ips){
-                        ip_div = '<div>'+ip+'</div>';
+                    for (var index in ips){
+                        ip_div = '<div>'+ips[index]+'</div>';
                         tb += ip_div;
                     }
                     tb += '</td></tr>'
                 }
                 $("#result_table").html(tb);
-                window.clearInterval(timer);
-            }
         }
     });
 };

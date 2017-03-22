@@ -47,7 +47,7 @@ class Url(models.Model):
     # id = models.IntegerField(max_length=32, auto_created=1, primary_key=True)
     domain = models.CharField(max_length=128)
     url = models.CharField(max_length=256)
-    update_date = models.DateTimeField(auto_now=True, unique=True)
+    update_date = models.DateTimeField(auto_now=True)
 
 
 # 暂时无用

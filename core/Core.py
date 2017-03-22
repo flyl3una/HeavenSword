@@ -112,7 +112,7 @@ def start_spider(params):
     spider_thread.start()
     spider_thread.join()
 '''
-
+'python D:\\study\\python\\pycharm\\workspace\\HeavenSword\\core\\core.py {\\'domain\\': \\'drupal.heavensword.com\\', \\'target_url\\': \\'http://drupal.heavensword.com\\', \\'spider_id\\': 6, \\'model\\': 13, \\'spider_thread\\': 4}'
 '''
 
 if __name__ == '__main__':

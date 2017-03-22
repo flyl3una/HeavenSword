@@ -67,6 +67,7 @@
             <div id="process_div" class="row" hidden>
                 <div class="col-md-2">
                     <label>进度</label>
+                    <label id="rate"></label>
                 </div>
                 <div class="col-md-10">
                     <div class="progress  progress-striped">
@@ -96,6 +97,7 @@
             $("#port_scan_id").val(ret.id);
             $("#panel_result").show();
             $("#process_div").show();
+            $("#rate").text(0);
             $("#process_bar").width("0");
             $("#view_port_info").html(ret.info+"<br>正在扫描中，请耐心等待，不要切换页面。。。");
             timer = window.setInterval("view_port_scan()",1000);
@@ -138,11 +140,13 @@
                 else if (ret.flag == 1){
                     rate = ret.rate;
                     $("#process_div").show();
+                    $("#rate").text(rate+"%");
                     $("#process_bar").width(rate+"%");
                     cnt = ret.info + "<br>正在扫描中，请耐心等待，不要切换页面。。。";
                     $("#view_port_info").html(cnt);
                 }else if(ret.flag == 2){
                     $("#view_port_info").text("");
+                    $("#rate").text("100%");
                     $("#process_bar").width("100%");
                     ret_list = ret.result_list;
                     tb = '<tr><th width="20%">端口</th><th width="80%">信息</th></tr>';

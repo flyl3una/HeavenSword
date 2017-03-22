@@ -43,7 +43,8 @@ class SpiderManager:
                                    charset=DB_CHARSET)
             cursor = conn.cursor()
             # 后面可以将更新任务状态分离出类
-            sql = 'update web_spider set target_domain="%s", status=1 where id=%d' % (url, spider_id)
+
+            sql = 'update web_spider set status=1 where id=%d' % spider_id
             cursor.execute(sql)
             conn.commit()
             self.__cursor = cursor
@@ -51,12 +52,24 @@ class SpiderManager:
             urls = self.read_robots()
             if urls is None:
                 return
-            for a_url in urls:
-                url = ''.join(self.__domain) + a_url[1]
-                self.__url_set.add(url)
-                self.__url_queue.put(url)
+            self.__url_set.add(url+"/robots.txt")
+            try:
+                for a_url in urls:
+                    if a_url[1].find('http') != -1:
+                        continue
+                    url1 = url + a_url[1]
+                    if url1 not in self.__url_set:
+                        sql = 'insert into web_url(domain, url, update_date) values("%s", "%s", now())' % (self.__domain[2], url1)
+                        self.__cursor.execute(sql)
+                    self.__url_set.add(url1)
+                    self.__url_queue.put(url1)
+
+                    self.__conn.commit()
+            except Exception as e:
+                print e
         except Exception as e:
             print e
+
     def read_robots(self):
         url = ''.join(self.__domain)+"/robots.txt"
         html = self.request(url)
@@ -66,6 +79,7 @@ class SpiderManager:
         return urls
 
     def request(self, url):
+        print url
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 6.2; rv:16.0) Gecko/20100101 Firefox/16.0',
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -116,7 +130,7 @@ class SpiderManager:
         # monitor_thread = MonitorThread(dic)
         for t in self.__thread_pool:
             t.join()
-        sql = 'update web_spider set spider_status=2 where id=%d' % self.__spider_id
+        sql = 'update web_spider set status=2 where id=%d' % self.__spider_id
         self.__cursor.execute(sql)
         self.__conn.commit()
         self.__cursor.close()
@@ -160,14 +174,14 @@ class SpiderThread(threading.Thread):
             if not self.__url_queue.empty():
                 # 从任务队列获取url，加入集合和数据库,向queue添加url时已经保证了url没有重复。
                 url = self.__url_queue.get()
-                self.__lock.acquire()
-                try:
-                    sql = 'insert into web_url(domain, url, update_date) values("%s", "%s", now())' % (self.__domain[2], url)
-                    self.__cursor.execute(sql)
-                    self.__conn.commit()
-                except:
-                    pass
+                # try:
+                #     sql = 'insert into web_url(domain, url, update_date) values("%s", "%s", now())' % (self.__domain[2], url)
+                #     self.__cursor.execute(sql)
+                #     self.__conn.commit()
+                # except Exception as e:
+                #     print e
                 # print url
+                self.__lock.acquire()
                 self.__url_set.add(unicode(url))
                 self.__lock.release()
                 # 爬取网页
@@ -175,10 +189,10 @@ class SpiderThread(threading.Thread):
             else:
                 self.__lock.acquire()
                 self.__flag += 1
-                if self.__flag >= 10:
+                if self.__flag >= 20:
                     self.__run = False
                 self.__lock.release()
-                time.sleep(0.1)
+                time.sleep(0.5)
         self.__lock.acquire()
         self.__end_flag -= 1
         self.__lock.release()
@@ -196,11 +210,14 @@ class SpiderThread(threading.Thread):
             'Referer': 'http://www.baidu.com/',
         }
         try:
+            # print url
             response = requests.get(url=url, headers=headers)
         except Exception as e:
             print '访问该地址失败', url
             return ''
+
         if response.status_code != 200:
+            # print url, response.status_code
             return ''
         head = response.headers
         head_lower = {}
@@ -253,6 +270,12 @@ class SpiderThread(threading.Thread):
                 continue
             self.__lock.acquire()
             if url not in self.__url_set:
+                try:
+                    sql = 'insert into web_url(domain, url, update_date) values("%s", "%s", now())' % (self.__domain[2], url)
+                    self.__cursor.execute(sql)
+                    self.__conn.commit()
+                except Exception as e:
+                    print e
                 self.__url_set.add(url)
                 self.__url_queue.put(url)
                 # print url
@@ -263,6 +286,12 @@ class SpiderThread(threading.Thread):
                 continue
             self.__lock.acquire()
             if url not in self.__url_set:
+                try:
+                    sql = 'insert into web_url(domain, url, update_date) values("%s", "%s", now())' % (self.__domain[2], url)
+                    self.__cursor.execute(sql)
+                    self.__conn.commit()
+                except Exception as e:
+                    print e
                 self.__url_set.add(url)
             self.__lock.release()
 
@@ -277,7 +306,6 @@ class SpiderThread(threading.Thread):
         else:
             # 非本网站连接
             if href.find("//") >= 0:
-
                 return url
             if href[0] == '/':
                 url = ''.join(self.__domain) + href
@@ -289,7 +317,7 @@ class SpiderThread(threading.Thread):
 def new_spider(spider_id, url, thread_num=4):
     spider_manager = SpiderManager(spider_id, url, thread_num=thread_num)
     spider_manager.start()
-    print 'spider end!'
+    # print 'spider end!'
 
 
 if __name__ == '__main__':

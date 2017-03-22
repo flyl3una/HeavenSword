@@ -150,8 +150,8 @@ a:hover{
 }
 
 .info-frame{
-    margin: 1% 20% 1% 13%;
-
+    margin: 1% 18% 1% 10%;
+    min-width: 800px;
 }
 
 .show-content{
@@ -214,7 +214,8 @@ a:hover{
 
 .table-horizonal>tbody>tr>th, .table-horizonal>tbody>tr>td{
     text-align: left;   !important;
-    border: none;       !important;
+    padding: 3px;
+    /*border: none;       !important;*/
 
     /*corlor: #96a3aa;    !important;*/
 }
@@ -258,4 +259,15 @@ a:hover{
 
 .translation{
     background: transparent;    !important;
+}
+
+.result-ip{
+    /*border: 1px;*/
+    border-radius: 3px;
+    float: left;
+    display: block;
+    background: #E0E0E0;
+    margin: 2px 5px;
+    padding: 1px 5px;
+    font-size: 14px;    !important;
 }
