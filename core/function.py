@@ -14,6 +14,16 @@ def get_domain(url):
     return domain
 
 
+def get_father_domain(domain):
+    if domain == 'localhost':
+        return domain
+    domain1 = domain.split('.')
+    if len(domain1) <= 2:
+        return domain
+    domain = '.'.join(domain1[1:])
+    return domain
+
+
 def get_first_domain(domain):
     domain1 = domain.split('.')
     if domain == 'localhost':

@@ -176,10 +176,11 @@ class Spider(models.Model):
     # task_id = models.ForeignKey(SingleTask)
     # task_type = models.IntegerField(default=0)  # 0为单个任务，1为批量任务
     target_domain = models.CharField(max_length=32, unique=True)
-    spider_status = models.SmallIntegerField(default=0)
+    target_url = models.CharField(max_length=128, default=None)
+    status = models.SmallIntegerField(default=0)
     # all_url = models.IntegerField(default=1)        # 当前爬取到的链接总数
     # spider_rate = models.IntegerField(default=0)
-    spider_thread = models.IntegerField(default=4)
+    thread = models.IntegerField(default=4)
     # spider_result = models.ManyToManyField(Url, null=True)
     # spider_result_json = models.TextField(max_length=102400, null=True)      #改为分别存放url
     # 为了防止删除该任务时把域名和ip的对应信息删除，特不做关联，直接根据域名查询url表即可。

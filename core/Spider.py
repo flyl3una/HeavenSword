@@ -38,25 +38,25 @@ class SpiderManager:
             url = url[:-1]
         self.__domain = url.partition('//')
         self.__child_domain = set()
-
-        conn = MySQLdb.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME,
-                               charset=DB_CHARSET)
-        cursor = conn.cursor()
-        # 后面可以将更新任务状态分离出类
-        sql = 'update web_spider set target_domain="%s", spider_status=1 where id=%d' % (url, spider_id)
-        cursor.execute(sql)
-        conn.commit()
-        self.__cursor = cursor
-        self.__conn = conn
-
-        urls = self.read_robots()
-        if urls is None:
-            return
-        for a_url in urls:
-            url = ''.join(self.__domain) + a_url[1]
-            self.__url_set.add(url)
-            self.__url_queue.put(url)
-
+        try:
+            conn = MySQLdb.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME,
+                                   charset=DB_CHARSET)
+            cursor = conn.cursor()
+            # 后面可以将更新任务状态分离出类
+            sql = 'update web_spider set target_domain="%s", status=1 where id=%d' % (url, spider_id)
+            cursor.execute(sql)
+            conn.commit()
+            self.__cursor = cursor
+            self.__conn = conn
+            urls = self.read_robots()
+            if urls is None:
+                return
+            for a_url in urls:
+                url = ''.join(self.__domain) + a_url[1]
+                self.__url_set.add(url)
+                self.__url_queue.put(url)
+        except Exception as e:
+            print e
     def read_robots(self):
         url = ''.join(self.__domain)+"/robots.txt"
         html = self.request(url)

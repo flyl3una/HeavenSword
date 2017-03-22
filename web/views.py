@@ -12,10 +12,10 @@ from django.http import HttpResponse, JsonResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, render_to_response, redirect
 from HeavenSword.settings import DEFAULT_FROM_EMAIL, EMAIL_HOST_USER, CORE_PATH
-from core.function import get_ip, get_domain, get_first_domain, get_root_url
+from core.function import get_ip, get_domain, get_first_domain, get_root_url, get_father_domain
 from web import models
 from web.dir.EmailToken import EmailToken
-from web.models import WebSingleTask, PortScan, DomainBrute
+from web.models import WebSingleTask, PortScan, DomainBrute, Spider
 from web.msetting import DOMAIN
 
 
@@ -490,7 +490,9 @@ def port_scan(request):
             if 'ip' not in params:
                 # return render(request, 'tools/port_scan.html', {"error": "请输入ip地址"})
                 return HttpResponse("<script>parent.show_error('请输入ip地址');</script>")
+
             # 开启新端口扫描任务
+            #判断ip格式
             ip_addr = params['ip']
             flag = False
             try:
@@ -526,7 +528,28 @@ def port_scan(request):
                     p = subprocess.Popen(work)
                     print 'open success:', p
                 else:
-                    port_scan_id = port_scan_objs[0].id
+                    # 已有该ip记录
+                    if port_scan_objs[0].status == 2:
+                        # id = port_scan_objs[0].id
+                        # return view_port_scan(request, id)
+                        # json_dic['info'] = "任务执行完成"
+                        # json_dic['id'] = id
+                        # id = port_scan_obj.id
+                        ports = []
+                        openports = models.OpenPort.objects.filter(ip_addr=ip_addr)
+                        result_list = []
+                        for openport in openports:
+                            dic = {}
+                            dic['port'] = openport.port_num
+                            dic['info'] = openport.port_info
+                            result_list.append(dic)
+                        json_dic['id'] = 0
+                        json_dic['flag'] = 2
+                        json_dic['info'] = "端口扫描完成"
+                        json_dic['result_list'] = result_list
+                        return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
+                    else:
+                        port_scan_id = port_scan_objs[0].id
                 json_dic['id'] = port_scan_id
                 json_dic['info'] = "端口扫描开启成功"
                 json_dic['flag'] = 1
@@ -538,12 +561,44 @@ def port_scan(request):
             return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
 
 
+#查看端口扫描结果
+def view_domain_brute(request, id):
+    args = {}
+    try:
+        domainbrute = models.DomainBrute.objects.get(id=id)
+    except Exception as e:
+        print e
+        args['flag'] = 0
+        args['info'] = "没有找到该任务"
+        # HttpResponse('<script>form_result("请等待目前任务执行完成");</script>')
+    else:
+        domainips = models.DomainIP.objects.filter(first_domain=domainbrute.target_first_domain)
+        if domainbrute.status != 2:
+            args['flag'] = 1
+            args['info'] = "扫描未完成，请耐心等待"
+            args['rate'] = domainbrute.current_index * 100 / domainbrute.domain_count
+        else:
+            result_dic = {}
+            for domainip in domainips:
+                dic = {}
+                domain = domainip.domain
+                ip = domainip.ip
+                dic['domain'] = domainip.domain
+                if domain in result_dic.keys():
+                    result_dic[domain].append(ip)
+                else:
+                    result_dic[domain] = [ip]
+            args['flag'] = 2
+            args['result_dic'] = result_dic
+    return JsonResponse(json.dumps(args), safe=False)
+
+
 def domain_brute(request):
     if request.method == 'GET':
         return render(request, 'tools/domain_brute.html')
     elif request.method == 'POST':
         params = request.POST
-        # 开启新端口扫描任务
+        # 开启新域名爆破任务
         json_dic = {}
         try:
             if 'id' in params and int(params['id']) != 0:
@@ -553,12 +608,15 @@ def domain_brute(request):
                     json_dic['flag'] = 0
                     json_dic['info'] = "请等待目前任务执行完成"
                     HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
+                # elif domain_brute_obj.status == 2:
+                #     return render(request, "tools/domain_brute.html")
+                # return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
             if 'domain' not in params:
                 return HttpResponse("<script>parent.show_error('请输入域名');</script>")
             # 开启新端口扫描任务
             domain = params['domain']
             domain = get_domain(domain)
-            first_domain = get_first_domain(domain)
+            first_domain = get_father_domain(domain)
             domain_brute_objs = models.DomainBrute.objects.filter(target_first_domain=first_domain)
             if not domain_brute_objs:
                 args = {}
@@ -566,6 +624,7 @@ def domain_brute(request):
                 args['domain_brute_thread'] = 10
                 domain_brute_obj = DomainBrute(target_first_domain=first_domain, target_domain=domain, model=args['domain_brute_model'], thread=args['domain_brute_thread'])
                 domain_brute_obj.save()
+                domain_brute_obj_id = domain_brute_obj.id
                 args['domain_brute_id'] = domain_brute_obj.id
                 args['first_domain'] = first_domain
                 args['model'] = 12
@@ -575,8 +634,25 @@ def domain_brute(request):
                 p = subprocess.Popen(work)
                 print 'open success:', p
             else:
-                domain_brute_obj = domain_brute_objs[0].id
-            json_dic['id'] = domain_brute_obj
+                if domain_brute_objs[0].status == 2:
+                    first_domain = domain_brute_objs[0].target_first_domain
+                    domain_ip_objs = models.DomainIP.objects.filter(first_domain=first_domain)
+                    results = {}
+                    for domain_ip_obj in domain_ip_objs:
+                        domain = domain_ip_obj.domain
+                        ip = domain_ip_obj.ip
+                        if domain in results.keys():
+                            results[domain].append(ip)
+                        else:
+                            results[domain] = [ip]
+                    json_dic['flag'] = 2
+                    json_dic['id'] = 0
+                    json_dic['info'] = '端口扫描完成'
+                    json_dic['result_dic'] = results
+                    return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
+                else:
+                    domain_brute_obj_id = domain_brute_objs[0].id
+            json_dic['id'] = domain_brute_obj_id
             json_dic['info'] = "端口扫描开启成功"
             json_dic['flag'] = 1
             return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
@@ -586,6 +662,79 @@ def domain_brute(request):
             json_dic['flag'] = 0
             return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
     return render(request, 'tools/domain_brute.html')
+
+
+def view_web_spider(request, id):
+    return render(request, 'tools/domain_brute.html')
+
+
+def web_spider(request):
+    if request.method == 'GET':
+        return render(request, 'tools/web_spider.html')
+    elif request.method == 'POST':
+        params = request.POST
+        # 开启新web爬虫任务
+        json_dic = {}
+        try:
+            if 'id' in params and int(params['id']) != 0:
+                id = int(params['id'])
+                domain_brute_obj = models.DomainBrute.objects.get(id=id)
+                if domain_brute_obj.status != 2:
+                    json_dic['flag'] = 0
+                    json_dic['info'] = "请等待目前任务执行完成"
+                    HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
+                    # elif domain_brute_obj.status == 2:
+                    #     return render(request, "tools/domain_brute.html")
+            if 'url' not in params:
+                return HttpResponse("<script>parent.show_error('请输入目标网址');</script>")
+                # 开启新端口扫描任务
+            url = params['url']
+            domain = get_domain(url)
+            web_spider_objs = models.Spider.objects.filter(target_domain=domain)
+            if not web_spider_objs:
+                args = {}
+                # args['spider_model'] = "usually"  # all usually
+                args['spider_thread'] = 10
+                spider_obj = Spider(target_domain=domain, target_url=url, thread=args['spider_thread'])
+                spider_obj.save()
+                spider_obj_id = spider_obj.id
+                args['spider_id'] = spider_obj.id
+                args['domain'] = domain
+                args['target_url'] = url
+                args['model'] = 13
+                json_args = json.dumps(args)
+                json_args = json_args.replace('"', "'")
+                work = 'python ' + CORE_PATH + os.sep + 'core.py ' + json_args
+                p = subprocess.Popen(work)
+                print 'open success:', p
+            else:
+                if web_spider_objs[0].status == 2:
+                    domain = web_spider_objs[0].target_domain
+                    spider_objs = models.Spider.objects.filter(target_domain=domain)
+                    results = {}
+                    for spider_obj in spider_objs:
+                        domain = spider_obj.domain
+                        ip = spider_obj.ip
+                        if domain in results.keys():
+                            results[domain].append(ip)
+                        else:
+                            results[domain] = [ip]
+                    json_dic['flag'] = 2
+                    json_dic['id'] = 0
+                    json_dic['info'] = '端口扫描完成'
+                    json_dic['result_dic'] = results
+                    return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
+                else:
+                    spider_obj_id = web_spider_objs[0].id
+            json_dic['id'] = spider_obj_id
+            json_dic['info'] = "端口扫描开启成功"
+            json_dic['flag'] = 1
+            return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
+        except Exception as e:
+            print e
+            json_dic['info'] = "端口扫描开启失败"
+            json_dic['flag'] = 0
+            return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
 
 
 def exploit_attack(request):
@@ -635,8 +784,6 @@ def view_sys_task_list(request):
 #     return HttpResponse("端口扫描")
 
 
-def web_spider(request):
-    return render(request, 'tools/web_spider.html')
 #
 #
 # def domain_brute(request):

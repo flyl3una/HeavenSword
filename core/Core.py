@@ -50,8 +50,8 @@ def start_single_web_task(params):
 
 
 def start_port_scan(params):
-    conn = MySQLdb.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME, charset=DB_CHARSET)
-    cursor = conn.cursor()
+    # conn = MySQLdb.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME, charset=DB_CHARSET)
+    # cursor = conn.cursor()
     if 'port_scan_thread' in params.keys():
         port_scan_thread_num = params['port_scan_thread']
     else:
@@ -63,11 +63,11 @@ def start_port_scan(params):
     id = params['port_scan_id']
     ip = params['ip']
     port_scan_thread = threading.Thread(target=new_port_scan, args=(id, ip, port_scan_model, port_scan_thread_num))
-    sql = 'update web_portscan set status=1 where id="%d"' % id
-    cursor.execute(sql)
-    conn.commit()
-    cursor.close()
-    conn.close()
+    # sql = 'update web_portscan set status=1 where id="%d"' % id
+    # cursor.execute(sql)
+    # conn.commit()
+    # cursor.close()
+    # conn.close()
     port_scan_thread.start()
     port_scan_thread.join()
     return True
@@ -85,16 +85,32 @@ def start_domain_brute(params):
     if not first_domain:
         return False
     domain_brute_thread = threading.Thread(target=new_domain_brute, args=(domain_brute_id, first_domain, domain_brute_thread_num, model))
-    conn = MySQLdb.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME, charset=DB_CHARSET)
-    cursor = conn.cursor()
-    sql = 'update web_domainbrute set status=1 where id="%d"' % domain_brute_id
-    cursor.execute(sql)
-    conn.commit()
-    cursor.close()
-    conn.close()
+    # conn = MySQLdb.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME, charset=DB_CHARSET)
+    # cursor = conn.cursor()
+    # sql = 'update web_domainbrute set status=1 where id="%d"' % domain_brute_id
+    # cursor.execute(sql)
+    # conn.commit()
+    # cursor.close()
+    # conn.close()
     domain_brute_thread.start()
     domain_brute_thread.join()
     return True
+
+
+def start_spider(params):
+    # 网页爬虫
+    if 'spider_thread' in params.keys():
+        spider_thread = params['spider_thread']
+    else:
+        spider_thread = 4
+    target_url = params['target_url']
+    # domain = params['domain']
+    url_list = target_url.split('/')[:3]
+    url = url_list[0] + "//" + url_list[2]
+    spider_id = params['spider_id']
+    spider_thread = threading.Thread(target=new_spider, args=(spider_id, url, spider_thread))
+    spider_thread.start()
+    spider_thread.join()
 '''
 
 '''
@@ -113,4 +129,7 @@ if __name__ == '__main__':
         start_port_scan(args)
     elif model == 12:
         start_domain_brute(args)
+    elif model == 13:
+        #web爬虫
+        start_spider(args)
 

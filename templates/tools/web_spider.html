@@ -4,25 +4,29 @@
     </div>
     <div class="translation">
         <div class="panel-body">
-            <form method="post" action="/tools/web_spider/">
+            <iframe id="frame_web_spider_form" name="frame_web_spider_form" style="display: none"></iframe>
+            <form method="post" action="/tools/web_spider/" target="frame_web_spider_form">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-sm-10 no-padding-left-right">
-                        <input type="text" placeholder="ip eg:127.0.0.1" class="input-text form-control" required>
+                        <input type="text" name="url" placeholder="url eg:http://drupal.heavensword.com" class="input-text form-control" required value="http://drupal.heavensword.com">
                     </div>
+                    <input id="web_spider_id" type="number" hidden name="id" value=0>
                     <div class="col-sm-2 no-padding-left-right">
                         {#            <input type="number" placeholder="线程数">#}
                         <input type="submit" value="开始" class="btn form-control btn-submit">
                     </div>
                 </div>
             </form>
+            <div id="spider_form_result" class="form-result">
+                {{ error }}
+            </div>
         </div>
     </div>
     <div class="panel panel-default">
         <div class="panel-heading">
             web目录
         </div>
-
         <div class="panel-body">
             <div>
                 <ul id="tree" class="filetree treeview">
