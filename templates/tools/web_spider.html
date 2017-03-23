@@ -1,5 +1,5 @@
 <div class="show-content">
-    <input id="current-page-id" hidden value=11>
+    <input id="current-page-id" hidden value=13>
     <div class="this-title">
         <h3>web爬虫</h3>
     </div>
@@ -10,7 +10,8 @@
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-sm-10 no-padding-left-right">
-                        <input type="text" name="url" placeholder="url eg:http://drupal.heavensword.com" class="input-text form-control" required value="http://drupal.heavensword.com">
+                        <input type="text" name="url" placeholder="url eg:http://drupal.heavensword.com"
+                               class="input-text form-control" required value="http://drupal.heavensword.com">
                     </div>
                     <input id="web_spider_id" type="number" hidden name="id" value=0>
                     <div class="col-sm-2 no-padding-left-right">
@@ -32,25 +33,21 @@
             <div id="view_spider_info">
 
             </div>
-            <div id="result-tree">
-                <ul id="tree" class="filetree treeview">
-                    <li id="target-tree">
-                        <div class="hitarea collapsable-hitarea"></div>
-                        <span class="folder">www.baidu.com/</span>
-                        <ul>
-                            <li>
-{#                                <div class="hitarea collapsable-hitarea"></div>#}
-                                <span class="file">world</span></li>
-                            <li>
-{#                                <div class="hitarea collapsable-hitarea"></div>#}
-                                <span class="file">hello</span>
-                            </li>
-                        </ul>
-                    </li>
-{#                    <li>#}
+            <div id="result-tree" class="treeview">
+                <ul id="tree" class="filetree">
+{#                    treeview-famfamfam#}
+{#                    <li id="target-tree">#}
 {#                        <div class="hitarea collapsable-hitarea"></div>#}
-{#                        <span class="url-field">pan.baidu.com/</span>#}
-{#                        <ul></ul>#}
+{#                        <span class="folder">www.baidu.com/</span>#}
+                        {#                        <ul>#}
+                        {#                            <li>#}
+                        {#                                <div class="hitarea collapsable-hitarea"></div>#}
+                        {#                                <span class="file">world</span></li>#}
+                        {#                            <li>#}
+                        {#                                <div class="hitarea collapsable-hitarea"></div>#}
+                        {#                                <span class="file">hello</span>#}
+                        {#                            </li>#}
+                        {#                        </ul>#}
 {#                    </li>#}
                 </ul>
             </div>
@@ -60,90 +57,75 @@
 
 <script>
     var web_spider_form_result = function (ret) {
+        ret = eval('(' + ret + ')');
 {#        console.log(ret);#}
-        ret = eval('('+ret+')');
-        console.log(ret);
-        flag = ret.flag;
-        if(flag == 0) {
+        var flag = ret.flag;
+        if (flag == 0) {
             $("#spider_form_result").html(ret.info);
         }
-        else if(flag == 1){
+        else if (flag == 1) {
             id = ret.id;
-    {#        console.log(id);#}
-{#            $("#panel_result").show();#}
             $("#web_spider_id").val(ret.id);
             $("#panel_result").show();
-{#            $("#process_div").show();#}
-{#            $("#rate").text(0);#}
             $("#process_bar").width("0");
-            $("#view_spider_info").html(ret.info+"<br>正在扫描中，请耐心等待，不要切换页面。。。");
-            timer = window.setInterval("view_web_spider()",1000);
-        }else if(flag == 2){
-            id = ret.id;
-{#            $("#process_div").hide();#}
-{#            console.log(ret.info);#}
+            $("#view_spider_info").html(ret.info + "<br>正在扫描中，请耐心等待，不要切换页面。。。");
+            timer = window.setInterval("view_web_spider()", 1000);
+        } else if (flag == 2) {
+            var id = ret.id;
             $("#view_spider_info").html(ret.info);
-{#            $("#view_spider_info").html(ret.tree);#}
-            tree = ret.tree;
+            var tree = ret.tree;
 
-            name = tree.name;
-            url = tree.url;
-
-            dirs_html = generate_dirs(tree);
+{#            var name = tree.name;#}
+{#            var url = tree.url;#}
+{#            var span_html = '<div class="hitarea collapsable-hitarea"></div><span class="folder">' + name + '</span>';#}
+            var dirs_html = generate_dirs(tree);
             console.log(dirs_html);
-            $("#target-tree").html(dirs_html);
-
-{#            $("#result-tree").html(tree);#}
+            $("#tree").html("<li>"+dirs_html+'</li>');
             $("#panel_result").show();
-{#            $("#result_table").show();#}
+            $("#tree").treeview();
         }
     };
     var view_web_spider = function () {
-        console.log("view_port_scan");
+        console.log("view_web_spider");
         page_id = $("#current-page-id").val();
         console.log(page_id);
-        if (page_id != 13){
+        if (page_id != 13) {
             console.log("已不在爬虫页面");
             window.clearInterval(timer);
-            return ;
+            return;
         }
-        id = $("#port_scan_id").val();
-{#        console.log(id);#}
-        if(id == 0){
+        id = $("#web_spider_id").val();
+        {#        console.log(id);#}
+        if (id == 0) {
             return;
         }
         $.ajax({
-            url: "/tools/port_scan/"+id,
+            url: "/tools/web_spider/" + id,
             type: "GET",
             dataType: 'json',
             success: function (ret) {
-                ret = eval('('+ret+')');
-                if (ret.flag == 0){
-                    $("#view_port_info").html(ret.info);
+                ret = eval('(' + ret + ')');
+                if (ret.flag == 0) {
+                    $("#web_spider_info").html(ret.info);
                 }
-                else if (ret.flag == 1){
-                    rate = ret.rate;
-                    $("#process_div").show();
-                    $("#rate").text(rate+"%");
-                    $("#process_bar").width(rate+"%");
-                    cnt = ret.info + "<br>正在扫描中，请耐心等待，不要切换页面。。。";
-                    $("#view_port_info").html(cnt);
-                }else if(ret.flag == 2){
+{#                else if (ret.flag == 1) {#}
+                else{
+                    var num = ret.num;
+{#                    $("#view_spider_info").html(ret.info);#}
+                    var cnt = ret.info + "<br>扫描结果："+num+"个链接";
+                    $("#view_spider_info").html(cnt);
+                    var tree = ret.tree;
+
+                    var dirs_html = generate_dirs(tree);
+{#                    console.log(dirs_html);#}
+                    $("#tree").html("<li>"+dirs_html+'</li>');
+                    $("#panel_result").show();
+                }
+                if (ret.flag == 2) {
                     $("#view_port_info").text("");
-                    $("#rate").text("100%");
-                    $("#process_bar").width("100%");
-                    ret_list = ret.result_list;
-                    tb = '<tr><th width="20%">端口</th><th width="80%">信息</th></tr>';
-                    for(var i = 0; i < ret_list.length; i++){
-                        dic = ret_list[i];
-                        port = dic.port;
-                        info = dic.info;
-                        tb += "<tr><td>"+port+"</td><td>"+info+"</td></tr>"
-                    }
-                    $("#result_table").html(tb);
-                    $("#port_scan_id").val(0);
                     window.clearInterval(timer);
                 }
+                $("#tree").treeview();
             }
         });
     };
@@ -153,30 +135,57 @@
 
 
     var generate_dirs = function (tree) {
-        childrens = tree.childrens;
-        if(childrens){
-            childrens_html = '';
-            name = tree.name;
-            url = tree.name;
-            span_html = '<div class="hitarea collapsable-hitarea"></div><a class="folder" href="'+url+'">'+name+'</a>';
-            for(var i=0; i < childrens.length; i++){
-                children_html = generate_dirs(childrens[i]);
-                childrens_html += '<li>'+children_html+'</li>';
+        try {
+            if (!tree){
+                return '';
             }
-            ul_html = '<ul>'+childrens_html+'</ul>'
-            console.log(ul_html);
-            return ul_html
+            var childrens = tree.childrens;
+            var childrens_len = childrens.length;
+            if (childrens_len) {
+                var childrens_html = '';
+                var name = tree.name;
+                var url = tree.name;
+{#                var span_html = '<div class="hitarea collapsable-hitarea"></div><span class="folder">' + name + '</span>';#}
+                var span_html = '<span class="folder">' + name + '</span>';
+                for (var i = 0; i < childrens_len; i++) {
+                    var children = childrens[i];
+                    var children_html = generate_dirs(children);
+                    if(children_html == ''){
+                        continue;
+                    }
+                    childrens_html += '<li>' + children_html + '</li>';
+                }
+{#                depth = tree['depth'];#}
+{#                if(depth == -1){#}
+{#                    var ul_html = childrens_html;#}
+{#                }#}
+                if (childrens_html == ''){
+                    var ul_html = span_html;
+                }else{
+                    var ul_html = span_html+'<ul>' + childrens_html + '</ul>';
+                }
+{#                console.log(ul_html);#}
+                return ul_html
+            }
+            else {
+                name = tree.name;
+                if (name == ''){
+                    return '';
+                }
+                url = tree.url;
+                var li_html = '<span class="file">' + name + '</span>';
+{#                console.log(li_html);#}
+                return li_html
+            }
         }
-        else{
-            name = tree.name;
-            url = tree.url;
-            li_html = '<li><a class="file" href="'+ url +'">' + name + '</span></li>'
-            console.log(li_html);
-            return li_html
+        catch (e) {
+{#            console.log(e);#}
+            return ''
         }
+
     };
 
-    $(document).ready(function () {
-        $("#tree").treeview();
-    });
+{#    $(document).ready(function () {#}
+{#        $("#tree").treeview();#}
+{#    });#}
 </script>

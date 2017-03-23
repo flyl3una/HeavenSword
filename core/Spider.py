@@ -332,6 +332,7 @@ class Tree:
         tree['name'] = self.domain
         tree['url'] = self.prefix
         tree['childrens'] = []
+        tree['depth'] = -1
         for node in self.nodes:
             if not node['parent'] and node['depth'] == 0:
                 one_node = {}

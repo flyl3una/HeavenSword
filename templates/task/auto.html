@@ -1,11 +1,12 @@
 <div class="col-md-10 col-md-offset-1">
     <form method="post" action="/auto_task/">
-    {% csrf_token %}
+        {% csrf_token %}
         <h2 class="text-center">新建一个任务</h2>
         <label class="col-3 control-label col-form-label">
-                目标
+            目标
         </label>
         <input type="url" class="form-control" name="target" placeholder="目标网址" required>
         <button class="btn btn-default" style="float: left" type="submit">取消</button>
     </form>
 </div>
+

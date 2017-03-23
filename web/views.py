@@ -669,7 +669,35 @@ def domain_brute(request):
 
 
 def view_web_spider(request, id):
-    return render(request, 'tools/web_spider.html')
+    args = {}
+    try:
+        web_spider = models.Spider.objects.get(id=id)
+    except Exception as e:
+        print e
+        args['flag'] = 0
+        args['info'] = "没有找到该任务"
+        # HttpResponse('<script>form_result("请等待目前任务执行完成");</script>')
+    else:
+        domain = web_spider.target_domain
+        url_objs = models.Url.objects.filter(domain=domain)
+        if web_spider.status != 2:
+            args['flag'] = 1
+            args['info'] = "扫描未完成，请耐心等待"
+        else:
+            args['info'] = 'web爬虫扫描完成'
+            args['flag'] = 2
+            args['id'] = 0
+        urls = []
+        args['num'] = len(url_objs)
+        for url_obj in url_objs:
+            domain = url_obj.domain
+            url = url_obj.url
+            urls.append(url)
+        tree_obj = Tree(domain, urls)
+        tree = tree_obj.make_tree()
+        args['tree'] = tree
+    return JsonResponse(json.dumps(args), safe=False)
+    # return render(request, 'tools/web_spider.html')
 
 
 def web_spider(request):
@@ -714,37 +742,19 @@ def web_spider(request):
             else:
                 if web_spider_objs[0].status == 2:
                     domain = web_spider_objs[0].target_domain
-                    spider_objs = models.Url.objects.filter(domain=domain)
-                    results = {}
-                    dir = {}
-                    target = {}
-                    target['name'] = domain
-                    target['level0'] = {}
-                    target['url'] = url.partition(domain)[:2]
-                    dir['target'] = target
+                    url_objs = models.Url.objects.filter(domain=domain)
                     urls = []
-                    for spider_obj in spider_objs:
-                        domain = spider_obj.domain
-                        url = spider_obj.url
+                    for url_obj in url_objs:
+                        domain = url_obj.domain
+                        url = url_obj.url
                         urls.append(url)
-                        # node = {}
-                        # node
-                        # suffix = url.partition(domain+'/')[2]
-                        # filenames = suffix.split('/')
-                        # for i in range(len(filenames)):
-                        #     if filenames[i] in target['level'+str(i)].keys():
-                        #         pass
-                        #     else:
-                        #         target['level'+str(i)] = filenames[i]
                     tree_obj = Tree(domain, urls)
                     tree = tree_obj.make_tree()
-                    # print tree
-                    # tree = make_tree(domain, urls)
                     json_dic['flag'] = 2
                     json_dic['id'] = 0
                     json_dic['info'] = 'web爬虫扫描完成'
-                    # json_dic['result_dic'] = results
                     json_dic['tree'] = tree
+                    json_dic['num'] = len(url_objs)
                     return HttpResponse("<script>parent.web_spider_form_result('" + json.dumps(json_dic) + "');</script>")
                 else:
                     spider_obj_id = web_spider_objs[0].id
