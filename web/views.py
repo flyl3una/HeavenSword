@@ -12,6 +12,7 @@ from django.http import HttpResponse, JsonResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, render_to_response, redirect
 from HeavenSword.settings import DEFAULT_FROM_EMAIL, EMAIL_HOST_USER, CORE_PATH
+from core.Spider import Tree
 from core.function import get_ip, get_domain, get_first_domain, get_root_url, get_father_domain
 from web import models
 from web.dir.EmailToken import EmailToken
@@ -547,18 +548,18 @@ def port_scan(request):
                         json_dic['flag'] = 2
                         json_dic['info'] = "端口扫描完成"
                         json_dic['result_list'] = result_list
-                        return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
+                        return HttpResponse("<script>parent.port_scan_form_result('" + json.dumps(json_dic) + "');</script>")
                     else:
                         port_scan_id = port_scan_objs[0].id
                 json_dic['id'] = port_scan_id
                 json_dic['info'] = "端口扫描开启成功"
                 json_dic['flag'] = 1
-                return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
+                return HttpResponse("<script>parent.port_scan_form_result('" + json.dumps(json_dic) + "');</script>")
         except Exception as e:
             print e
             json_dic['info'] = "端口扫描开启失败"
             json_dic['flag'] = 0
-            return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
+            return HttpResponse("<script>parent.port_scan_form_result('" + json.dumps(json_dic) + "');</script>")
 
 
 #查看端口扫描结果
@@ -609,7 +610,7 @@ def domain_brute(request):
                 if domain_brute_obj.status != 2:
                     json_dic['flag'] = 0
                     json_dic['info'] = "请等待目前任务执行完成"
-                    HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
+                    HttpResponse("<script>parent.domain_brute_form_result('" + json.dumps(json_dic) + "');</script>")
                 # elif domain_brute_obj.status == 2:
                 #     return render(request, "tools/domain_brute.html")
                 # return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
@@ -652,18 +653,18 @@ def domain_brute(request):
                     json_dic['id'] = 0
                     json_dic['info'] = '端口扫描完成'
                     json_dic['result_dic'] = results
-                    return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
+                    return HttpResponse("<script>parent.domain_brute_form_result('" + json.dumps(json_dic) + "');</script>")
                 else:
                     domain_brute_obj_id = domain_brute_objs[0].id
             json_dic['id'] = domain_brute_obj_id
             json_dic['info'] = "端口扫描开启成功"
             json_dic['flag'] = 1
-            return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
+            return HttpResponse("<script>parent.domain_brute_form_result('" + json.dumps(json_dic) + "');</script>")
         except Exception as e:
             print e
             json_dic['info'] = "端口扫描开启失败"
             json_dic['flag'] = 0
-            return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
+            return HttpResponse("<script>parent.domain_brute_form_result('" + json.dumps(json_dic) + "');</script>")
     return render(request, 'tools/domain_brute.html')
 
 
@@ -685,7 +686,7 @@ def web_spider(request):
                 if domain_brute_obj.status != 2:
                     json_dic['flag'] = 0
                     json_dic['info'] = "请等待目前任务执行完成"
-                    HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
+                    HttpResponse("<script>parent.web_spider_form_result('" + json.dumps(json_dic) + "');</script>")
                     # elif domain_brute_obj.status == 2:
                     #     return render(request, "tools/domain_brute.html")
             if 'url' not in params:
@@ -713,31 +714,49 @@ def web_spider(request):
             else:
                 if web_spider_objs[0].status == 2:
                     domain = web_spider_objs[0].target_domain
-                    spider_objs = models.Url.objects.filter(target_domain=domain)
+                    spider_objs = models.Url.objects.filter(domain=domain)
                     results = {}
+                    dir = {}
+                    target = {}
+                    target['name'] = domain
+                    target['level0'] = {}
+                    target['url'] = url.partition(domain)[:2]
+                    dir['target'] = target
+                    urls = []
                     for spider_obj in spider_objs:
                         domain = spider_obj.domain
-                        ip = spider_obj.ip
-                        if domain in results.keys():
-                            results[domain].append(ip)
-                        else:
-                            results[domain] = [ip]
+                        url = spider_obj.url
+                        urls.append(url)
+                        # node = {}
+                        # node
+                        # suffix = url.partition(domain+'/')[2]
+                        # filenames = suffix.split('/')
+                        # for i in range(len(filenames)):
+                        #     if filenames[i] in target['level'+str(i)].keys():
+                        #         pass
+                        #     else:
+                        #         target['level'+str(i)] = filenames[i]
+                    tree_obj = Tree(domain, urls)
+                    tree = tree_obj.make_tree()
+                    # print tree
+                    # tree = make_tree(domain, urls)
                     json_dic['flag'] = 2
                     json_dic['id'] = 0
                     json_dic['info'] = 'web爬虫扫描完成'
-                    json_dic['result_dic'] = results
-                    return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
+                    # json_dic['result_dic'] = results
+                    json_dic['tree'] = tree
+                    return HttpResponse("<script>parent.web_spider_form_result('" + json.dumps(json_dic) + "');</script>")
                 else:
                     spider_obj_id = web_spider_objs[0].id
             json_dic['id'] = spider_obj_id
             json_dic['info'] = "端口扫描开启成功"
             json_dic['flag'] = 1
-            return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
+            return HttpResponse("<script>parent.web_spider_form_result('" + json.dumps(json_dic) + "');</script>")
         except Exception as e:
             print e
             json_dic['info'] = "端口扫描开启失败"
             json_dic['flag'] = 0
-            return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
+            return HttpResponse("<script>parent.web_spider_form_result('" + json.dumps(json_dic) + "');</script>")
 
 
 def exploit_attack(request):

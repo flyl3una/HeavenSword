@@ -31,6 +31,7 @@
 {#</table>#}
 
 <div class="show-content">
+    <input id="current-page-id" hidden value=11>
     <div class="this-title">
         <h3>端口扫描</h3>
     </div>
@@ -84,7 +85,7 @@
 </div>
 
 <script>
-    var form_result = function (ret) {
+    var port_scan_form_result = function (ret) {
         ret = eval('('+ret+')');
         flag = ret.flag;
         if(flag == 0) {
@@ -123,6 +124,13 @@
     };
     var view_port_scan = function () {
         console.log("view_port_scan");
+        page_id = $("#current-page-id").val();
+        console.log(page_id);
+        if (page_id != 11){
+            console.log("已不在端口扫描页面");
+            window.clearInterval(timer);
+            return ;
+        }
         id = $("#port_scan_id").val();
         console.log(id);
         if(id == 0){
@@ -135,7 +143,7 @@
             success: function (ret) {
                 ret = eval('('+ret+')');
                 if (ret.flag == 0){
-                    $("#view_port_info").html(ret.info);
+                    $("#view_domain_brute").html(ret.info);
                 }
                 else if (ret.flag == 1){
                     rate = ret.rate;

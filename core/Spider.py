@@ -314,6 +314,70 @@ class SpiderThread(threading.Thread):
         return url
 
 
+class Tree:
+    tree = {}
+
+    def __init__(self, domain, urls):
+        self.nodes = []
+        self.domain = domain
+        self.prefix = ''.join(urls[0].partition(domain + "/")[:2])
+        for url in urls:
+            suffix = url.partition(domain+"/")[2]
+            levels = suffix.split('/')
+            self.nodes += self.get_nodes(levels)
+
+    def make_tree(self):
+        tree = {}
+        tree['domain'] = self.domain
+        tree['name'] = self.domain
+        tree['url'] = self.prefix
+        tree['childrens'] = []
+        for node in self.nodes:
+            if not node['parent'] and node['depth'] == 0:
+                one_node = {}
+                one_node['name'] = node['name']
+                one_node['childrens'] = []
+                one_node['parent'] = None
+                one_node['depth'] = 0
+                one_node['url'] = node['url']
+                tree['childrens'].append(one_node)
+                self.get_childrens(one_node, self.nodes)
+        return tree
+
+    def get_childrens(self, parent_node, nodes):
+        for node in nodes:
+            if parent_node['name'] == node['parent'] and node['depth'] == parent_node['depth']+1 and parent_node['url'] != node['url']:
+                one_node = {}
+                one_node['name'] = node['name']
+                one_node['childrens'] = []
+                one_node['parent'] = None
+                one_node['depth'] = node['depth']
+                one_node['url'] = node['url']
+                parent_node['childrens'].append(one_node)
+                self.get_childrens(one_node, nodes)
+
+    def get_nodes(self, levels):
+        nodes = []
+        for i in range(len(levels)):
+            if i == 0:
+                parent = None
+            else:
+                parent = levels[i-1]
+            if i == len(levels)-1:
+                children = None
+                url = '/'.join(levels)
+            else:
+                children = levels[i+1]
+                url = '/'.join(levels[:i+1])+'/'
+            name = levels[i]
+            url = self.prefix + url
+            node = {"name": name, "depth": i, "parent": parent, "children": children, "url": url}
+            nodes.append(node)
+            # single_tree = {}
+            # single_tree
+        return nodes
+
+
 def new_spider(spider_id, url, thread_num=4):
     spider_manager = SpiderManager(spider_id, url, thread_num=thread_num)
     spider_manager.start()

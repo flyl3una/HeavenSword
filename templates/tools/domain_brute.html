@@ -1,4 +1,5 @@
 <div class="show-content">
+    <input id="current-page-id" hidden value=12>
     <div class="this-title">
         <h3>域名爆破</h3>
     </div>
@@ -59,7 +60,7 @@
 
 
 <script>
-    var form_result = function (ret) {
+    var domain_brute_form_result = function (ret) {
     ret = eval('('+ret+')');
     console.log(ret);
     flag = ret.flag;
@@ -99,6 +100,13 @@
 };
 var view_domain_brute = function () {
     console.log("view_port_scan");
+    page_id = $("#current-page-id").val();
+        console.log(page_id);
+        if (page_id != 12){
+            console.log("已不在端口扫描页面");
+            window.clearInterval(timer);
+            return ;
+        }
     id = $("#domain_brute_id").val();
     console.log(id);
     if(id == 0){

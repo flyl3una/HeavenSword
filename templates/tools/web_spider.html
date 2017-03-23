@@ -1,4 +1,5 @@
 <div class="show-content">
+    <input id="current-page-id" hidden value=11>
     <div class="this-title">
         <h3>web爬虫</h3>
     </div>
@@ -28,22 +29,29 @@
             web目录
         </div>
         <div class="panel-body">
-            <div>
+            <div id="view_spider_info">
+
+            </div>
+            <div id="result-tree">
                 <ul id="tree" class="filetree treeview">
-                    <li>
+                    <li id="target-tree">
                         <div class="hitarea collapsable-hitarea"></div>
                         <span class="folder">www.baidu.com/</span>
                         <ul>
                             <li>
-                                <div class="hitarea collapsable-hitarea"></div>
+{#                                <div class="hitarea collapsable-hitarea"></div>#}
                                 <span class="file">world</span></li>
-                            hello
+                            <li>
+{#                                <div class="hitarea collapsable-hitarea"></div>#}
+                                <span class="file">hello</span>
+                            </li>
                         </ul>
                     </li>
-                    <li>
-                        <div class="hitarea collapsable-hitarea"></div>
-                        <span class="fiel">pan.baidu.com/</span>
-                    </li>
+{#                    <li>#}
+{#                        <div class="hitarea collapsable-hitarea"></div>#}
+{#                        <span class="url-field">pan.baidu.com/</span>#}
+{#                        <ul></ul>#}
+{#                    </li>#}
                 </ul>
             </div>
         </div>
@@ -51,6 +59,123 @@
 </div>
 
 <script>
+    var web_spider_form_result = function (ret) {
+{#        console.log(ret);#}
+        ret = eval('('+ret+')');
+        console.log(ret);
+        flag = ret.flag;
+        if(flag == 0) {
+            $("#spider_form_result").html(ret.info);
+        }
+        else if(flag == 1){
+            id = ret.id;
+    {#        console.log(id);#}
+{#            $("#panel_result").show();#}
+            $("#web_spider_id").val(ret.id);
+            $("#panel_result").show();
+{#            $("#process_div").show();#}
+{#            $("#rate").text(0);#}
+            $("#process_bar").width("0");
+            $("#view_spider_info").html(ret.info+"<br>正在扫描中，请耐心等待，不要切换页面。。。");
+            timer = window.setInterval("view_web_spider()",1000);
+        }else if(flag == 2){
+            id = ret.id;
+{#            $("#process_div").hide();#}
+{#            console.log(ret.info);#}
+            $("#view_spider_info").html(ret.info);
+{#            $("#view_spider_info").html(ret.tree);#}
+            tree = ret.tree;
+
+            name = tree.name;
+            url = tree.url;
+
+            dirs_html = generate_dirs(tree);
+            console.log(dirs_html);
+            $("#target-tree").html(dirs_html);
+
+{#            $("#result-tree").html(tree);#}
+            $("#panel_result").show();
+{#            $("#result_table").show();#}
+        }
+    };
+    var view_web_spider = function () {
+        console.log("view_port_scan");
+        page_id = $("#current-page-id").val();
+        console.log(page_id);
+        if (page_id != 13){
+            console.log("已不在爬虫页面");
+            window.clearInterval(timer);
+            return ;
+        }
+        id = $("#port_scan_id").val();
+{#        console.log(id);#}
+        if(id == 0){
+            return;
+        }
+        $.ajax({
+            url: "/tools/port_scan/"+id,
+            type: "GET",
+            dataType: 'json',
+            success: function (ret) {
+                ret = eval('('+ret+')');
+                if (ret.flag == 0){
+                    $("#view_port_info").html(ret.info);
+                }
+                else if (ret.flag == 1){
+                    rate = ret.rate;
+                    $("#process_div").show();
+                    $("#rate").text(rate+"%");
+                    $("#process_bar").width(rate+"%");
+                    cnt = ret.info + "<br>正在扫描中，请耐心等待，不要切换页面。。。";
+                    $("#view_port_info").html(cnt);
+                }else if(ret.flag == 2){
+                    $("#view_port_info").text("");
+                    $("#rate").text("100%");
+                    $("#process_bar").width("100%");
+                    ret_list = ret.result_list;
+                    tb = '<tr><th width="20%">端口</th><th width="80%">信息</th></tr>';
+                    for(var i = 0; i < ret_list.length; i++){
+                        dic = ret_list[i];
+                        port = dic.port;
+                        info = dic.info;
+                        tb += "<tr><td>"+port+"</td><td>"+info+"</td></tr>"
+                    }
+                    $("#result_table").html(tb);
+                    $("#port_scan_id").val(0);
+                    window.clearInterval(timer);
+                }
+            }
+        });
+    };
+    var show_web_spider_error = function (cnt) {
+        $("#port_scan_form_result").html(cnt);
+    };
+
+
+    var generate_dirs = function (tree) {
+        childrens = tree.childrens;
+        if(childrens){
+            childrens_html = '';
+            name = tree.name;
+            url = tree.name;
+            span_html = '<div class="hitarea collapsable-hitarea"></div><a class="folder" href="'+url+'">'+name+'</a>';
+            for(var i=0; i < childrens.length; i++){
+                children_html = generate_dirs(childrens[i]);
+                childrens_html += '<li>'+children_html+'</li>';
+            }
+            ul_html = '<ul>'+childrens_html+'</ul>'
+            console.log(ul_html);
+            return ul_html
+        }
+        else{
+            name = tree.name;
+            url = tree.url;
+            li_html = '<li><a class="file" href="'+ url +'">' + name + '</span></li>'
+            console.log(li_html);
+            return li_html
+        }
+    };
+
     $(document).ready(function () {
         $("#tree").treeview();
     });
