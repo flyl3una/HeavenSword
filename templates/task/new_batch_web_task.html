@@ -1,2 +1,110 @@
-<h2>新建批量任务</h2>
-<br>
+<div class="show-content">
+    {#    <div class="col-md-10 col-md-offset-1">#}
+    <div class="this-title">
+        <h3>创建批量任务</h3>
+    </div>
+    <div class="translation">
+        <div class="panel-body">
+
+            <div class="row">
+                <div class="col-md-2">
+                    <label>目标</label></div>
+                <div class="col-md-8 ">
+                    <input id="url" type="url" class="form-control " name="target"
+                           value="http://drupal.heavensword.com/" placeholder="目标网址" required>
+                </div>
+                <div class="col-md-2 no-padding-left-right">
+                    <button id="add_url" class="btn form-control btn-submit">添加</button>
+                </div>
+            </div>
+            <div class="row margin-top-20 margin-left-right-10">
+                <ul id="url_list" class="url-list list-group">
+{#                    <li class="list-group-item">#}
+{#                        <div class="col-md-11 padding-8-15">#}
+{#                            aaa#}
+{#                        </div>#}
+{##}
+{#                        <div class="col-md-1 no-padding-left-right">#}
+{#                            <div class="float-right btn-danger padding-top-buttom-8 delete-url">删除</div>#}
+{#                        </div>#}
+{#                    </li>#}
+{#                    <li class="list-group-item">#}
+{#                        <div class="col-md-11 padding-8-15">#}
+{#                            http://drupal.heavensword.com/#}
+{#                        </div>#}
+{##}
+{#                        <div class="col-md-1 no-padding-left-right">#}
+{#                            <div class="float-right btn-danger padding-top-buttom-8 delete-url">删除</div>#}
+{#                        </div>#}
+{#                    </li>#}
+                </ul>
+            </div>
+            <div id="start_batch_task" class="text-center margin-top-20">
+                <button class="btn form-control btn-success btn-submit" hidden>开始任务</button>
+            </div>
+            {#            <iframe id="frame_new_web_batch_task_form" name="frame_new_web_batch_task_form" style="display: none"></iframe>#}
+            {#            <form method="post" action="/new_batch_web_task/" target="frame_new_web_batch_task_form">#}
+            {#                {% csrf_token %}#}
+            {#        <h2 class="text-center">新建一个任务</h2>#}
+            {#                <div class="form-group row">#}
+            {#                    <label class="col-3 control-label col-form-label">#}
+            {#                        目标#}
+            {#                    </label>#}
+            {##}
+            {#                    <div class="col-sm-10 no-padding-left-right">#}
+            {#                        <label class="sr-only" for="url">目标网址</label>#}
+            {#                    <input id="url" type="url" class="form-control" name="target" value="http://drupal.heavensword.com/" placeholder="目标网址" required>#}
+            {#                    </div>#}
+            {#                    <div class="col-sm-2 no-padding-left-right">#}
+            {#            <input type="number" placeholder="线程数">#}
+            {#                        <input type="submit" value="开始" class="btn form-control btn-submit">#}
+            {#                    </div>#}
+            {#                </div>#}
+            {#                </form>#}
+            <div id="new_web_batch_form_result_info" class="form-result">
+                {{ error }}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    var new_web_single_form_result = function (ret) {
+        $("#new_web_single_form_result_info").html(ret)
+    };
+
+    var add_url = function () {
+        var url = $("#url").val();
+        if (url == "") {
+            return;
+        }
+        lens = $("#url_list").find("li").length;
+        var li = '<li id="li-'+lens+'" class="list-group-item"><div class="col-md-11 padding-8-15">' + url + '</div> <div class="col-md-1 no-padding-left-right"><div id="delete-'+lens+'" class="float-right btn-danger padding-top-buttom-8 delete-url">删除</div></div></li>';
+
+        var urls = $("#url_list").html();
+        $("#url_list").html(urls + li);
+    };
+
+    var delete_url = function () {
+        var id = $(this).attr("id");
+        console.log(id);
+        id = id.split(id)[1];
+        console.log(id);
+        $("#add_url").removeAttr($("#li"+id));
+    };
+
+    $(document).ready(function () {
+
+        $(".delete-url").click();
+        $("#add_url").click(add_url);
+
+        //icheck插件
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_minimal-blue',
+            radioClass: 'iradio_minimal-blue',
+            increaseArea: '20%' // optional
+        });
+    });
+</script>

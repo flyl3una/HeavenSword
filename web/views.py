@@ -300,7 +300,8 @@ def new_single_web_task(request):
         params = request.POST
         try:
             if 'target' not in params:
-                return HttpResponse("目标错误")
+                # '<script>parent.new_web_single_form_result("目标错误")</script>'
+                return HttpResponse('<script>parent.new_web_single_form_result("目标错误")</script>')
             args = {}
             target = params['target']
             target = get_root_url(target)
@@ -326,6 +327,7 @@ def new_single_web_task(request):
             b_finger = models.Finger.objects.filter(target_domain=domain)
             if b_finger:
                 args['finger_flag'] = False
+                m_web_single_task.finger_id = b_finger[0].id
             else:
                 args['finger_flag'] = True
                 m_finger = models.Finger(target_domain=domain, target_url=target)
@@ -339,6 +341,7 @@ def new_single_web_task(request):
             b_exploit = models.WebExploit.objects.filter(target_domain=domain)
             if b_exploit:
                 args['exploit_flag'] = False
+                m_web_single_task.exploit_id = b_exploit[0].id
             else:
                 args['exploit_flag'] = True
                 m_exploit_attack = models.WebExploit(target_url=target, target_domain=domain)
@@ -357,10 +360,12 @@ def new_single_web_task(request):
             p = subprocess.Popen(work)
             print 'open success:', p
             # print params
-            return HttpResponse("任务开启成功")
+
+            return HttpResponse('<script>parent.new_web_single_form_result("任务开启成功")</script>')
+            # return HttpResponseRedirect(view_web_task_list(request))
         except Exception as e:
             print e
-            return HttpResponse("任务开启失败")
+            return HttpResponse('<script>parent.new_web_single_form_result("任务开启失败")</script>')
 
 
 """
