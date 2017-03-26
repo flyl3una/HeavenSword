@@ -7,9 +7,9 @@ from multiprocessing.dummy import Pool as ThreadPool
 
 import MySQLdb
 
-from core.config import DB_CHARSET, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME, INTERNET_TIMEOUT
-from core.config import DB_HOST
-from core.function import get_ip
+from tools.config import DB_CHARSET, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME, INTERNET_TIMEOUT
+from tools.config import DB_HOST
+from tools.function import get_ip
 
 
 class ScanPort:

@@ -11,7 +11,7 @@ import dns.query
 import re
 import requests
 
-from core.config import DICT_PATH, DB_HOST, DB_CHARSET, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME
+from tools.config import DICT_PATH, DB_HOST, DB_CHARSET, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME
 
 
 class DomainBrute:

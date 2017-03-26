@@ -14,8 +14,8 @@ from Exploit_attack import new_exploit_attack
 from Finger import get_finger
 from PortScan import new_port_scan
 from Spider import new_spider
-from core.config import DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME, DB_CHARSET, FINGER_PATH
-from core.function import get_domain, get_first_domain
+from tools.config import DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME, DB_CHARSET, FINGER_PATH
+from tools.function import get_domain, get_first_domain
 
 
 def echo():

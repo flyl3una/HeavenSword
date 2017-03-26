@@ -71,6 +71,7 @@ class Url(models.Model):
 
 class WebSingleTask(models.Model):
     target_url = models.CharField(max_length=32, null=False)  # 目标网址
+    domain = models.CharField(max_length=32, unique=True, null=False)    #目标域名
     status = models.SmallIntegerField(default=0)  # 任务完成状态，1完成，0未完成
     finger_id = models.IntegerField(default=0)
     exploit_id = models.IntegerField(default=0)

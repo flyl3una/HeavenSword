@@ -10,8 +10,8 @@ import requests
 import time
 from bs4 import BeautifulSoup
 
-from core.config import DB_CHARSET, DB_USER, DB_PASSWORD, DB_NAME
-from core.config import DB_HOST, DB_PORT
+from tools.config import DB_CHARSET, DB_USER, DB_PASSWORD, DB_NAME
+from tools.config import DB_HOST, DB_PORT
 
 
 class SpiderManager:

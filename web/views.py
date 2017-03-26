@@ -11,9 +11,9 @@ from django.core.mail import send_mail
 from django.http import HttpResponse, JsonResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, render_to_response, redirect
-from HeavenSword.settings import DEFAULT_FROM_EMAIL, EMAIL_HOST_USER, CORE_PATH
-from core.Spider import Tree
-from core.function import get_ip, get_domain, get_first_domain, get_root_url, get_father_domain
+from HeavenSword.settings import DEFAULT_FROM_EMAIL, EMAIL_HOST_USER, TOOLS_PATH
+from tools.Spider import Tree
+from tools.function import get_ip, get_domain, get_first_domain, get_root_url, get_father_domain
 from web import models
 from web.dir.EmailToken import EmailToken
 from web.models import WebSingleTask, PortScan, DomainBrute, Spider
@@ -280,7 +280,23 @@ def new_single_web_task1(request):
 
 
 def new_batch_web_task(request):
-    return render(request, 'task/new_batch_web_task.html')
+    if request.method == 'GET':
+        return render(request, 'task/new_batch_web_task.html')
+    elif request.method == 'POST':
+        # try:
+        params = request.POST
+        print params['urls']
+        targets = params['urls'].split(',')
+        # except:
+        #     return HttpResponse('<script>parent.new_web_batch_form_result("任务开启失败")<script>')
+        str = ''
+        for target in targets:
+            flag1 = new_web_task(target)
+            if flag1:
+                str += target + '开启成功<br>'
+            else:
+                str += target + '开始失败<br>'
+        return HttpResponse('<script>parent.new_web_batch_form_result("' + str + '")</script>')
 
 
 def task_list(request):
@@ -291,6 +307,75 @@ def show_task(request):
     return render(request, 'task/show_task.html')
 
 
+def new_web_task(target):
+    try:
+        args = {}
+        target = get_root_url(target)
+        args['target'] = target
+        domain = get_domain(target)
+        first_domain = get_first_domain(domain)
+        b_web_single_task = WebSingleTask.objects.filter(domain=domain)
+        if b_web_single_task:
+            return True
+        ipaddrs = []
+        try:
+            ipaddrs = get_ip(domain)
+        except Exception as e:
+            print e
+        ips = models.DomainIP.objects.filter(domain=domain).values('ip')
+        for ip in ips:
+            if ip['ip'] not in ipaddrs:
+                m_domainip = models.DomainIP(first_domain=first_domain, domain=domain, ip=ip)
+                m_domainip.save()
+
+        m_web_single_task = models.WebSingleTask(target_url=target, domain=domain)
+        m_web_single_task.save()
+
+        # 判断数据库是否已经有该域名的指纹识别了，如果有，则不在进行识别，防止多个用户对同一个目标进行多次测试。
+        # finger
+        b_finger = models.Finger.objects.filter(target_domain=domain)
+        if b_finger:
+            args['finger_flag'] = False
+            m_web_single_task.finger_id = b_finger[0].id
+        else:
+            args['finger_flag'] = True
+            m_finger = models.Finger(target_domain=domain, target_url=target)
+            m_finger.save()
+            args['finger_id'] = m_finger.id
+            args['finger_target_url'] = target
+            m_web_single_task.finger_id = m_finger.id
+
+        # exploit
+        # 判断数据库是否已经有该域名的web攻击测试了，如果有，则不在进行测试
+        b_exploit = models.WebExploit.objects.filter(target_domain=domain)
+        if b_exploit:
+            args['exploit_flag'] = False
+            m_web_single_task.exploit_id = b_exploit[0].id
+        else:
+            args['exploit_flag'] = True
+            m_exploit_attack = models.WebExploit(target_url=target, target_domain=domain)
+            m_exploit_attack.save()
+            args['exploit_url'] = target
+            args['exploit_id'] = m_exploit_attack.id
+            # new_exploit_attack(target)
+            m_web_single_task.exploit_id = m_exploit_attack.id
+
+        m_web_single_task.save()
+        args['task_id'] = m_web_single_task.id
+        args['model'] = 1
+        json_args = json.dumps(args)
+        json_args = json_args.replace('"', "'")
+        work = 'python ' + CORE_PATH + os.sep + 'core.py ' + json_args
+        p = subprocess.Popen(work)
+        print 'open success:', p
+        # print params
+        return True
+        # return HttpResponseRedirect(view_web_task_list(request))
+    except Exception as e:
+        print e
+        return False
+
+
 def new_single_web_task(request):
     if not request.user.is_authenticated():
         return HttpResponse("<div style='text-align:center;margin-top:20%'><h3>请登录</h3><br><br><a href='/user/login/'>点击跳转到登陆页面</a>")
@@ -298,75 +383,15 @@ def new_single_web_task(request):
         return render(request, 'task/new_single_web_task.html')
     if request.method == 'POST':
         params = request.POST
-        try:
-            if 'target' not in params:
-                # '<script>parent.new_web_single_form_result("目标错误")</script>'
-                return HttpResponse('<script>parent.new_web_single_form_result("目标错误")</script>')
-            args = {}
-            target = params['target']
-            target = get_root_url(target)
-            args['target'] = target
-            domain = get_domain(target)
-            first_domain = get_first_domain(domain)
-            ipaddrs = []
-            try:
-                ipaddrs = get_ip(domain)
-            except Exception as e:
-                print e
-            ips = models.DomainIP.objects.filter(domain=domain).values('ip')
-            for ip in ips:
-                if ip['ip'] not in ipaddrs:
-                    m_domainip = models.DomainIP(first_domain=first_domain, domain=domain, ip=ip)
-                    m_domainip.save()
-
-            m_web_single_task = models.WebSingleTask(target_url=target)
-            m_web_single_task.save()
-
-            # 判断数据库是否已经有该域名的指纹识别了，如果有，则不在进行识别，防止多个用户对同一个目标进行多次测试。
-            #finger
-            b_finger = models.Finger.objects.filter(target_domain=domain)
-            if b_finger:
-                args['finger_flag'] = False
-                m_web_single_task.finger_id = b_finger[0].id
-            else:
-                args['finger_flag'] = True
-                m_finger = models.Finger(target_domain=domain, target_url=target)
-                m_finger.save()
-                args['finger_id'] = m_finger.id
-                args['finger_target_url'] = target
-                m_web_single_task.finger_id = m_finger.id
-
-            #exploit
-            # 判断数据库是否已经有该域名的web攻击测试了，如果有，则不在进行测试
-            b_exploit = models.WebExploit.objects.filter(target_domain=domain)
-            if b_exploit:
-                args['exploit_flag'] = False
-                m_web_single_task.exploit_id = b_exploit[0].id
-            else:
-                args['exploit_flag'] = True
-                m_exploit_attack = models.WebExploit(target_url=target, target_domain=domain)
-                m_exploit_attack.save()
-                args['exploit_url'] = target
-                args['exploit_id'] = m_exploit_attack.id
-                # new_exploit_attack(target)
-                m_web_single_task.exploit_id = m_exploit_attack.id
-
-            m_web_single_task.save()
-            args['task_id'] = m_web_single_task.id
-            args['model'] = 1
-            json_args = json.dumps(args)
-            json_args = json_args.replace('"', "'")
-            work = 'python ' + CORE_PATH + os.sep + 'core.py ' + json_args
-            p = subprocess.Popen(work)
-            print 'open success:', p
-            # print params
-
+        if 'target' not in params:
+            # '<script>parent.new_web_single_form_result("目标错误")</script>'
+            return HttpResponse('<script>parent.new_web_single_form_result("目标错误")</script>')
+        target = params['target']
+        flag = new_web_task(target)
+        if flag:
             return HttpResponse('<script>parent.new_web_single_form_result("任务开启成功")</script>')
-            # return HttpResponseRedirect(view_web_task_list(request))
-        except Exception as e:
-            print e
+        else:
             return HttpResponse('<script>parent.new_web_single_form_result("任务开启失败")</script>')
-
 
 """
 r_ result

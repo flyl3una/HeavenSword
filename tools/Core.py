@@ -14,8 +14,8 @@ from Exploit_attack import new_exploit_attack
 from Finger import get_finger
 from PortScan import new_port_scan
 from Spider import new_spider
-from core.config import DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME, DB_CHARSET, FINGER_PATH
-from core.function import get_domain, get_first_domain
+from tools.config import DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME, DB_CHARSET, FINGER_PATH
+from tools.function import get_domain, get_first_domain
 
 
 def start_single_web_task(params):
@@ -111,8 +111,8 @@ def start_spider(params):
     spider_thread = threading.Thread(target=new_spider, args=(spider_id, url, spider_thread))
     spider_thread.start()
     spider_thread.join()
+
 '''
-'python D:\\study\\python\\pycharm\\workspace\\HeavenSword\\core\\core.py {\\'domain\\': \\'drupal.heavensword.com\\', \\'target_url\\': \\'http://drupal.heavensword.com\\', \\'spider_id\\': 6, \\'model\\': 13, \\'spider_thread\\': 4}'
 '''
 
 if __name__ == '__main__':

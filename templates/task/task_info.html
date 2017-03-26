@@ -11,12 +11,12 @@
             <table class="table table-horizonal">
                 <tbody>
                 <tr>
-                    <th width="25%">目标</th>
-                    <td width="75%">{{ info.target_url }}</td>
+                    <th width="30%">目标</th>
+                    <td width="70%">{{ info.target_url }}</td>
                 </tr>
                 <tr>
-                    <th width="25%">状态</th>
-                    <td width="75%">
+                    <th width="30%">状态</th>
+                    <td width="70%">
                         {% ifequal info.status 1 %}
                             完成
                         {% else %}
@@ -29,28 +29,6 @@
         </div>
     </div>
 
-    {#    <br>#}
-    {#    <div class="row">#}
-    {#        <label class="col-md-2">#}
-    {#            目标IP:#}
-    {#        </label>#}
-    {#            127.0.0.1#}
-    {#        &nbsp;&nbsp;&nbsp;&nbsp;#}
-    {#        192.168.0.1#}
-    {#    </div>#}
-    {#    <br>#}
-
-    {#    <div class="row">#}
-    {#        <label class="col-md-2">#}
-    {#            任务进度：#}
-    {#        </label>#}
-    {#        <div class="progress progress-striped">#}
-    {#            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60"#}
-    {#                aria-valuemin="0" aria-valuemax="100" style="width: 60%;">#}
-    {#                <span class="sr-only">40%完成</span>#}
-    {#            </div>#}
-    {#        </div>#}
-    {#    </div>#}
     {% ifequal info.status 1 %}
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -63,8 +41,8 @@
                     {% ifequal info.r_finger.status 2 %}
                         <table class="table table-horizonal">
                             <tr>
-                                <th>类型</th>
-                                <th>名称</th>
+                                <th width="30%">类型</th>
+                                <th width="70%">名称</th>
                             </tr>
                             {% for app in info.r_finger.app_list %}
                                 <tr>
@@ -90,8 +68,8 @@
                     {% ifequal info.r_exploit.status 2 %}
                         <table class="table table-horizonal">
                             <tr>
-                                <th>exp类型</th>
-                                <th>exp名称</th>
+                                <th width="30%">exp类型</th>
+                                <th width="70%">exp名称</th>
                             </tr>
                             {% for exp in info.r_exploit.result %}
                                 <tr>

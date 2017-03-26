@@ -10,8 +10,8 @@ import json
 from bs4 import BeautifulSoup
 
 from HeavenSword.settings import WEB_PATH
-from core.config import FINGER_PATH, DB_HOST, DB_CHARSET, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME
-from core.function import get_domain
+from tools.config import FINGER_PATH, DB_HOST, DB_CHARSET, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME
+from tools.function import get_domain
 
 
 def getApps(path):

@@ -4,11 +4,11 @@
 import os
 from HeavenSword.settings import BASE_DIR
 
-CORE_PATH = os.path.join(BASE_DIR, 'core')
+TOOLS_PATH = os.path.join(BASE_DIR, 'tools')
 
-DICT_PATH = os.path.join(CORE_PATH, 'setting', 'dict')
-EXP_PATH = os.path.join(CORE_PATH, 'setting', 'exp')
-FINGER_PATH = os.path.join(CORE_PATH, 'setting', 'finger')
+DICT_PATH = os.path.join(TOOLS_PATH, 'setting', 'dict')
+EXP_PATH = os.path.join(TOOLS_PATH, 'setting', 'exp')
+FINGER_PATH = os.path.join(TOOLS_PATH, 'setting', 'finger')
 
 INTERNET_TIMEOUT = 0.3
 
