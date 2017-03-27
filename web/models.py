@@ -210,3 +210,4 @@ class WebExploitResult(models.Model):
     result = models.IntegerField(default=0)         # 0表示没有漏洞，1表示exp攻击成功
     exp_type = models.CharField(max_length=32)      # exp类型
     exp_name = models.CharField(max_length=32)      # 成功使用的exp名称
+    # update_date = models.DateTimeField(auto_now=True)

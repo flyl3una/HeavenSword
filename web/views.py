@@ -120,7 +120,7 @@ def user_activate(request, token):
     return HttpResponse("账号激活成功。<br><a href='/user/login/'>点击跳转到登陆页面</a>")
 
 
-def about(request):
+def help(request):
     return render(request, 'help.html')
 
 
@@ -269,7 +269,7 @@ def new_single_web_task1(request):
             # json_args = json.dumps(dict(params))
             json_args = json.dumps(args)
             json_args = json_args.replace('"', "'")
-            work = 'python ' + CORE_PATH + os.sep + 'worker.py ' + json_args
+            work = 'python ' + TOOLS_PATH + os.sep + 'worker.py ' + json_args
             p = subprocess.Popen(work)
             print 'open success:', p
             # print params
@@ -365,7 +365,7 @@ def new_web_task(target):
         args['model'] = 1
         json_args = json.dumps(args)
         json_args = json_args.replace('"', "'")
-        work = 'python ' + CORE_PATH + os.sep + 'core.py ' + json_args
+        work = 'python ' + TOOLS_PATH + os.sep + 'core.py ' + json_args
         p = subprocess.Popen(work)
         print 'open success:', p
         # print params
@@ -555,7 +555,7 @@ def port_scan(request):
                     args['model'] = 11
                     json_args = json.dumps(args)
                     json_args = json_args.replace('"', "'")
-                    work = 'python ' + CORE_PATH + os.sep + 'core.py ' + json_args
+                    work = 'python ' + TOOLS_PATH + os.sep + 'core.py ' + json_args
                     p = subprocess.Popen(work)
                     print 'open success:', p
                 else:
@@ -663,7 +663,7 @@ def domain_brute(request):
                 args['model'] = 12
                 json_args = json.dumps(args)
                 json_args = json_args.replace('"', "'")
-                work = 'python ' + CORE_PATH + os.sep + 'core.py ' + json_args
+                work = 'python ' + TOOLS_PATH + os.sep + 'core.py ' + json_args
                 p = subprocess.Popen(work)
                 print 'open success:', p
             else:
@@ -766,7 +766,7 @@ def web_spider(request):
                 args['model'] = 13
                 json_args = json.dumps(args)
                 json_args = json_args.replace('"', "'")
-                work = 'python ' + CORE_PATH + os.sep + 'core.py ' + json_args
+                work = 'python ' + TOOLS_PATH + os.sep + 'core.py ' + json_args
                 p = subprocess.Popen(work)
                 print 'open success:', p
             else:

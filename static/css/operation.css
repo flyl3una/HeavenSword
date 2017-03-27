@@ -330,3 +330,9 @@ a:hover{
     /*border: none;*/
     height: 40px;
 }
+
+.word-wrap{
+    word-wrap:break-word;
+    word-break:break-all;
+    overflow: hidden;/*这个参数根据需要来绝对要不要*/
+}

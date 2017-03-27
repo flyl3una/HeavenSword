@@ -5,6 +5,7 @@ from xadmin.plugins.batch import BatchChangeAction
 
 from web.models import WebSingleTask, Finger, WebExploit, PortScan
 from xadmin.views import CommAdminView
+from web.models import *
 
 import xadmin
 # from models import UserSettings
@@ -41,24 +42,77 @@ class GlobalSetting(object):
 
 
 class WebSingleTaskAdmin(object):
-    list_display = ('id', 'target_url', 'domain', 'status', 'finger_id', 'exploit_id', 'update_date')
+    list_display = ('domain', 'target_url', 'status', 'finger_id', 'exploit_id', 'update_date')
     list_display_links = ('domain',)
     # wizard_
     search_fields = ['domain']
     # actions = [BatchChangeAction, ]
     batch_fields = ('contact',)
+    # search_fields = ['domain']
+    relfield_style = 'fk-ajax'
 
 
 class FingerAdmin(object):
-    list_display = ('id', 'target_domain', 'target_url', 'status', 'finger_count', 'current_index', 'update_date')
+    list_display = ('target_domain', 'target_url', 'status', 'finger_count', 'current_index', 'update_date')
+    search_fields = ['target_domain']
 
 
 class PortScanAdmin(object):
-    list_display = ('id', 'target_ip', 'status', 'port_count', 'current_index', 'thread', 'model', 'update_date')
+    list_display = ('target_ip', 'status', 'port_count', 'current_index', 'thread', 'model', 'update_date')
+    search_fields = ['target_ip']
+
+
+class UrlAdmin(object):
+    list_display = ('domain', 'url', 'update_date')
+    search_fields = ['domain']
+
+
+class DomainIpAdmin(object):
+    list_display = ('first_domain', 'domain', 'ip', 'update_date')
+    search_fields = ['first_domain']
+
+
+class AppTypeAdmin(object):
+    list_display = ('domain', 'name', 'cata', 'implies')
+    search_fields = ['domain']
+
+
+class OpenPortAdmin(object):
+    list_display = ('ip_addr', 'port_num', 'port_info')
+    search_fields = ['ip_addr']
+
+
+class DomainBruteAdmin(object):
+    list_display = ('target_first_domain', 'target_domain', 'status', 'domain_count', 'current_index', 'thread', 'model', 'update_date')
+    search_fields = ['target_first_domain']
+
+
+class SpiderAdmin(object):
+    list_display = ('target_domain', 'target_url', 'status', 'thread', 'update_date')
+    search_fields = ['target_domain']
+
+
+class WebExploitAdmin(object):
+    list_display = ('target_url', 'target_domain', 'status', 'update_date')
+    search_fields = ['target_url']
+
+
+class WebExploitResultAdmin(object):
+    # list_play = ('domain', 'result', 'exp_type', 'exp_name', 'update_date')
+    list_display = ('domain', 'result', 'exp_type', 'exp_name')
+    search_fields = ['domain']
 
 
 xadmin.site.register(CommAdminView, GlobalSetting)
 xadmin.site.register(WebSingleTask, WebSingleTaskAdmin)
 xadmin.site.register(Finger, FingerAdmin)
 xadmin.site.register(PortScan, PortScanAdmin)
+xadmin.site.register(Url, UrlAdmin)
+xadmin.site.register(DomainIP, DomainIpAdmin)
+xadmin.site.register(AppType, AppTypeAdmin)
+xadmin.site.register(OpenPort, OpenPortAdmin)
+xadmin.site.register(DomainBrute, DomainBruteAdmin)
+xadmin.site.register(Spider, SpiderAdmin)
+xadmin.site.register(WebExploit, WebExploitAdmin)
+xadmin.site.register(WebExploitResult, WebExploitResultAdmin)
 # xadmin.site.register(UserSettings, UserSettingsAdmin)

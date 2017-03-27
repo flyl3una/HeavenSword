@@ -34,7 +34,22 @@ $(document).ready(function(){
         consolo.log("xx");
     };
 
-    $('#task_info').click(a_fun);
+    // $('.current-task-info').click(function () {
+    //     var a=$(this).attr('id');
+    //     var id = a.split('-')[1];
+    //     console.log(id);
+    //     if(id == '0'){
+    //         $("#content").html('<h3>请先创建任务</h3>');
+    //     }
+    //     else{
+    //         $.get('/web_task_info/'+id, function (result) {
+    //             $("#content").html(result);
+    //         });
+    //     }
+    // });
+
+    $("#help").click(a_fun);
+
     $("#add_module").click(a_fun);
 
     $(".web_task").click(a_fun);

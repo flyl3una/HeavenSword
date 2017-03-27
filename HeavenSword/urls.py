@@ -31,7 +31,7 @@ urlpatterns = [
 
     url(r'^batch/$', views.batch),
     url(r'^operation/$', views.operation),
-    url(r'^about/$', views.about),
+    url(r'^help/$', views.help),
 
     #web
     url(r'^new_single_web_task/$', views.new_single_web_task),
