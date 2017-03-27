@@ -73,12 +73,12 @@ class DomainIpAdmin(object):
 
 
 class AppTypeAdmin(object):
-    list_display = ('domain', 'name', 'cata', 'implies')
+    list_display = ('domain', 'name', 'cata', 'implies', 'update_date')
     search_fields = ['domain']
 
 
 class OpenPortAdmin(object):
-    list_display = ('ip_addr', 'port_num', 'port_info')
+    list_display = ('ip_addr', 'port_num', 'port_info', 'update_date')
     search_fields = ['ip_addr']
 
 
@@ -99,7 +99,7 @@ class WebExploitAdmin(object):
 
 class WebExploitResultAdmin(object):
     # list_play = ('domain', 'result', 'exp_type', 'exp_name', 'update_date')
-    list_display = ('domain', 'result', 'exp_type', 'exp_name')
+    list_display = ('domain', 'result', 'exp_type', 'exp_name', 'update_date')
     search_fields = ['domain']
 
 

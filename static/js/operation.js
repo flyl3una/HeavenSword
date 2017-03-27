@@ -53,10 +53,12 @@ $(document).ready(function(){
     $("#add_module").click(a_fun);
 
     $(".web_task").click(a_fun);
+    // $(".sys_task").click(a_fun);
+
     // $("#new_single_web_task").click(a_fun);
     // $("#new_batch_web_task").click(a_fun);
     // $("#view_web_task_list").click(a_fun);
-    $(".sys_task").click(a_fun);
+
     // $("#new_single_sys_task").click(a_fun);
     // $("#new_batch_sys_task").click(a_fun);
     // $("#view_sys_task_list").click(a_fun);
