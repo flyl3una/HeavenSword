@@ -16,7 +16,7 @@ from tools.Spider import Tree
 from tools.function import get_ip, get_domain, get_first_domain, get_root_url, get_father_domain
 from web import models
 from web.dir.EmailToken import EmailToken
-from web.models import WebSingleTask, PortScan, DomainBrute, Spider
+from web.models import WebSingleTask, PortScan, DomainBrute, Spider, UserTaskId
 from web.msetting import DOMAIN
 
 
@@ -118,6 +118,11 @@ def user_activate(request, token):
     user.is_active = True
     user.save()
     return HttpResponse("账号激活成功。<br><a href='/user/login/'>点击跳转到登陆页面</a>")
+
+
+def user_info(request):
+
+    return render(request, 'user/user_info.html')
 
 
 def help(request):
@@ -291,7 +296,7 @@ def new_batch_web_task(request):
         #     return HttpResponse('<script>parent.new_web_batch_form_result("任务开启失败")<script>')
         str = ''
         for target in targets:
-            flag1 = new_web_task(target)
+            flag1 = new_web_task(target, request.user)
             if flag1:
                 str += target + '开启成功<br>'
             else:
@@ -307,7 +312,7 @@ def show_task(request):
     return render(request, 'task/show_task.html')
 
 
-def new_web_task(target):
+def new_web_task(target, user):
     try:
         args = {}
         target = get_root_url(target)
@@ -361,6 +366,8 @@ def new_web_task(target):
             m_web_single_task.exploit_id = m_exploit_attack.id
 
         m_web_single_task.save()
+        m_user_task_id = UserTaskId(user=user, task=m_web_single_task)
+        m_user_task_id.save()
         args['task_id'] = m_web_single_task.id
         args['model'] = 1
         json_args = json.dumps(args)
@@ -387,7 +394,7 @@ def new_single_web_task(request):
             # '<script>parent.new_web_single_form_result("目标错误")</script>'
             return HttpResponse('<script>parent.new_web_single_form_result("目标错误")</script>')
         target = params['target']
-        flag = new_web_task(target)
+        flag = new_web_task(target, request.user)
         if flag:
             return HttpResponse('<script>parent.new_web_single_form_result("任务开启成功")</script>')
         else:
@@ -740,7 +747,7 @@ def web_spider(request):
         try:
             if 'id' in params and int(params['id']) != 0:
                 id = int(params['id'])
-                domain_brute_obj = models.DomainBrute.objects.get(id=id)
+                domain_brute_obj = models.Spider.objects.get(id=id)
                 if domain_brute_obj.status != 2:
                     json_dic['flag'] = 0
                     json_dic['info'] = "请等待目前任务执行完成"
@@ -815,10 +822,13 @@ def fuzz(request):
 
 
 def view_web_task_list(request):
-
+    # if not request.user.is_authenticated():
     tasklist = []
-    single_task = WebSingleTask.objects.all()
-    for task in single_task:
+    # single_task = WebSingleTask.objects.all()
+    user_task = UserTaskId.objects.filter(user=request.user)
+
+    for single_task in user_task:
+        task = WebSingleTask.objects.get(id=single_task.task_id)
         a_task = {}
         a_task['id'] = task.id
         a_task['target_url'] = task.target_url

@@ -1,0 +1,71 @@
+body {
+    font-family: "微软雅黑",Arial,"Hiragino Sans GB","Microsoft Yahei",STHeiti,"华文细黑",sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #717b82;
+    background-color: #f3f4f5;
+}
+
+.main-body{
+    padding-top: 59px;
+    padding-bottom: 90px;
+    /*margin-top: 20px;*/
+}
+
+.head-tab>li>a{
+    margin-right: 0;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 0 0 0 0;
+    line-height: 1.42857143;
+    color: #717b82;
+    outline: none;
+}
+
+.nav-tabs{
+    border-bottom: 0;
+}
+
+.head-tab>li.active>a, .head-tab>li.active>a:hover, .head-tab>li.active>a:focus {
+    color: #3fa9f5;
+    background-color: #fff;
+    border: 1px solid #dfe9ef;
+    border-bottom-color: transparent;
+    cursor: default;
+}
+
+.tab-content {
+    background-color: #fff;
+    padding: 24px 24px 32px 24px;
+    /*padding-top: 24px;*/
+    /*padding-bottom: 32px;*/
+    border: 1px solid #dfe9ef;
+}
+
+.tab-panel>.panel-default>.panel-heading{
+    background-color: #f0f3f6;
+    border-color: transparent;
+    box-sizing: border-box;
+    color: #252a2f;
+    padding: 10px 20px;
+    border-bottom: 1px solid transparent;
+}
+
+.tab-content>.tab-panel {
+    display: none;
+}
+
+.tab-content>.active {
+    display: block;     !important;
+}
+
+.font-red{
+    padding: auto;
+    margin-top: 7px;
+    color: red;
+    font-size: 20px;
+    /*align-content: center;*/
+    text-align: left;
+    display: block;
+    -moz-box-align: center;
+}

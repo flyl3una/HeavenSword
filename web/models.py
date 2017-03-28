@@ -189,6 +189,11 @@ class Spider(models.Model):
     update_date = models.DateTimeField(auto_now=True)
 
 
+class UserTaskId(models.Model):
+    user = models.ForeignKey(User)
+    task = models.ForeignKey(WebSingleTask)
+
+
 class WebExploit(models.Model):
     # task_id = models.ForeignKey(SingleTask)
     # task_type = models.IntegerField(default=0)  # 0为单个任务，1为批量任务

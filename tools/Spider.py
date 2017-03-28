@@ -319,12 +319,15 @@ class Tree:
 
     def __init__(self, domain, urls):
         self.nodes = []
+        self.node_hash = set()
         self.domain = domain
         self.prefix = ''.join(urls[0].partition(domain + "/")[:2])
         for url in urls:
             suffix = url.partition(domain+"/")[2]
             levels = suffix.split('/')
-            self.nodes += self.get_nodes(levels)
+            nodes = self.get_nodes(levels)
+            if nodes:
+                self.nodes += nodes
 
     def make_tree(self):
         tree = {}
@@ -341,7 +344,10 @@ class Tree:
                 one_node['parent'] = None
                 one_node['depth'] = 0
                 one_node['url'] = node['url']
+                # if one_node not in tree['childrens']:
                 tree['childrens'].append(one_node)
+                # else:
+                #     one_node = tree['childrens']
                 self.get_childrens(one_node, self.nodes)
         return tree
 
@@ -373,9 +379,11 @@ class Tree:
             name = levels[i]
             url = self.prefix + url
             node = {"name": name, "depth": i, "parent": parent, "children": children, "url": url}
-            nodes.append(node)
-            # single_tree = {}
-            # single_tree
+            node_hash = str(name)+str(i)+str(parent)
+            if node_hash not in self.node_hash:
+                nodes.append(node)
+            # else:
+            self.node_hash.add(node_hash)
         return nodes
 
 

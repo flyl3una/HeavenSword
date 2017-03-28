@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% block title %}用户信息{% endblock %}
+{% load staticfiles %}
+{% load static %}
+
+{% block extracss %}
+    <link href="{% static "css/user-info.css" %}" rel="stylesheet">
+    <link href="{% static "css/operation.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+    <div class="container main-body">
+        <ul class="head-tab nav nav-tabs text-center" role="tablist">
+            <li>
+                <a href="#">用户信息</a>
+            </li>
+{#            <li>#}
+{#                <a href="#">修改邮箱</a>#}
+{#            </li>#}
+            <li>
+                <a href="#">修改密码</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-panel active">
+                <div id="user_info" class="panel-default">
+                    <div class="panel-heading">
+                        用户基本信息
+                    </div>
+                    <div class="panel-body">
+                        {#                        <div class="container-fluid">#}
+                        <div class="row">
+{#                            <div class="col-md-8">#}
+                                <table class="table table-horizonal">
+                                    <tbody>
+                                    <tr>
+                                        <th width="25%">用户名</th>
+                                        <td width="75%">admin</td>
+                                    </tr>
+                                    <tr>
+                                        <th>邮箱</th>
+                                        <td>admin@admin.com</td>
+                                    </tr>
+                                    <tr>
+                                        <th>手机号</th>
+                                        <td>132456790</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+{#                                <div class="row">#}
+{#                                    用户名：admin#}
+{#                                </div>#}
+{#                                <p>#}
+{#                                    邮箱：admin@admin.com#}
+{#                                </p>#}
+{#                                <p>#}
+{#                                    手机号:132456790#}
+{#                                </p>#}
+{#                            </div>#}
+{#                            <div class="col-md-4">#}
+{#                                头像：#}
+{#                            </div>#}
+                        </div>
+                        {#                        </div>#}
+                    </div>
+                </div>
+{#                <div class="tab-panel active">#}
+{#                    <div id="change_info" class="panel-default">#}
+{#                        <div class="panel-heading">#}
+{#                            修改基本信息#}
+{#                        </div>#}
+{#                        <form>#}
+{#                            <div class="row">#}
+{#                            <table#}
+{#                            用户名：#}
+{#                                </div>#}
+{#                            <input type="text" class="form-control">#}
+{#                            头像#}
+{#                            <input type="icon" class="form-control">#}
+{#                        </form>#}
+{#                    </div>#}
+{#                </div>#}
+                <div class="tab-panel active">
+                    <div id="change_pwd" class="panel-default">
+                        <div class="panel-heading">
+                            修改密码
+                        </div>
+                        <div class="panel-body">
+                        <p>用户名：user</p>
+                        <form>
+                            原密码
+{#                            <div class="row">#}
+{#                                <div class="col-md-11">#}
+                              <input type="password" class="form-control" required>
+{#                                </div>#}
+{#                                <div class="col-md-1 font-red ">#}
+{#                                    *#}
+{#                                </div>#}
+{#                            </div>#}
+                            新密码
+                            <input type="password" class="form-control" required>
+                            再次输入新密码
+                            <input type="password" class="form-control" required>
+                            <input type="submit" value="确认修改">
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
