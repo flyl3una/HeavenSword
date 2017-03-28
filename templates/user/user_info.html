@@ -12,101 +12,113 @@
 
     <div class="container main-body">
         <ul class="head-tab nav nav-tabs text-center" role="tablist">
-            <li>
-                <a href="#">用户信息</a>
+            <li class="active">
+                <a id="nav-user_info" href="#">用户信息</a>
             </li>
-{#            <li>#}
-{#                <a href="#">修改邮箱</a>#}
-{#            </li>#}
+            {#            <li>#}
+            {#                <a href="#">修改邮箱</a>#}
+            {#            </li>#}
             <li>
-                <a href="#">修改密码</a>
+                <a id="nav-change_pwd" href="#">修改密码</a>
             </li>
         </ul>
         <div class="tab-content">
-            <div class="tab-panel active">
-                <div id="user_info" class="panel-default">
+            <div id="tab-user_info" class="tab-panel active">
+                <div class="panel-default">
                     <div class="panel-heading">
                         用户基本信息
                     </div>
                     <div class="panel-body">
                         {#                        <div class="container-fluid">#}
                         <div class="row">
-{#                            <div class="col-md-8">#}
-                                <table class="table table-horizonal">
-                                    <tbody>
-                                    <tr>
-                                        <th width="25%">用户名</th>
-                                        <td width="75%">admin</td>
-                                    </tr>
-                                    <tr>
-                                        <th>邮箱</th>
-                                        <td>admin@admin.com</td>
-                                    </tr>
-                                    <tr>
-                                        <th>手机号</th>
-                                        <td>132456790</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-{#                                <div class="row">#}
-{#                                    用户名：admin#}
-{#                                </div>#}
-{#                                <p>#}
-{#                                    邮箱：admin@admin.com#}
-{#                                </p>#}
-{#                                <p>#}
-{#                                    手机号:132456790#}
-{#                                </p>#}
-{#                            </div>#}
-{#                            <div class="col-md-4">#}
-{#                                头像：#}
-{#                            </div>#}
+                            {#                            <div class="col-md-8">#}
+                            <table class="table table-horizonal">
+                                <tbody>
+                                <tr>
+                                    <th width="25%">用户名</th>
+                                    <td width="75%">
+                                        {{ user.username }}
+{#                                        <button class="btn btn-success btn-submit">修改用户名</button>#}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>邮箱</th>
+                                    <td>{{ user.email }}</td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                            {#                                <div class="row">#}
+                            {#                                    用户名：admin#}
+                            {#                                </div>#}
+                            {#                                <p>#}
+                            {#                                    邮箱：admin@admin.com#}
+                            {#                                </p>#}
+                            {#                                <p>#}
+                            {#                                    手机号:132456790#}
+                            {#                                </p>#}
+                            {#                            </div>#}
+                            {#                            <div class="col-md-4">#}
+                            {#                                头像：#}
+                            {#                            </div>#}
                         </div>
                         {#                        </div>#}
                     </div>
                 </div>
-{#                <div class="tab-panel active">#}
-{#                    <div id="change_info" class="panel-default">#}
-{#                        <div class="panel-heading">#}
-{#                            修改基本信息#}
-{#                        </div>#}
-{#                        <form>#}
-{#                            <div class="row">#}
-{#                            <table#}
-{#                            用户名：#}
-{#                                </div>#}
-{#                            <input type="text" class="form-control">#}
-{#                            头像#}
-{#                            <input type="icon" class="form-control">#}
-{#                        </form>#}
-{#                    </div>#}
-{#                </div>#}
-                <div class="tab-panel active">
-                    <div id="change_pwd" class="panel-default">
-                        <div class="panel-heading">
-                            修改密码
+                {#                <div class="tab-panel active">#}
+                {#                    <div id="change_info" class="panel-default">#}
+                {#                        <div class="panel-heading">#}
+                {#                            修改基本信息#}
+                {#                        </div>#}
+                {#                        <form>#}
+                {#                            <div class="row">#}
+                {#                            <table#}
+                {#                            用户名：#}
+                {#                                </div>#}
+                {#                            <input type="text" class="form-control">#}
+                {#                            头像#}
+                {#                            <input type="icon" class="form-control">#}
+                {#                        </form>#}
+                {#                    </div>#}
+                {#                </div>#}
+            </div>
+            <div id="tab-change_pwd" class="tab-panel">
+                <div class="panel-default">
+                    <div class="panel-heading">
+                        修改密码
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <p>用户名：{{ user.username }}</p>
                         </div>
-                        <div class="panel-body">
-                        <p>用户名：user</p>
-                        <form>
-                            原密码
-{#                            <div class="row">#}
-{#                                <div class="col-md-11">#}
-                              <input type="password" class="form-control" required>
-{#                                </div>#}
-{#                                <div class="col-md-1 font-red ">#}
-{#                                    *#}
-{#                                </div>#}
-{#                            </div>#}
-                            新密码
-                            <input type="password" class="form-control" required>
-                            再次输入新密码
-                            <input type="password" class="form-control" required>
-                            <input type="submit" value="确认修改">
+                        <iframe id="change-pwd-fram" name="change-pwd-fram" hidden></iframe>
+                        <form method="post" action="/user/info/" target="change-pwd-fram">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                原密码
+                                <input type="password" id="password" name="password" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                新密码
+                                <input id="password1" type="password" name="password1" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                再次输入新密码
+                                <input type="password" id="password2" name="password2" class="form-control" required>
+                            </div>
+                            <div id="change-pwd-info" class="form-group text-danger">
+                                &nbsp;
+                            </div>
+                            <input id="change-pwd-btn" type="submit" class="btn btn-submit" value="确认修改" disabled>
                         </form>
-                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
+</div>
+{% endblock %}
+
+{% block extrajs %}
+    <script src="{% static "js/user-info.js" %}"></script>
 {% endblock %}

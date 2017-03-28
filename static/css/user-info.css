@@ -9,6 +9,8 @@ body {
 .main-body{
     padding-top: 59px;
     padding-bottom: 90px;
+    min-width: 900px;
+    width: 55%;
     /*margin-top: 20px;*/
 }
 

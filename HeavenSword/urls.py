@@ -28,9 +28,10 @@ urlpatterns = [
     url(r'^user/logout/$', views.user_logout),
     url(r'^user/register/$', views.user_register),
     url(r'^user/activate/(.*)/$', views.user_activate),
+    url(r'^user/find_pwd/$', views.user_find_pwd),
     url(r'^user/info/$', views.user_info),
 
-    url(r'^batch/$', views.batch),
+    # url(r'^batch/$', views.batch),
     url(r'^operation/$', views.operation),
     url(r'^help/$', views.help),
 
@@ -39,9 +40,9 @@ urlpatterns = [
     url(r'^new_batch_web_task/$', views.new_batch_web_task),
     url(r'^view_web_task_list/$', views.view_web_task_list),
     #sys
-    url(r'^new_single_sys_task/$', views.new_single_sys_task),
-    url(r'^new_batch_sys_task/$', views.new_batch_sys_task),
-    url(r'^view_sys_task_list/$', views.view_sys_task_list),
+    # url(r'^new_single_sys_task/$', views.new_single_sys_task),
+    # url(r'^new_batch_sys_task/$', views.new_batch_sys_task),
+    # url(r'^view_sys_task_list/$', views.view_sys_task_list),
 
     #info_collection
     url(r'^tools/port_scan/$', views.port_scan),
@@ -51,8 +52,8 @@ urlpatterns = [
     url(r'^tools/domain_brute/(\d+)/$', views.view_domain_brute),
     url(r'^tools/web_spider/(\d+)/$', views.view_web_spider),
 
-    url(r'^task_list/$', views.task_list),
-    url(r'^show_task/', views.show_task),
+    # url(r'^task_list/$', views.task_list),
+    # url(r'^show_task/', views.show_task),
     url(r'^web_task_info/(\d+)/$', views.web_task_info),
 
 ]

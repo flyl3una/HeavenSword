@@ -98,7 +98,6 @@ class WebExploitAdmin(object):
 
 
 class WebExploitResultAdmin(object):
-    # list_play = ('domain', 'result', 'exp_type', 'exp_name', 'update_date')
     list_display = ('domain', 'result', 'exp_type', 'exp_name', 'update_date')
     search_fields = ['domain']
 
