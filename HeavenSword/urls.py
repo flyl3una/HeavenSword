@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^user/activate/(.*)/$', views.user_activate),
     url(r'^user/find_pwd/$', views.user_find_pwd),
     url(r'^user/info/$', views.user_info),
+    url(r'^user/reset_pwd/$', views.user_reset_pwd_post),
     url(r'^user/reset_pwd/(.*)/$', views.user_reset_pwd),
 
     # url(r'^batch/$', views.batch),

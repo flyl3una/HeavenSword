@@ -23,6 +23,7 @@
         </p>
         <iframe id="frame_find_pwd_form" name="frame_find_pwd_form" hidden></iframe>
                 <form class="form-container" target="frame_find_pwd_form" method="post" action="/user/find_pwd/">
+                    {% csrf_token %}
                     <p>请输入你的注册邮箱地址</p>
                     <input type="email" class="form-control" name="email" required>
                     <p id="find_pwd_info">
@@ -39,6 +40,8 @@
 <script>
 var find_pwd_info = function (ret) {
     $("#find_pwd_info").html(ret);
-}
+};
+
+
 </script>
 {% endblock %}

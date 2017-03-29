@@ -26,7 +26,6 @@ class ScanPort:
     __conn = None
     __cursor = None
 
-
     def __init__(self, port_scan_id=0, ipaddr=None, option="usually", thread_num=10):
         # if target_host is not None:
         #     self.__target_ip = get_ip(target_host)

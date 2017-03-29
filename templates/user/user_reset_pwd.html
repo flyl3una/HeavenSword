@@ -11,37 +11,44 @@
 {% block body %}
     <div class="container">
 
-    <div class="well col-md-4 col-lg-offset-4 login-form">
-{#        <div class="panel panel-default">#}
-{#            <div class="panel-heading">#}
-        <legend><h2 class="text-center">
-            重置密码
+        <div class="well col-md-4 col-lg-offset-4 login-form">
+            {#        <div class="panel panel-default">#}
+            {#            <div class="panel-heading">#}
+            <legend><h2 class="text-center">
+                重置密码
             </h2>
             </legend>
-        <p>
-            &nbsp;
-        </p>
-        <p>{{ user.username }}</p>
-        <iframe id="frame_find_pwd_form" name="frame_find_pwd_form" hidden></iframe>
-                <form class="form-container" target="frame_find_pwd_form" method="post" action="/user/find_pwd/">
-                    <p>请输入新密码</p>
-                    <input type="password" class="form-control" name="password1" required>
-                    <p>请输入新密码</p>
-                    <input type="password" class="form-control" name="password2" required>
-                    <p id="reset_pwd_info">
-                        &nbsp;
-                    </p>
-                    <input type="submit" class="form-control btn btn-submit" value="发送邮件">
-                </form>
+            <p>
+                &nbsp;
+            </p>
+            <p>{{ user.username }}</p>
+            <iframe id="frame_find_pwd_form" name="frame_find_pwd_form" hidden></iframe>
+            <form class="form-container" target="frame_find_pwd_form" method="post" action="/user/reset_pwd/">
+                {% csrf_token %}
+                <p>请输入新密码</p>
+                <input type="email" name="email" value="{{ user.email }}" hidden>
+                <input type="password" class="form-control" name="password1" minlength="8" required>
+                <p>请输入新密码</p>
+                <input type="password" class="form-control" name="password2" minlength="8" required>
+                <p id="reset_pwd_info">
+                    &nbsp;
+                </p>
+                <input type="submit" class="form-control btn btn-submit" value="确认修改">
+            </form>
         </div>
     </div>
-</div>
+    </div>
 {% endblock %}
 
 {% block extrajs %}
-<script>
-var reset_fails_info = function (ret) {
-    $("#reset_pwd_info").html(ret);
-}
-</script>
+    <script>
+        var reset_fails_info = function (ret) {
+            $("#reset_pwd_info").html(ret);
+        }
+        var reset_success = function () {
+        {#    $("#find_pwd_info").html("密码重置成功");#}
+            alert("密码重置成功，即将跳转到登录页面。");
+            window.location="/user/login/";
+        }
+    </script>
 {% endblock %}

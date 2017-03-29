@@ -98,6 +98,8 @@ def user_register(request):
                 return HttpResponse("<script>parent.register_error2();</script>")
             if password != password2:
                 return HttpResponse("<script>parent.register_error1();</script>")
+            if len(password) <= 8:
+                return HttpResponse("<script>parent.register_error3();</script>")
         user = User(username=username, email=email)
         user.set_password(password)
         user.is_active = False
@@ -164,28 +166,35 @@ def user_find_pwd(request):
         return HttpResponse("<script>parent.find_pwd_info('"+info+"')</script>")
 
 
-def user_reset_pwd(request, token):
-    token_confirm = EmailToken('xqlpniip)kgj&dod5e=k95!q6su!m$tsy__&li3-vx)tflp#yr')
-    try:
-        email = token_confirm.confirm_validate_token(token)
-        user = User.objects.get(email=email)
-        if request.method == 'GET':
-            return render(request, 'user/user_reset_pwd.html', {"user": user})
-        elif request.method == 'POST':
-            password1 = request.POST['password1']
-            password2 = request.POST['password2']
-            if password1 and password1 != '' and password1 == password2:
+def user_reset_pwd_post(request):
+    if request.method == 'POST':
+        password1 = request.POST['password1']
+        password2 = request.POST['password2']
+        email = request.POST['email']
+        if password1 and password1 != '' and password1 == password2:
+            try:
+                user = User.objects.get(email=email)
                 user.set_password(password1)
                 user.save()
                 return HttpResponse("<script>parent.reset_success()</script>")
-            else:
-                info = '两次密码不相同，请重新输入。'
-                return HttpResponse("<script>parent.reset_fails_info('"+info+"')</script>")
+            except Exception as e:
+                print e
+                return HttpResponse("该邮箱不存在")
+        else:
+            info = '两次密码不相同，请重新输入。'
+            return HttpResponse("<script>parent.reset_fails_info('" + info + "')</script>")
 
-    except Exception as e:
-        # user = User.objects.get(email=email)
-        print e
 
+def user_reset_pwd(request, token):
+    if request.method == 'GET':
+        token_confirm = EmailToken('xqlpniip)kgj&dod5e=k95!q6su!m$tsy__&li3-vx)tflp#yr')
+        email = token_confirm.confirm_validate_token(token)
+        try:
+            user = User.objects.get(email=email)
+            return render(request, 'user/user_reset_pwd.html', {"user": user})
+        except Exception as e:
+            print e
+            return HttpResponse("该邮箱不存在")
 
 
 def user_info(request):
@@ -412,6 +421,14 @@ def new_web_task(target, user):
         first_domain = get_first_domain(domain)
         b_web_single_task = WebSingleTask.objects.filter(domain=domain)
         if b_web_single_task:
+            # task_id = b_web_single_task[0].id
+            # user_id = user.id
+            task_obj = WebSingleTask.objects.get(domain=domain)
+            b_user_task_id = UserTaskId.objects.filter(user=user, task=task_obj)
+            if b_user_task_id:
+                return True
+            user_task_id = UserTaskId(task=task_obj, user=user)
+            user_task_id.save()
             return True
         ipaddrs = []
         try:
