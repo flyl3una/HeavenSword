@@ -42,9 +42,9 @@ def index(request):
 
 
 def user_login(request):
-    if request.user.is_authenticated():
-        return HttpResponseRedirect('/')
-        # return HttpResponse("""您已经登陆!<br/><a href="/index/">点击跳转到主页</a>""")
+    # if request.user.is_authenticated():
+    #     return HttpResponseRedirect('/')
+
     if request.method == 'GET':
         return render(request, 'user/login1.html')
     if request.method == 'POST':
@@ -56,6 +56,7 @@ def user_login(request):
         # print email, password
         if user:
             if user.is_active:
+                logout(request)
                 login(request, user)
                 response = HttpResponseRedirect('/')
                 response.set_cookie('username', username, max_age=None)
@@ -102,7 +103,7 @@ def user_register(request):
         user.is_active = False
 
         token_confirm = EmailToken('xqlpniip)kgj&dod5e=k95!q6su!m$tsy__&li3-vx)tflp#yr')
-        token = token_confirm.generate_validate_token(username)
+        token = token_confirm.generate_validate_token(email)
         # active_key = base64.encodestring(username)
         # send email to the register email
         message = "\n".join([
@@ -120,18 +121,71 @@ def user_register(request):
 def user_activate(request, token):
     token_confirm = EmailToken('xqlpniip)kgj&dod5e=k95!q6su!m$tsy__&li3-vx)tflp#yr')
     try:
-        username = token_confirm.confirm_validate_token(token)
+        email = token_confirm.confirm_validate_token(token)
     except:
+        user = User.objects.get(email=email)
+        user.delete()
         return HttpResponse("连接已超时，请重新注册。")
-    user = User.objects.get(username=username)
-    user.is_active = True
-    user.save()
-    return HttpResponse("账号激活成功。<br><a href='/user/login/'>点击跳转到登陆页面</a>")
+    try:
+        user = User.objects.get(email=email)
+        user.is_active = True
+        user.save()
+        return HttpResponse("账号激活成功。<br><a href='/user/login/'>点击跳转到登陆页面</a>")
+    except:
+        return HttpResponse("该邮箱没有被注册。")
 
 
 def user_find_pwd(request):
     if request.method == 'GET':
         return render(request, 'user/find_pwd.html')
+    elif request.method == 'POST':
+        email = request.POST['email']
+        try:
+            user = User.objects.get(email=email)
+            info = '更改密码邮件已发送，请登录邮箱按邮件操作。'
+
+            username = user.username
+            token_confirm = EmailToken('xqlpniip)kgj&dod5e=k95!q6su!m$tsy__&li3-vx)tflp#yr')
+            token = token_confirm.generate_validate_token(email)
+            # active_key = base64.encodestring(username)
+            # send email to the register email
+            message = "\n".join([
+                u'{0},欢迎使用倚天剑'.format(username),
+                u'请访问该链接，重新修改密码:',
+                '/'.join([DOMAIN, 'user/reset_pwd', token])
+            ])
+            from_email = EMAIL_HOST_USER
+            send_mail(u'注册用户验证信息', message, from_email, [email])
+            user.save()
+
+        except Exception as e:
+            print e
+            info = '该邮箱地址没被注册过，请重新输入。'
+        return HttpResponse("<script>parent.find_pwd_info('"+info+"')</script>")
+
+
+def user_reset_pwd(request, token):
+    token_confirm = EmailToken('xqlpniip)kgj&dod5e=k95!q6su!m$tsy__&li3-vx)tflp#yr')
+    try:
+        email = token_confirm.confirm_validate_token(token)
+        user = User.objects.get(email=email)
+        if request.method == 'GET':
+            return render(request, 'user/user_reset_pwd.html', {"user": user})
+        elif request.method == 'POST':
+            password1 = request.POST['password1']
+            password2 = request.POST['password2']
+            if password1 and password1 != '' and password1 == password2:
+                user.set_password(password1)
+                user.save()
+                return HttpResponse("<script>parent.reset_success()</script>")
+            else:
+                info = '两次密码不相同，请重新输入。'
+                return HttpResponse("<script>parent.reset_fails_info('"+info+"')</script>")
+
+    except Exception as e:
+        # user = User.objects.get(email=email)
+        print e
+
 
 
 def user_info(request):

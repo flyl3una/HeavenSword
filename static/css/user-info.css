@@ -3,14 +3,15 @@ body {
     font-size: 14px;
     line-height: 1.42857143;
     color: #717b82;
-    background-color: #f3f4f5;
+
 }
 
 .main-body{
+    background-color: #f3f4f5;
     padding-top: 59px;
     padding-bottom: 90px;
     min-width: 900px;
-    width: 55%;
+    width: 60%;
     /*margin-top: 20px;*/
 }
 

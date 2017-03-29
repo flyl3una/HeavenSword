@@ -15,17 +15,20 @@
 {#        <div class="panel panel-default">#}
 {#            <div class="panel-heading">#}
         <legend><h2 class="text-center">
-            找回密码
+            重置密码
             </h2>
             </legend>
         <p>
-                        &nbsp;
+            &nbsp;
         </p>
+        <p>{{ user.username }}</p>
         <iframe id="frame_find_pwd_form" name="frame_find_pwd_form" hidden></iframe>
                 <form class="form-container" target="frame_find_pwd_form" method="post" action="/user/find_pwd/">
-                    <p>请输入你的注册邮箱地址</p>
-                    <input type="email" class="form-control" name="email" required>
-                    <p id="find_pwd_info">
+                    <p>请输入新密码</p>
+                    <input type="password" class="form-control" name="password1" required>
+                    <p>请输入新密码</p>
+                    <input type="password" class="form-control" name="password2" required>
+                    <p id="reset_pwd_info">
                         &nbsp;
                     </p>
                     <input type="submit" class="form-control btn btn-submit" value="发送邮件">
@@ -37,8 +40,8 @@
 
 {% block extrajs %}
 <script>
-var find_pwd_info = function (ret) {
-    $("#find_pwd_info").html(ret);
+var reset_fails_info = function (ret) {
+    $("#reset_pwd_info").html(ret);
 }
 </script>
 {% endblock %}
