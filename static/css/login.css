@@ -7,7 +7,7 @@ body {
 
 .form-login {
     /*margin: 30% 30% auto 30%;*/
-  max-width: 330px;
+  max-width: 350px;
   padding: 15px;
   margin: 0 auto;
     /*height: 370px;*/
@@ -52,9 +52,10 @@ body {
     margin:20% auto auto auto;
     float:none;
     text-align:center;
-    width: 350px;
+    width: 400px;
     /*height: 350px;*/
-    height: auto
+    height: auto;
+    padding: 20px 0 15px 0;
 }
 
 .control-wapper{
@@ -66,4 +67,18 @@ body {
     position: absolute;
     left: 4px;
     top: 8px;
+}
+
+.cpatcha_img{
+    margin-left: -17px;
+}
+
+.cpatcha_img:hover{
+    cursor: pointer;
+}
+
+.code-span{
+    line-height: 40px;
+    font-size: 16px;
+    /*padding-right: 2px;*/
 }

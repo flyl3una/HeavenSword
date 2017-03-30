@@ -3,3 +3,4 @@ xadmin=0.5
 requests=2.12.4
 beautifulsoup4=4.5.3
 itsdangerous=0.24
+pillow

@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^admin/', include(xadmin.site.urls)),
     url(r'^index/$', views.index),
     url(r'^$', views.index),
+    url(r'^user/captcha/$', views.captcha),
     url(r'^user/login/$', views.user_login),
     url(r'^user/logout/$', views.user_logout),
     url(r'^user/register/$', views.user_register),

@@ -1,17 +1,25 @@
 # coding=utf-8
 import json
+import md5
 import os
+import random
 import socket
+import string
 import subprocess
 
 import time
+
+import datetime
+
+import cStringIO
+from PIL import Image, ImageDraw, ImageFont
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.http import HttpResponse, JsonResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, render_to_response, redirect
-from HeavenSword.settings import DEFAULT_FROM_EMAIL, EMAIL_HOST_USER, TOOLS_PATH
+from HeavenSword.settings import DEFAULT_FROM_EMAIL, EMAIL_HOST_USER, TOOLS_PATH, STATIC_PATH
 from tools.Spider import Tree
 from tools.function import get_ip, get_domain, get_first_domain, get_root_url, get_father_domain
 from web import models
@@ -41,6 +49,28 @@ def index(request):
         return render(request, 'index.html', {'username': username})
 
 
+def captcha(request):
+    '''Captcha'''
+    image = Image.new('RGB', (100, 40), color=(random.randint(32, 127), random.randint(32, 127), random.randint(32, 127)))  # model, size, background color
+    font_file = os.path.join(STATIC_PATH, 'fonts', 'monaco.ttf')   # choose a font file
+    font = ImageFont.truetype(font_file, 30)    # the font object
+    draw = ImageDraw.Draw(image)
+    rand_str = ''.join(random.sample(string.letters + string.digits, random.randint(4, 5)))    # The random string
+    # print rand_str
+    draw.text((7, 0), rand_str, fill=(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)), font=font)  # position, content, color, font
+    # 干扰线
+    for i in range(8):
+        draw.line([random.randint(0, 120), random.randint(0, 40), random.randint(0, 120), random.randint(0, 40)], fill=(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)), width=1)
+    # g.setColor(new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256)));
+    # // 画线
+    # g.drawLine(r.nextInt(120), r.nextInt(30), r.nextInt(120), r.nextInt(30));
+    del draw
+    request.session['captcha'] = rand_str.lower()   # store the content in Django's session store
+    buf = cStringIO.StringIO()  # a memory buffer used to store the generated image
+    image.save(buf, 'jpeg')
+    return HttpResponse(buf.getvalue(), 'image/jpeg') # return the image data stream as image/jpeg format, browser will treat it as an image
+
+
 def user_login(request):
     # if request.user.is_authenticated():
     #     return HttpResponseRedirect('/')
@@ -49,6 +79,10 @@ def user_login(request):
         return render(request, 'user/login1.html')
     if request.method == 'POST':
         # username = request.POST.get('username')
+        captcha_code = request.POST.get('captcha_code')
+        if captcha_code.lower() != request.session.get('captcha'):
+            error = "验证码不正确，请重新输入。"
+            return HttpResponse('<script>parent.login_result_error("'+error+'");</script>')
         email = request.POST.get('email')
         password = request.POST.get('password')
         username = User.objects.get(email=email).get_username()
@@ -58,15 +92,19 @@ def user_login(request):
             if user.is_active:
                 logout(request)
                 login(request, user)
-                response = HttpResponseRedirect('/')
+
+                # response = HttpResponseRedirect('/')
+                response = HttpResponse('<script>parent.login_result_success();</script>')
                 response.set_cookie('username', username, max_age=None)
                 # return redirect(reverse('views.index'), args=[])
                 return response
             else:
-                return HttpResponse("Your account is disabled.")
+                error = "账号未激活，请到邮箱激活账户。"
+                return HttpResponse('<script>parent.login_result_error("' + error + '");</script>')
         else:
             print "Invalid login details: {0}, {1}".format(email, password)
-            return HttpResponse("Invalid login details supplied.")
+            error = '密码错误'
+            return HttpResponse('<script>parent.login_result_error("' + error + '");</script>')
 
 
 def user_logout(request):
@@ -235,7 +273,9 @@ def operation(request):
     if request.method == 'GET':
         if request.user.is_authenticated():
             username = request.COOKIES.get("username")
-            return render(request, 'operation.html', {'username': username})
+            if request.user.is_superuser:
+                admin = True
+            return render(request, 'operation.html', {'username': username, "admin": admin})
     return HttpResponse("<div style='text-align:center;margin-top:20%'><h3>请登录</h3><br><br><a href='/user/login/'>点击跳转到登陆页面</a>")
 
 
