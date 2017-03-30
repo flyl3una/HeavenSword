@@ -3,6 +3,8 @@
 
 from __future__ import unicode_literals
 
+import os
+
 from django.contrib.auth.models import User
 from django.db import models
 # Create your models here.
@@ -24,6 +26,8 @@ from django.db import models
 #
 #     def __unicode__(self):
 #         return self.user.username
+from HeavenSword.settings import TOOLS_PATH
+
 
 class DomainIP(models.Model):
     first_domain = models.CharField(max_length=64, verbose_name='一级域名')
@@ -291,6 +295,26 @@ class WebExploitResult(models.Model):
     exp_name = models.CharField(max_length=32, verbose_name='exp名称')      # 成功使用的exp名称
     update_date = models.DateTimeField(auto_now=True, verbose_name='更新时间')
 
+    def __str__(self):
+        return 'web exp利用结果'
+
     class Meta:
         verbose_name = 'web exp利用结果'
         verbose_name_plural = 'web exp利用结果'
+
+
+class UploadPoc(models.Model):
+    app_name = models.CharField(max_length=32, verbose_name='poc类型')
+    poc_name = models.CharField(max_length=32, verbose_name='poc名称')
+    #http: // blog.sina.com.cn / s / blog_6b1ed4fb01019lmt.html
+    #http: // wrongwaycn.github.io / django11 / topics / files / index.html  # topics-files
+    poc_path = models.FileField(upload_to=os.path.join(TOOLS_PATH, 'setting', 'poc', 'web', '%s'), verbose_name='poc文件路径')
+    # poc_path = models.FilePathField(upload_to=os.path.join(TOOLS_PATH, 'setting', 'poc', 'web'), verbose_name='poc文件路径')
+    update_date = models.DateTimeField(auto_now=True, verbose_name='上传时间')
+
+    def __str__(self):
+        return 'poc上传'
+
+    class Meta:
+        verbose_name = 'poc上传'
+        verbose_name_plural = 'poc上传'

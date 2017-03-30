@@ -70,7 +70,9 @@ body {
 }
 
 .cpatcha_img{
-    margin-left: -17px;
+    /*margin-left: -17px;*/
+    /*float: right;*/
+    padding-right: 0;
 }
 
 .cpatcha_img:hover{

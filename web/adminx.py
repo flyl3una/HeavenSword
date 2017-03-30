@@ -102,6 +102,15 @@ class WebExploitResultAdmin(object):
     search_fields = ['domain']
 
 
+class UploadPocAdmin(object):
+    list_display = ('app_name', 'poc_name', 'poc_path')
+    search_fields = ['app_name']
+    # wizard_form_list = [('上传poc', ('app_name', 'poc_name', 'poc_path'))]
+        # ('Frist\'s Form', ('name', 'description')),
+        # ('Seocnd Form', ('contact', 'telphone', 'address')),
+        # ('Thread Form', ('customer_id',))
+
+
 xadmin.site.register(CommAdminView, GlobalSetting)
 xadmin.site.register(WebSingleTask, WebSingleTaskAdmin)
 xadmin.site.register(Finger, FingerAdmin)
@@ -115,3 +124,4 @@ xadmin.site.register(Spider, SpiderAdmin)
 xadmin.site.register(WebExploit, WebExploitAdmin)
 xadmin.site.register(WebExploitResult, WebExploitResultAdmin)
 # xadmin.site.register(UserSettings, UserSettingsAdmin)
+xadmin.site.register(UploadPoc, UploadPocAdmin)
