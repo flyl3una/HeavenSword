@@ -55,12 +55,10 @@
                             <input type="text" name="captcha_code" class="padding-left-right-0 form-control" placeholder="不区分大小写" minlength="4" required>
                         </div>
                         <div class="col-md-5 cpatcha_img">
-{#                            <button class="btn btn-success btn-submit"></button>#}
-{#                            <a href="#">#}
-{#                                <img src="get_check_code_image">#}
-                                <img id="captcha_img" class="" onclick="this.setAttribute('src','/user/captcha/?nocache='+Math.random());" src="/user/captcha/" alt="验证码图片" />
+                            <a href="#">
+                                <img id="captcha_img" onclick="this.setAttribute('src','/user/captcha/?nocache='+Math.random());" src="/user/captcha/" alt="验证码图片" />
 </html>
-{#                            </a>#}
+                            </a>
                         </div>
                     </div>
                 </div>

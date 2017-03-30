@@ -25,7 +25,7 @@ from tools.function import get_ip, get_domain, get_first_domain, get_root_url, g
 from web import models
 from web.dir.EmailToken import EmailToken
 from web.models import WebSingleTask, PortScan, DomainBrute, Spider, UserTaskId
-from web.msetting import DOMAIN
+from web.msetting import DOMAIN, PORT_MODEL, PORT_THREAD, DOMAIN_MODEL, DOMAIN_THREAD, SPIDER_THREAD
 
 
 def auth(request):
@@ -708,9 +708,9 @@ def port_scan(request):
                 port_scan_objs = models.PortScan.objects.filter(target_ip=ip_addr)
                 if not port_scan_objs:
                     args = {}
-                    args['port_scan_model'] = "usually" #all usually
-                    args['port_scan_thread'] = 4
-                    port_scan_obj = PortScan(target_ip=ip_addr, thread=args['port_scan_thread'], model=args['port_scan_model'])
+                    args['port_scan_model'] = PORT_MODEL #all usually
+                    args['port_scan_thread'] = PORT_THREAD
+                    port_scan_obj = PortScan(target_ip=ip_addr, thread=PORT_THREAD, model=PORT_MODEL)
                     port_scan_obj.save()
                     port_scan_id = port_scan_obj.id
                     args['port_scan_id'] = port_scan_obj.id
@@ -820,8 +820,8 @@ def domain_brute(request):
             domain_brute_objs = models.DomainBrute.objects.filter(target_first_domain=first_domain)
             if not domain_brute_objs:
                 args = {}
-                args['domain_brute_model'] = "usually"  # all usually
-                args['domain_brute_thread'] = 4
+                args['domain_brute_model'] = DOMAIN_MODEL  # all usually
+                args['domain_brute_thread'] = DOMAIN_THREAD
                 domain_brute_obj = DomainBrute(target_first_domain=first_domain, target_domain=domain, model=args['domain_brute_model'], thread=args['domain_brute_thread'])
                 domain_brute_obj.save()
                 domain_brute_obj_id = domain_brute_obj.id
@@ -927,7 +927,7 @@ def web_spider(request):
             if not web_spider_objs:
                 args = {}
                 # args['spider_model'] = "usually"  # all usually
-                args['spider_thread'] = 4
+                args['spider_thread'] = SPIDER_THREAD
                 spider_obj = Spider(target_domain=domain, target_url=url, thread=args['spider_thread'])
                 spider_obj.save()
                 spider_obj_id = spider_obj.id

@@ -26,12 +26,17 @@ from django.db import models
 #         return self.user.username
 
 class DomainIP(models.Model):
-    first_domain = models.CharField(max_length=64)
-    domain = models.CharField(max_length=128)
-    ip = models.CharField(max_length=56)
-    update_date = models.DateTimeField(auto_now=True)
+    first_domain = models.CharField(max_length=64, verbose_name='一级域名')
+    domain = models.CharField(max_length=128, verbose_name='域名')
+    ip = models.CharField(max_length=56, verbose_name='ip地址')
+    update_date = models.DateTimeField(auto_now=True, verbose_name='更新时间')
 
+    def __str__(self):
+        return '域名对应ip信息'
 
+    class Meta:
+        verbose_name = '域名对应ip信息'
+        verbose_name_plural = '域名对应ip信息'
 # class IpAddr(models.Model):
     # ip = models.CharField(max_length=56, unique=True)
     # update_date = models.DateTimeField(auto_now=True)
@@ -45,10 +50,16 @@ class DomainIP(models.Model):
 
 class Url(models.Model):
     # id = models.IntegerField(max_length=32, auto_created=1, primary_key=True)
-    domain = models.CharField(max_length=128)
-    url = models.CharField(max_length=256)
-    update_date = models.DateTimeField(auto_now=True)
+    domain = models.CharField(max_length=128, verbose_name='域名')
+    url = models.CharField(max_length=256, verbose_name='url地址')
+    update_date = models.DateTimeField(auto_now=True, verbose_name='更新时间')
 
+    def __str__(self):
+        return 'url信息'
+
+    class Meta:
+        verbose_name = 'url信息'
+        verbose_name_plural = 'url信息'
 
 # 暂时无用
 # class TargetInfo(models.Model):
@@ -70,13 +81,19 @@ class Url(models.Model):
 
 
 class WebSingleTask(models.Model):
-    target_url = models.CharField(max_length=32, null=False)  # 目标网址
-    domain = models.CharField(max_length=32, unique=True, null=False)    #目标域名
-    status = models.SmallIntegerField(default=0)  # 任务完成状态，1完成，0未完成
-    finger_id = models.IntegerField(default=0)
-    exploit_id = models.IntegerField(default=0)
-    update_date = models.DateTimeField(auto_now=True)
+    target_url = models.CharField(max_length=32, null=False, verbose_name='目标网址')  # 目标网址
+    domain = models.CharField(max_length=32, unique=True, null=False, verbose_name='域名')    #目标域名
+    status = models.SmallIntegerField(default=0, verbose_name='任务完成状态')  # 任务完成状态，1完成，0未完成
+    finger_id = models.IntegerField(default=0, verbose_name='指纹识别表id')
+    exploit_id = models.IntegerField(default=0, verbose_name='exp利用表id')
+    update_date = models.DateTimeField(auto_now=True, verbose_name='更新时间')
 
+    def __str__(self):
+        return '单一web任务'
+
+    class Meta:
+        verbose_name = '单一web任务'
+        verbose_name_plural = '单一web任务'
 
 # class AutoTask(models.Model):
 #     target_url = models.CharField(max_length=32, null=False)  # 目标网址
@@ -94,36 +111,58 @@ class WebSingleTask(models.Model):
 
 
 class AppType(models.Model):
-    domain = models.CharField(max_length=128)
-    name = models.CharField(max_length=32)
-    cata = models.CharField(max_length=32)
-    implies = models.CharField(max_length=32)
-    update_date = models.DateTimeField
+    domain = models.CharField(max_length=128, verbose_name='域名')
+    name = models.CharField(max_length=32, verbose_name='app名称')
+    cata = models.CharField(max_length=32, verbose_name='app类型')
+    implies = models.CharField(max_length=32, verbose_name='app额外信息')
+    update_date = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+
+    def __str__(self):
+        return 'web app类型'
+
+    class Meta:
+        verbose_name = 'web app类型'
+        verbose_name_plural = 'web app类型'
 
 
 class OpenPort(models.Model):
-    ip_addr = models.CharField(max_length=32, null=False)
-    port_num = models.IntegerField(null=False)
-    port_info = models.CharField(max_length=512)
+    ip_addr = models.CharField(max_length=32, null=False, verbose_name='ip地址')
+    port_num = models.IntegerField(null=False, verbose_name='端口号')
+    port_info = models.CharField(max_length=512, verbose_name='端口信息')
+    update_date = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+
+    def __str__(self):
+        return '端口开放信息'
+
+    class Meta:
+        verbose_name = '端口开放信息'
+        verbose_name_plural = '端口开放信息'
 
 
 class Finger(models.Model):
     # id = models.IntegerField(max_length=32, auto_created=1, primary_key=True)
     # task_id = models.ForeignKey(SingleTask)
     # task_type = models.IntegerField(default=0)          # 0为单个任务，1为批量任务
-    target_domain = models.CharField(max_length=32, unique=True)
-    target_url = models.CharField(max_length=128, unique=True)
+    target_domain = models.CharField(max_length=32, unique=True, verbose_name='目标域名')
+    target_url = models.CharField(max_length=128, unique=True, verbose_name='目标url地址')
     # 31,request请求目标地址错误。
-    status = models.SmallIntegerField(default=0)     # 0未开始，1开始，2完成, 3xxx异常出错
+    status = models.SmallIntegerField(default=0, verbose_name='指纹识别任务状态')     # 0未开始，1开始，2完成, 3xxx异常出错
     # finger_rate = models.IntegerField(default=0)
-    finger_count = models.IntegerField(default=3000)        #所有待指纹类型
-    current_index = models.IntegerField(default=0)          #当前匹配指纹位置
+    finger_count = models.IntegerField(default=3000, verbose_name='待测试指纹总数')        #所有待指纹类型
+    current_index = models.IntegerField(default=0, verbose_name='当前指纹匹配位置')          #当前匹配指纹位置
     # 指纹结果，暂时使用json存取所有，后期分猜为多个字段
     # 指纹对应json和cata后期可存放于数据库
     # finger_result_json = models.CharField(max_length=1024, null=True)
     # 为了防止删除该任务时把域名和ip的对应信息删除，特不做关联，直接根据一级域名查询apptype表即可。
     # finger_result = models.ManyToManyField(AppType, null=True)
-    update_date = models.DateTimeField(auto_now=True)
+    update_date = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+
+    def __str__(self):
+        return '指纹识别任务'
+
+    class Meta:
+        verbose_name = '指纹识别任务'
+        verbose_name_plural = '指纹识别任务'
 
 
 # 用户使用过的工具
@@ -137,82 +176,121 @@ class Finger(models.Model):
 class PortScan(models.Model):
     # id = models.IntegerField(max_length=32, auto_created=1, primary_key=True)
     # target_domain = models.CharField(max_length=32)
-    target_ip = models.CharField(max_length=32, unique=True)
+    target_ip = models.CharField(max_length=32, unique=True, verbose_name='目标ip地址')
     # task_id = models.ForeignKey(SingleTask)
     # task_type = models.IntegerField(default=0)  # 0为单个任务，1为批量任务
-    status = models.SmallIntegerField(default=0)
+    status = models.SmallIntegerField(default=0, verbose_name='端口扫描任务状态')
     # port_scan_rate = models.IntegerField(default=0)
-    port_count = models.IntegerField(default=53325)         # 所有待端口个数
-    current_index = models.IntegerField(default=0)          # 当前扫描端口索引
-    thread = models.IntegerField(default=4)
-    model = models.CharField(max_length=16, default='usually')
+    port_count = models.IntegerField(default=53325, verbose_name='待扫描端口数')         # 所有待端口个数
+    current_index = models.IntegerField(default=0, verbose_name='当前端口扫描索引')          # 当前扫描端口索引
+    thread = models.IntegerField(default=4, verbose_name='端口扫描线程')
+    model = models.CharField(max_length=16, default='usually', verbose_name='端口扫描模式')
     # 扫描结果每个端口对应信息，后期可存放于数据库。目前使用json数据存取结果。
     # port_scan_result_json = models.CharField(max_length=512, null=True)
     # 为了防止删除该任务时把域名和ip的对应信息删除，特不做关联，直接根据一级域名查询openport表即可。
     # port_scan_result = models.ManyToManyField(OpenPort, null=True)
-    update_date = models.DateTimeField(auto_now=True)
+    update_date = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+
+    def __str__(self):
+        return '端口扫描任务'
+
+    class Meta:
+        verbose_name = '端口扫描任务'
+        verbose_name_plural = '端口扫描任务'
 
 
 class DomainBrute(models.Model):
     # id = models.IntegerField(max_length=32, auto_created=1, primary_key=True)
     # task_id = models.ForeignKey(SingleTask)
     # task_type = models.IntegerField(default=0)  # 0为单个任务，1为批量任务
-    target_first_domain = models.CharField(max_length=32, unique=True)
-    target_domain = models.CharField(max_length=32, unique=True)
-    status = models.SmallIntegerField(default=0)
+    target_first_domain = models.CharField(max_length=32, unique=True, verbose_name='目标父域名')
+    target_domain = models.CharField(max_length=32, unique=True, verbose_name='目标域名')
+    status = models.SmallIntegerField(default=0, verbose_name='任务状态')
     # domain_brute_rate = models.IntegerField(default=0)
-    domain_count = models.IntegerField(default=10000)       # 所有待爆破域名数
-    current_index = models.IntegerField(default=0)          # 当前端口爆破索引
-    thread = models.IntegerField(default=4)
-    model = models.CharField(max_length=16, default='usually')
+    domain_count = models.IntegerField(default=10000, verbose_name='待爆破域名数')       # 所有待爆破域名数
+    current_index = models.IntegerField(default=0, verbose_name='当前爆破域名索引')          # 当前端口爆破索引
+    thread = models.IntegerField(default=4, verbose_name='域名爆破线程')
+    model = models.CharField(max_length=16, default='usually', verbose_name='爆破类型')
     # domain_brute_rate，后期可以增加多个模式，分为二级域名爆破及递归爆破子域名。
     # domain_brute_result_json = models.CharField(max_length=512, null=True)     #后期可将所有子域名分别存为domain表中
     # 为了防止删除该任务时把域名和ip的对应信息删除，特不做关联，直接根据一级域名查询domain表即可。
     # domain_result = models.ManyToManyField(Domain)
-    update_date = models.DateTimeField(auto_now=True)
+    update_date = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+
+    def __str__(self):
+        return '域名爆破任务'
+
+    class Meta:
+        verbose_name = '域名爆破任务'
+        verbose_name_plural = '域名爆破任务'
 
 
 class Spider(models.Model):
     # id = models.IntegerField(max_length=32, auto_created=1, primary_key=True)
     # task_id = models.ForeignKey(SingleTask)
     # task_type = models.IntegerField(default=0)  # 0为单个任务，1为批量任务
-    target_domain = models.CharField(max_length=32, unique=True)
-    target_url = models.CharField(max_length=128, default=None)
-    status = models.SmallIntegerField(default=0)
+    target_domain = models.CharField(max_length=32, unique=True, verbose_name='目标域名')
+    target_url = models.CharField(max_length=128, default=None, verbose_name='目标url地址')
+    status = models.SmallIntegerField(default=0, verbose_name='web爬虫状态')
     # all_url = models.IntegerField(default=1)        # 当前爬取到的链接总数
     # spider_rate = models.IntegerField(default=0)
-    thread = models.IntegerField(default=4)
+    thread = models.IntegerField(default=4, verbose_name='web爬虫线程')
     # spider_result = models.ManyToManyField(Url, null=True)
     # spider_result_json = models.TextField(max_length=102400, null=True)      #改为分别存放url
     # 为了防止删除该任务时把域名和ip的对应信息删除，特不做关联，直接根据域名查询url表即可。
     # spider_result = models.ManyToManyField(Url)
-    update_date = models.DateTimeField(auto_now=True)
+    update_date = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+
+    def __str__(self):
+        return 'web爬虫任务'
+
+    class Meta:
+        verbose_name = 'web爬虫任务'
+        verbose_name_plural = 'web爬虫任务'
 
 
 class UserTaskId(models.Model):
-    user = models.ForeignKey(User)
-    task = models.ForeignKey(WebSingleTask)
+    user = models.ForeignKey(User, verbose_name='用户id')
+    task = models.ForeignKey(WebSingleTask, verbose_name='任务id')
+
+    def __str__(self):
+        return '用户任务列表'
+
+    class Meta:
+        verbose_name = '用户任务列表'
+        verbose_name_plural = '用户任务列表'
 
 
 class WebExploit(models.Model):
     # task_id = models.ForeignKey(SingleTask)
     # task_type = models.IntegerField(default=0)  # 0为单个任务，1为批量任务
-    target_url = models.CharField(max_length=128, unique=True)
-    target_domain = models.CharField(max_length=32)
-    status = models.SmallIntegerField(default=0)
-    exp_count = models.IntegerField(default=10)         # 该指纹的所有exp个数
-    current_index = models.IntegerField(default=0)          # 当前匹配指纹索引
+    target_url = models.CharField(max_length=128, unique=True, verbose_name='目标域名')
+    target_domain = models.CharField(max_length=32, verbose_name='目标域名')
+    status = models.SmallIntegerField(default=0, verbose_name='exp测试状态')
+    exp_count = models.IntegerField(default=10, verbose_name='该app的exp数量')         # 该指纹的所有exp个数
+    current_index = models.IntegerField(default=0, verbose_name='当前匹配索引')          # 当前匹配指纹索引
     # exploit_result = models.IntegerField(default=0)         # 0表示没有漏洞，1表示exp攻击成功
     # exploit_exp_type = models.CharField(max_length=32)      # 漏洞利用成功后
     # exploit_attack_rate = models.IntegerField(default=0)
     # exploit_attack_thread =
     # exploit_attack_result_json = models.CharField(max_length=256, null=True)   #后期可改为每个漏洞分表
-    update_date = models.DateTimeField(auto_now=True)
+    update_date = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+
+    def __str__(self):
+        return 'web exp测试'
+
+    class Meta:
+        verbose_name = 'web exp测试'
+        verbose_name_plural = 'web exp测试'
 
 
 class WebExploitResult(models.Model):
-    domain = models.CharField(max_length=32)
-    result = models.IntegerField(default=0)         # 0表示没有漏洞，1表示exp攻击成功
-    exp_type = models.CharField(max_length=32)      # exp类型
-    exp_name = models.CharField(max_length=32)      # 成功使用的exp名称
-    update_date = models.DateTimeField(auto_now=True)
+    domain = models.CharField(max_length=32, verbose_name='目标域名')
+    result = models.IntegerField(default=0, verbose_name='结果')         # 0表示没有漏洞，1表示exp攻击成功
+    exp_type = models.CharField(max_length=32, verbose_name='exp类型')      # exp类型
+    exp_name = models.CharField(max_length=32, verbose_name='exp名称')      # 成功使用的exp名称
+    update_date = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+
+    class Meta:
+        verbose_name = 'web exp利用结果'
+        verbose_name_plural = 'web exp利用结果'
