@@ -259,7 +259,7 @@ def get_finger(finger_id, url):
         for cat in cats:
             if 'implies' in i:
                 for implies in i['implies']:
-                    sql = 'insert into web_apptype(domain, name, cata, implies) values("%s", "%s", "%s", "%s")' % (domain, name, cat, implies)
+                    sql = 'insert into web_apptype(domain, name, cata, implies, update_date) values("%s", "%s", "%s", "%s", now())' % (domain, name, cat, implies)
                     cursor.execute(sql)
                     # conn.commit()
 

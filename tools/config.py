@@ -8,6 +8,7 @@ TOOLS_PATH = os.path.join(BASE_DIR, 'tools')
 
 DICT_PATH = os.path.join(TOOLS_PATH, 'setting', 'dict')
 EXP_PATH = os.path.join(TOOLS_PATH, 'setting', 'exp')
+POC_PATH = os.path.join(TOOLS_PATH, 'setting', 'poc')
 FINGER_PATH = os.path.join(TOOLS_PATH, 'setting', 'finger')
 
 INTERNET_TIMEOUT = 0.3
