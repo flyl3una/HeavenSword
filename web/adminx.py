@@ -1,5 +1,5 @@
 # coding=utf-8
-
+from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from xadmin.plugins.batch import BatchChangeAction
 
@@ -17,13 +17,13 @@ class UserSettingsAdmin(object):
     hidden_menu = True
 
 
-class GlobalSetting(object):
-
-    #设置base_site.html的Title
-    site_title = '倚天剑'
-
-    #设置base_site.html的Footer
-    site_footer = '倚天屠龙记'
+# class GlobalSetting(object):
+#
+#     #设置base_site.html的Title
+#     site_title = '倚天剑'
+#
+#     #设置base_site.html的Footer
+#     site_footer = '倚天屠龙记'
 
     # 菜单设置
     # def get_site_menu(self):
@@ -111,7 +111,25 @@ class UploadPocAdmin(object):
         # ('Thread Form', ('customer_id',))
 
 
-xadmin.site.register(CommAdminView, GlobalSetting)
+# class MyUserAdmin(object):
+#     # list_diaplsy = (
+#     # 'user','port_scan_model', 'port_scan_thread', 'domain_brute_model', 'domain_brute_thread', 'spider_thread' 'single_web_attack', 'batch_web_attack', 'port_scan', 'domain_brute' 'spider', 'port_scan_model',
+#     # 'port_scan_thread', 'domain_brute_model', 'domain_brute_thread', 'spider_thread')
+#     search_fields = ['username']
+
+class UserPowerAdmin(object):
+    list_display = ('user', 'single_web_attack', 'batch_web_attack', 'port_scan', 'domain_brute', 'spider')
+    search_fields = ['user']
+
+
+class UserSettingAdmin(object):
+    list_display = (
+    'user', 'port_scan_model', 'port_scan_thread', 'domain_brute_model', 'domain_brute_thread', 'spider_thread')
+    search_fields = ['user']
+
+
+# xadmin.site.register(CommAdminView, GlobalSetting)
+
 xadmin.site.register(WebSingleTask, WebSingleTaskAdmin)
 xadmin.site.register(Finger, FingerAdmin)
 xadmin.site.register(PortScan, PortScanAdmin)
@@ -124,4 +142,7 @@ xadmin.site.register(Spider, SpiderAdmin)
 xadmin.site.register(WebExploit, WebExploitAdmin)
 xadmin.site.register(WebExploitResult, WebExploitResultAdmin)
 # xadmin.site.register(UserSettings, UserSettingsAdmin)
-xadmin.site.register(UploadPoc, UploadPocAdmin)
+# xadmin.site.register(UploadPoc, UploadPocAdmin)
+# xadmin.site.register(User, UserAdmin)
+xadmin.site.register(UserPower, UserPowerAdmin)
+xadmin.site.register(UserSetting, UserSettingAdmin)

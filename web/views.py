@@ -24,7 +24,7 @@ from tools.Spider import Tree
 from tools.function import get_ip, get_domain, get_first_domain, get_root_url, get_father_domain
 from web import models
 from web.dir.EmailToken import EmailToken
-from web.models import WebSingleTask, PortScan, DomainBrute, Spider, UserTaskId
+from web.models import WebSingleTask, PortScan, DomainBrute, Spider, UserTaskId, UserPower, UserSetting
 from web.msetting import DOMAIN, PORT_MODEL, PORT_THREAD, DOMAIN_MODEL, DOMAIN_THREAD, SPIDER_THREAD
 
 
@@ -170,6 +170,10 @@ def user_activate(request, token):
         user = User.objects.get(email=email)
         user.is_active = True
         user.save()
+        user_power = UserPower(user)
+        user_setting = UserSetting(user)
+        user_power.save()
+        user_setting.save()
         return HttpResponse("账号激活成功。<br><a href='/user/login/'>点击跳转到登陆页面</a>")
     except:
         return HttpResponse("该邮箱没有被注册。")
@@ -273,158 +277,44 @@ def operation(request):
     if request.method == 'GET':
         if request.user.is_authenticated():
             username = request.COOKIES.get("username")
+            params = {}
+            params['username'] = username
             if request.user.is_superuser:
                 admin = True
-            return render(request, 'operation.html', {'username': username, "admin": admin})
+                params['admin'] = admin
+            b_power = UserPower.objects.filter(user=request.user)
+            if b_power:
+                # params['b_power'] = True
+                params['r_power'] = b_power[0]
+            else:
+                r_power = UserPower(user=request.user)
+                r_power.save()
+                params['r_power'] = r_power
+            b_setting = UserSetting.objects.filter(user=request.user)
+            if not b_setting:
+                user_setting = UserSetting(user=request.user)
+                user_setting.save()
+            return render(request, 'operation.html', {'params': params})
     return HttpResponse("<div style='text-align:center;margin-top:20%'><h3>请登录</h3><br><br><a href='/user/login/'>点击跳转到登陆页面</a>")
 
 
-# def new_single_web_task1(request):
-#     if not request.user.is_authenticated():
-#         return HttpResponse("<div style='text-align:center;margin-top:20%'><h3>请登录</h3><br><br><a href='/user/login/'>点击跳转到登陆页面</a>")
-#     if request.method == 'GET':
-#         return render(request, 'task/new_single_web_task.html')
-#     if request.method == 'POST':
-#         params = request.POST
-#         try:
-#             if 'target' not in params:
-#                 return HttpResponse("目标错误")
-#             args = {}
-#             target = params['target']
-#             target = get_root_url(target)
-#             args['target'] = target
-#             domain = get_domain(target)
-#             first_domain = get_first_domain(domain)
-#             ipaddrs = []
-#             try:
-#                 ipaddrs = get_ip(domain)
-#             except Exception as e:
-#                 print e
-#             ips = models.DomainIP.objects.filter(domain=domain).values('ip')
-#             for ip in ips:
-#                 if ip['ip'] not in ipaddrs:
-#                     m_domainip = models.DomainIP(first_domain=first_domain, domain=domain, ip=ip)
-#                     m_domainip.save()
-#
-#             m_single_task = models.SingleTask(target_url=target)
-#             m_single_task.save()
-#             # args['task_id'] = m_single_task.id
-#
-#             if 'finger_flag' in params.keys():
-#                 # 判断数据库是否已经有该域名的指纹识别了，如果有，则不在进行识别.后续加上对任务的判断，防止多个用户同时执行针对同一个目标的测试。
-#                 # b_apptypes = models.AppType.objects.filter(domain=domain)
-#                 b_finger = models.Finger.objects.filter(target_domain=domain)
-#                 # b_finger_task = models.Finger.objects.filter()
-#                 if b_finger:
-#                     args['finger_flag'] = False
-#                 else:
-#                     args['finger_flag'] = True
-#                     m_finger = models.Finger(target_domain=domain, target_url=target)
-#                     m_finger.save()
-#                     args['finger_id'] = m_finger.id
-#                     args['finger_target_url'] = target
-#                     m_single_task.finger_id = m_finger.id
-#                 # finger_ret = get_finger(target)
-#                 # print finger_ret
-#
-#             if 'port_scan_flag' in params.keys():
-#                 # ip_addr = socket.gethostbyname(target)
-#                 addrs = []
-#                 for ip in ipaddrs:
-#                     b_port = models.PortScan.objects.filter(target_ip=ip)
-#                     # m_ports = models.OpenPort.objects.filter(ip_addr=ip)
-#                     if not b_port:
-#                         addrs.append(ip)
-#                 if addrs:
-#                     args['port_scan_flag'] = True
-#                     args['port_addr2id'] = {}
-#                     ids = []
-#                     for ip in addrs:
-#                         m_port_scan = models.PortScan(target_ip=ip)
-#                         if 'port_scan_thread' in params.keys():
-#                             m_port_scan.port_scan_thread = params['port_scan_thread']
-#                             args['port_scan_thread'] = int(params['port_scan_thread'])
-#                         if 'port_scan_model' in params.keys():
-#                             m_port_scan.port_scan_model = params['port_scan_model']
-#                             args['port_scan_model'] = params['port_scan_model']
-#                         m_port_scan.save()
-#                         port_scan_id = int(m_port_scan.id)
-#                         ids.append(str(port_scan_id))
-#                         args['port_addr2id'][ip] = port_scan_id
-#                     args['port_addrs'] = addrs
-#                     m_single_task.port_scan_ids = '|'.join(ids)     #多个id用|分隔
-#                 else:
-#                     args['port_scan_flag'] = False
-#
-#                 # new_port_scan(ip='113.105.245.122', model=str(params['port_scan_model']),
-#                 #               thread_num=params['port_scan_thread'])
-#             if 'domain_brute_flag' in params.keys():
-#                 # b_domain = models.DomainIP.objects.filter(first_domain=first_domain)
-#                 b_domain = models.DomainBrute.objects.filter(target_first_domain=first_domain)
-#                 if not b_domain:
-#                     m_domain_brute = models.DomainBrute(target_first_domain=first_domain, target_domain=domain)
-#                     args['domain_brute_flag'] = True
-#                     args['target_first_domain'] = first_domain
-#                     if 'domain_brute_thread' in params.keys():
-#                         m_domain_brute.domain_brute_thread = params['domain_brute_thread']
-#                         args['domain_brute_thread'] = int(params['domain_brute_thread'])
-#                         # domain_brute_thread_num = params['domain_brute_thread']
-#                         # new_domain_brute('runboo.com', domain_brute_thread_num)
-#                     m_domain_brute.save()
-#                     args['domain_brute_id'] = m_domain_brute.id
-#                     m_single_task.domain_brute_id = m_domain_brute.id
-#                 else:
-#                     args['domain_brute_flag'] = False
-#
-#             if 'spider_flag' in params.keys():
-#                 # b_spider = models.Url.objects.filter(domain=domain)
-#                 b_spider = models.Spider.objects.filter(target_domain=domain)
-#                 if not b_spider:
-#                     m_spider = models.Spider(target_domain=domain)
-#                     args['spider_flag'] = True
-#                     if 'spider_thread' in params.keys():
-#                         m_spider.spider_thread = params['spider_thread']
-#                         args['spider_thread'] = int(params['spider_thread'])
-#                         # spider_thread_num = params['spider_thread']
-#                         # new_spider(target, spider_thread_num)
-#                     m_spider.save()
-#                     args['target_url'] = target
-#                     args['spider_id'] = m_spider.id
-#                     m_single_task.spider_id = m_spider.id
-#                 else:
-#                     args['spider_flag'] = False
-#
-#             if 'exploit_flag' in params.keys():
-#                 b_exploit = models.ExploitAttack.objects.filter(target_domain=domain)
-#                 if not b_exploit:
-#                     args['exploit_flag'] = True
-#                     m_exploit_attack = models.ExploitAttack(target_domain=target)
-#                     m_exploit_attack.save()
-#                     args['exploit_url'] = '/'.join(target.split('/')[:3])
-#                     args['exploit_id'] = m_exploit_attack.id
-#                     # new_exploit_attack(target)
-#                     m_single_task.exploit_id = m_exploit_attack.id
-#                 else:
-#                     args['exploit_flag'] = False
-#
-#             m_single_task.save()
-#             args['task_id'] = m_single_task.id
-#             # json_args = json.dumps(dict(params))
-#             json_args = json.dumps(args)
-#             json_args = json_args.replace('"', "'")
-#             work = 'python ' + TOOLS_PATH + os.sep + 'worker.py ' + json_args
-#             p = subprocess.Popen(work)
-#             print 'open success:', p
-#             # print params
-#             return HttpResponse("任务开启成功")
-#         except Exception as e:
-#             print e
-#             return HttpResponse("任务开启失败")
+def auth_power(user, field):
+    flag = False
+    try:
+        user_power = UserPower.objects.get(user=user)
+        flag = user_power.__getattribute__(field)
+    except Exception as e:
+        print e
+        flag = False
+    return flag
 
 
 def new_batch_web_task(request):
     if not auth(request):
         return HttpResponseRedirect('/user/login/')
+    flag = auth_power(request.user, 'batch_web_task')
+    if not flag:
+        return HttpResponse('<script>alert("你没有该操作的权限")</script>')
     if request.method == 'GET':
         return render(request, 'task/new_batch_web_task.html')
     elif request.method == 'POST':
@@ -534,6 +424,16 @@ def new_web_task(target, user):
 def new_single_web_task(request):
     if not auth(request):
         return HttpResponseRedirect('/user/login/')
+    # flag = False
+    # try:
+    #     user_power = UserPower.objects.get(user=request.user)
+    #     flag = user_power.single_web_attack
+    # except Exception as e:
+    #     print e
+    #     flag = False
+    flag = auth_power(request.user, 'single_web_attack')
+    if not flag:
+        return HttpResponse('<script>alert("你没有该操作的权限")</script>')
     # if not request.user.is_authenticated():
     #     return HttpResponse("<div style='text-align:center;margin-top:20%'><h3>请登录</h3><br><br><a href='/user/login/'>点击跳转到登陆页面</a>")
     if request.method == 'GET':
@@ -549,6 +449,27 @@ def new_single_web_task(request):
             return HttpResponse('<script>parent.new_web_single_form_result("任务开启成功")</script>')
         else:
             return HttpResponse('<script>parent.new_web_single_form_result("任务开启失败")</script>')
+
+
+def view_web_task_list(request):
+    if not auth(request):
+        return HttpResponseRedirect('/user/login/')
+    tasklist = []
+    # single_task = WebSingleTask.objects.all()
+    user_task = UserTaskId.objects.filter(user=request.user)
+
+    for single_task in user_task:
+        task = WebSingleTask.objects.get(id=single_task.task_id)
+        a_task = {}
+        a_task['id'] = task.id
+        a_task['target_url'] = task.target_url
+        a_task['status'] = task.status
+        a_task['update_date'] = task.update_date
+        a_task['type'] = 0      # 0表示单个，1表示批量
+
+        tasklist.append(a_task)
+    return render(request, 'task/view_web_task.html', {'tasks': tasklist})
+
 
 """
 r_ result
@@ -667,6 +588,9 @@ def view_port_scan(request, id):
 def port_scan(request):
     if not auth(request):
         return HttpResponseRedirect('/user/login/')
+    flag = auth_power(request.user, 'port_scan')
+    if not flag:
+        return HttpResponse('<script>alert("你没有该操作的权限")</script>')
     if request.method == 'GET':
         return render(request, 'tools/port_scan.html')
     elif request.method == 'POST':
@@ -708,9 +632,10 @@ def port_scan(request):
                 port_scan_objs = models.PortScan.objects.filter(target_ip=ip_addr)
                 if not port_scan_objs:
                     args = {}
-                    args['port_scan_model'] = PORT_MODEL #all usually
-                    args['port_scan_thread'] = PORT_THREAD
-                    port_scan_obj = PortScan(target_ip=ip_addr, thread=PORT_THREAD, model=PORT_MODEL)
+                    user_setting = UserSetting.objects.get(user=request.user)
+                    args['port_scan_model'] = user_setting.port_scan_model # PORT_MODEL #all usually
+                    args['port_scan_thread'] = user_setting.port_scan_thread #PORT_THREAD
+                    port_scan_obj = PortScan(target_ip=ip_addr, thread=args['port_scan_thread'], model=args['port_scan_model'])
                     port_scan_obj.save()
                     port_scan_id = port_scan_obj.id
                     args['port_scan_id'] = port_scan_obj.id
@@ -794,6 +719,9 @@ def view_domain_brute(request, id):
 def domain_brute(request):
     if not auth(request):
         return HttpResponseRedirect('/user/login/')
+    flag = auth_power(request.user, 'domain_brute')
+    if not flag:
+        return HttpResponse('<script>alert("你没有该操作的权限")</script>')
     if request.method == 'GET':
         return render(request, 'tools/domain_brute.html')
     elif request.method == 'POST':
@@ -820,8 +748,9 @@ def domain_brute(request):
             domain_brute_objs = models.DomainBrute.objects.filter(target_first_domain=first_domain)
             if not domain_brute_objs:
                 args = {}
-                args['domain_brute_model'] = DOMAIN_MODEL  # all usually
-                args['domain_brute_thread'] = DOMAIN_THREAD
+                user_setting = UserSetting.objects.get(user=request.user)
+                args['domain_brute_model'] = user_setting.domain_brute_model # DOMAIN_MODEL  # all usually
+                args['domain_brute_thread'] = user_setting.domain_brute_thread # DOMAIN_THREAD
                 domain_brute_obj = DomainBrute(target_first_domain=first_domain, target_domain=domain, model=args['domain_brute_model'], thread=args['domain_brute_thread'])
                 domain_brute_obj.save()
                 domain_brute_obj_id = domain_brute_obj.id
@@ -902,6 +831,9 @@ def view_web_spider(request, id):
 def web_spider(request):
     if not auth(request):
         return HttpResponseRedirect('/user/login/')
+    flag = auth_power(request.user, 'spider')
+    if not flag:
+        return HttpResponse('<script>alert("你没有该操作的权限")</script>')
     if request.method == 'GET':
         return render(request, 'tools/web_spider.html')
     elif request.method == 'POST':
@@ -926,8 +858,9 @@ def web_spider(request):
             web_spider_objs = models.Spider.objects.filter(target_domain=domain)
             if not web_spider_objs:
                 args = {}
+                user_setting = UserSetting.objects.get(user=request.user)
                 # args['spider_model'] = "usually"  # all usually
-                args['spider_thread'] = SPIDER_THREAD
+                args['spider_thread'] = user_setting.spider_thread # SPIDER_THREAD
                 spider_obj = Spider(target_domain=domain, target_url=url, thread=args['spider_thread'])
                 spider_obj.save()
                 spider_obj_id = spider_obj.id
@@ -985,61 +918,3 @@ def web_spider(request):
 # http://v3.bootcss.com/examples/dashboard/
 
 
-def view_web_task_list(request):
-    if not auth(request):
-        return HttpResponseRedirect('/user/login/')
-    tasklist = []
-    # single_task = WebSingleTask.objects.all()
-    user_task = UserTaskId.objects.filter(user=request.user)
-
-    for single_task in user_task:
-        task = WebSingleTask.objects.get(id=single_task.task_id)
-        a_task = {}
-        a_task['id'] = task.id
-        a_task['target_url'] = task.target_url
-        a_task['status'] = task.status
-        a_task['update_date'] = task.update_date
-        a_task['type'] = 0      # 0表示单个，1表示批量
-
-        tasklist.append(a_task)
-    return render(request, 'task/view_web_task.html', {'tasks': tasklist})
-
-
-# def new_single_sys_task(request):
-#     return HttpResponse("新建系统测试任务")
-#
-#
-# def new_batch_sys_task(request):
-#     return HttpResponse("新建批量系统测试任务")
-#
-#
-# def view_sys_task_list(request):
-#     return HttpResponse("系统任务列表")
-
-
-# def port_scan(request):
-#     return HttpResponse("端口扫描")
-
-
-#
-#
-# def domain_brute(request):
-#     return HttpResponse("域名爆破")
-#
-#
-# def view_single_task(request):
-#     tasklist = []
-#     single_task = SingleTask.objects.all()
-#     for task in single_task:
-#         a_task = {}
-#         a_task['id'] = task.id
-#         a_task['target_url'] = task.target_url
-#         a_task['status'] = task.task_status
-#         a_task['update_date'] = task.update_date
-#         a_task['type'] = 0      # 0 表示单个，1表示批量
-#         tasklist.append(a_task)
-#     return render(request, 'task/view_single_task.html', {'tasks': tasklist})
-
-
-# def view_batch_task(request):
-#     return render(request, 'task/view_batch_task.html')

@@ -50,11 +50,11 @@
                 {#                    </li>#}
                 {#                </ul>#}
                 <ul class="nav navbar-nav navbar-right">
-                    {% if admin %}
+                    {% if params.admin %}
                         <li><a href="/admin/">管理</a></li>
                     {% endif %}
-                    {% ifnotequal username '' %}
-                        <li><a href="/user/info/">{{ username }}</a></li>
+                    {% ifnotequal params.username '' %}
+                        <li><a href="/user/info/">{{ params.username }}</a></li>
                         {#                    {% else %}#}
                         {#                    <li><a href="/user">登陆</a></li>#}
                     {% endifnotequal %}
@@ -81,9 +81,15 @@
                                 <span class="fa-angle-right arrow fa"></span>
                             </a>
                             <ul class="nav nav-second-level collapse">
+                                {% if params.r_power.single_web_attack %}
                                 <li><a id="new_single_web_task" class="web_task">单一任务</a></li>
+                                {% endif %}
+                                {% if params.r_power.batch_web_attack %}
                                 <li><a id="new_batch_web_task" class="web_task">批量任务</a></li>
+                                {% endif %}
+
                                 <li><a id="view_web_task_list" class="web_task">任务列表</a></li>
+
                             </ul>
                         </li>
                         {#                        <li id="system_task">#}
@@ -101,9 +107,15 @@
                                 <span class="fa-angle-right fa arrow"></span>
                             </a>
                             <ul class="nav nav-second-level collapse">
+                                {% if params.r_power.port_scan %}
                                 <li><a id="port_scan" class="tools-a">端口扫描</a></li>
+                                {% endif %}
+                            {% if params.r_power.domain_brute %}
                                 <li><a id="domain_brute" class="tools-a">域名爆破</a></li>
+                            {% endif %}
+                            {% if params.r_power.spider %}
                                 <li><a id="web_spider" class="tools-a">网页爬虫</a></li>
+                            {% endif %}
                             </ul>
                         </li>
                     </ul>

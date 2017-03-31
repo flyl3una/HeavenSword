@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 
 import os
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 from django.db import models
 # Create your models here.
 
@@ -303,18 +303,72 @@ class WebExploitResult(models.Model):
         verbose_name_plural = 'web exp利用结果'
 
 
-class UploadPoc(models.Model):
-    app_name = models.CharField(max_length=32, verbose_name='poc类型')
-    poc_name = models.CharField(max_length=32, verbose_name='poc名称')
-    #http: // blog.sina.com.cn / s / blog_6b1ed4fb01019lmt.html
-    #http: // wrongwaycn.github.io / django11 / topics / files / index.html  # topics-files
-    poc_path = models.FileField(upload_to=os.path.join(TOOLS_PATH, 'setting', 'poc', 'web', '%s'), verbose_name='poc文件路径')
-    # poc_path = models.FilePathField(upload_to=os.path.join(TOOLS_PATH, 'setting', 'poc', 'web'), verbose_name='poc文件路径')
-    update_date = models.DateTimeField(auto_now=True, verbose_name='上传时间')
+# class UploadPoc(models.Model):
+#     app_name = models.CharField(max_length=32, verbose_name='poc类型')
+#     poc_name = models.CharField(max_length=32, verbose_name='poc名称')
+#     poc_path = models.FileField(upload_to=os.path.join(TOOLS_PATH, 'setting', 'poc', 'web', '%s'), verbose_name='poc文件路径')
+#     update_date = models.DateTimeField(auto_now=True, verbose_name='上传时间')
+#
+#     def __str__(self):
+#         return 'poc上传'
+#
+#     class Meta:
+#         verbose_name = 'poc上传'
+#         verbose_name_plural = 'poc上传'
+
+
+# class MyUser(AbstractUser):
+#     # user = models.ForeignKey(User, verbose_name='用户')
+#     single_web_attack = models.BooleanField(default=True, verbose_name='web检测权限')
+#     batch_web_attack = models.BooleanField(default=True, verbose_name='web批量检测权限')
+#     port_scan = models.BooleanField(default=True, verbose_name='端口扫描权限')
+#     domain_brute = models.BooleanField(default=True, verbose_name='域名爆破权限')
+#     spider = models.BooleanField(default=True, verbose_name='web爬虫权限')
+#
+#     # user = models.ForeignKey(User, verbose_name='用户')
+#     port_scan_model = models.CharField(max_length=32, default='usually', verbose_name='端口扫描模式')
+#     port_scan_thread = models.IntegerField(default=4, verbose_name='端口扫描线程')
+#     domain_brute_model = models.CharField(max_length=32, default='usually', verbose_name='域名爆破模式')
+#     domain_brute_thread = models.IntegerField(default=4, verbose_name='域名爆破线程')
+#     spider_thread = models.IntegerField(default=4, verbose_name='web爬虫线程')
+#
+#     def __str__(self):
+#         return '用户'
+#
+#     class Meta:
+#         verbose_name = '用户'
+#         verbose_name_plural = '用户'
+
+
+class UserPower(models.Model):
+    user = models.ForeignKey(User, verbose_name='用户')
+    single_web_attack = models.BooleanField(default=True, verbose_name='web检测权限')
+    batch_web_attack = models.BooleanField(default=True, verbose_name='web批量检测权限')
+    port_scan = models.BooleanField(default=True, verbose_name='端口扫描权限')
+    domain_brute = models.BooleanField(default=True, verbose_name='域名爆破权限')
+    spider = models.BooleanField(default=True, verbose_name='web爬虫权限')
+    # update_date = models.DateTimeField(auto_now=True, verbose_name='更新时间')
 
     def __str__(self):
-        return 'poc上传'
+        return '用户权限'
 
     class Meta:
-        verbose_name = 'poc上传'
-        verbose_name_plural = 'poc上传'
+        verbose_name = '用户权限'
+        verbose_name_plural = '用户权限'
+
+
+class UserSetting(models.Model):
+    user = models.ForeignKey(User, verbose_name='用户')
+    port_scan_model = models.CharField(max_length=32, null=None, default='usually', verbose_name='端口扫描模式')
+    port_scan_thread = models.IntegerField(default=4, null=None, verbose_name='端口扫描线程')
+    domain_brute_model = models.CharField(max_length=32, null=None, default='usually', verbose_name='域名爆破模式')
+    domain_brute_thread = models.IntegerField(default=4, null=None, verbose_name='域名爆破线程')
+    spider_thread = models.IntegerField(default=4, null=None, verbose_name='web爬虫线程')
+    # update_date = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+
+    def __str__(self):
+        return '用户配置'
+
+    class Meta:
+        verbose_name = '用户配置'
+        verbose_name_plural = '用户配置'

@@ -154,3 +154,7 @@ EMAIL_HOST_PASSWORD='lfllryjbiejcgffe'
 EMAIL_PORT=465
 EMAIL_USE_TLS=False
 DEFAULT_FROM_EMAIL='fly_luna@outlook.com'
+
+# admin
+XADMIN_TITLE = '倚天剑'
+XADMIN_FOOTER_TITLE = '倚天屠龙记'

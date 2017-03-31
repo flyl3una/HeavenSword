@@ -184,7 +184,7 @@ class ScanPort:
             if banner != 'close':
                 if num in self.__port_map.keys():
                     info = self.__port_map[num]
-                sql = 'insert into web_openport(ip_addr, port_num, port_info) values("%s", %d, "%s")' % (self.__target_ip, num, info)
+                sql = 'insert into web_openport(ip_addr, port_num, port_info, update_date) values("%s", %d, "%s", now())' % (self.__target_ip, num, info)
                 self.__cursor.execute(sql)
         # 去掉了manytomany关联
         # sql = 'select id from web_openport where ip_addr="%s"' % self.__target_ip
