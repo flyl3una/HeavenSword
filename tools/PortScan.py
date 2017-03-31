@@ -169,7 +169,7 @@ class ScanPort:
                 # show += "\t\t[banner]:", banner
                 if num in self.__port_map.keys():
                     show += "\t\t[SERVER]:", self.__port_map[num]
-                print show
+                # print show
 
     def get_percent(self):
         return self.__percent

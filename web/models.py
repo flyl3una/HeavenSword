@@ -342,8 +342,8 @@ class WebExploitResult(models.Model):
 
 class UserPower(models.Model):
     user = models.ForeignKey(User, verbose_name='用户')
-    single_web_attack = models.BooleanField(default=True, verbose_name='web检测权限')
-    batch_web_attack = models.BooleanField(default=True, verbose_name='web批量检测权限')
+    single_web_task = models.BooleanField(default=True, verbose_name='web检测权限')
+    batch_web_task = models.BooleanField(default=True, verbose_name='web批量检测权限')
     port_scan = models.BooleanField(default=True, verbose_name='端口扫描权限')
     domain_brute = models.BooleanField(default=True, verbose_name='域名爆破权限')
     spider = models.BooleanField(default=True, verbose_name='web爬虫权限')

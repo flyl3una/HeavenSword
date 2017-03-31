@@ -289,7 +289,7 @@ def get_finger1(target_url):
     result = finger.get_finger_list()
 
 if __name__ == '__main__':
-    print 'finger'
+    # print 'finger'
     json_file_path = os.path.join(FINGER_PATH, 'apps.json')
     apps = getApps(json_file_path)
     finger = WebFinger('https://zh-cn.wordpress.com/', apps)
@@ -299,5 +299,5 @@ if __name__ == '__main__':
     finger.analyse()
     finger.show_result()
     result = finger.get_finger_list()
-    print '-----------------finger json----------------'
-    print json.dumps(result)
+    # print '-----------------finger json----------------'
+    # print json.dumps(result)

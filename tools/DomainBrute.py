@@ -82,7 +82,7 @@ class DomainBrute:
             for i in res:
                 addr = i[4][0]
                 addrs.append(addr)
-            print domain, addr
+            # print domain, addr
             self.__lock.acquire()
             self.__domain_dic[domain] = addrs
             sql = 'delete from web_domainip where domain="%s"' % domain

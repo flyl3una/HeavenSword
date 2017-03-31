@@ -141,7 +141,7 @@ var view_domain_brute = function () {
                     ips = result_dic[domain];
                     tb += '<tr><td>'+ domain +'</td><td>';
                     for (var index in ips){
-                        ip_div = '<div>'+ips[index]+'</div>';
+                        ip_div = '<div class="result-ip">'+ips[index]+'</div>';
                         tb += ip_div;
                     }
                     tb += '</td></tr>'

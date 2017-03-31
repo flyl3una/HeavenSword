@@ -44,7 +44,7 @@
                 {% csrf_token %}
                 <input id="input_urls" name="urls" type="text" hidden>
                 <div id="start_batch_task" class="text-center margin-top-20">
-                <input type="submit" class="btn form-control btn-success btn-submit" value="开始任务">
+                <input id="start_task_btn" type="submit" class="btn form-control btn-success btn-submit" disabled value="开始任务">
             </div>
             </form>
 
@@ -78,6 +78,7 @@
 
         var urls = $("#url_list").html();
         $("#url_list").html(urls + li);
+        $("#start_task_btn").removeAttr("disabled");
     };
 
     var delete_url = function (obj) {
@@ -86,9 +87,10 @@
         id = id.split("-")[1];
 {#        console.log(id);#}
         $("#li-"+id).remove();
-        var url = $("#url").val();
-        if (url == "") {
+        var url_list = $("#url_list").text().trim();
+        if (url_list == "") {
             $("#url_list").hide();
+            $("#start_task_btn").attr("disabled", true);
         }
     };
 

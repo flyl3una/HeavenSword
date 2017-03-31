@@ -320,7 +320,7 @@ def new_batch_web_task(request):
     elif request.method == 'POST':
         # try:
         params = request.POST
-        print params['urls']
+        # print params['urls']
         targets = params['urls'].split(',')
         # except:
         #     return HttpResponse('<script>parent.new_web_batch_form_result("任务开启失败")<script>')
@@ -431,7 +431,7 @@ def new_single_web_task(request):
     # except Exception as e:
     #     print e
     #     flag = False
-    flag = auth_power(request.user, 'single_web_attack')
+    flag = auth_power(request.user, 'single_web_task')
     if not flag:
         return HttpResponse('<script>alert("你没有该操作的权限")</script>')
     # if not request.user.is_authenticated():
@@ -698,10 +698,10 @@ def view_domain_brute(request, id):
             args['flag'] = 1
             args['info'] = "扫描未完成，请耐心等待"
             args['rate'] = domainbrute.current_index * 100 / domainbrute.domain_count
-            result_dic = {}
         else:
             args['flag'] = 2
             args['rate'] = 100
+        result_dic = {}
         for domainip in domainips:
             dic = {}
             domain = domainip.domain
