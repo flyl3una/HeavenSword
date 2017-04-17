@@ -14,9 +14,9 @@ FINGER_PATH = os.path.join(TOOLS_PATH, 'setting', 'finger')
 INTERNET_TIMEOUT = 0.3
 
 
-DB_HOST = "127.0.0.1"
+DB_HOST = "localhost"
 DB_USER = "root"
-DB_PASSWORD = ""
+DB_PASSWORD = "mysql6666"
 DB_PORT = 3306
 DB_NAME = "heavensword"
 DB_CHARSET = "utf8"

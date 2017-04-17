@@ -106,12 +106,24 @@ class WebFinger:
 
     def matchMetas(self, content, metas):
         matched = False
+        # flag = False
         soup = BeautifulSoup(content, 'html.parser')
         for (meta_key, meta_value) in metas.items():
-            meta_value, _, rest = meta_value.partition('\\;')
-            matched = soup.findAll(name='meta', attrs={meta_key:re.compile(meta_value)})
+            # meta_value_str, _, rest = meta_value.partition('\\;')
+            if meta_value.strip() == '':
+                continue
+            # meta_value_list = meta_value.split('\\;')
+            meta_value_str, _, rest = meta_value.partition('\\;')
+            # if len(meta_value_list) <= 0:
+            #     continue
+            # for meta_value_str in meta_value_list:
+            #匹配有问题
+            matched = soup.findAll(name='meta', attrs={'name': meta_key, 'content': re.compile(meta_value_str, re.IGNORECASE)})
             if matched:
+                flag = True
                 break
+            # if flag:
+            #     break
         return matched
 
     #匹配script还存在问题
@@ -129,14 +141,15 @@ class WebFinger:
         :return:
         """
 
-        conn = MySQLdb.connect(host='127.0.0.1', port=3306, user='root', passwd='', db='HeavenSword',
-                               charset='utf8')
+        conn = MySQLdb.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME, charset=DB_CHARSET)
         cursor = conn.cursor()
 
         index = 0
         for name, app in self.__apps[u'apps'].items():
             # for key, obj in app.items():
             keys = app.keys()
+            if name == 'Zabbix':
+                print 'Zabbix'
             url, html, headers, meta, env, script, implies = False, False, False, False, False, False, False
             if u'meta' in keys:
 
@@ -257,10 +270,14 @@ def get_finger(finger_id, url):
         cats = i[u'cats']
         name = i[u'name']
         for cat in cats:
-            if 'implies' in i:
+            if 'implies' in i and i['implies']:
                 for implies in i['implies']:
                     sql = 'insert into web_apptype(domain, name, cata, implies, update_date) values("%s", "%s", "%s", "%s", now())' % (domain, name, cat, implies)
                     cursor.execute(sql)
+            else:
+                sql = 'insert into web_apptype(domain, name, cata, update_date) values("%s", "%s", "%s", now())' % (
+                domain, name, cat)
+                cursor.execute(sql)
                     # conn.commit()
 
     #状态设置为2，完成

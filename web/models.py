@@ -118,7 +118,7 @@ class AppType(models.Model):
     domain = models.CharField(max_length=128, verbose_name='域名')
     name = models.CharField(max_length=32, verbose_name='app名称')
     cata = models.CharField(max_length=32, verbose_name='app类型')
-    implies = models.CharField(max_length=32, verbose_name='app额外信息')
+    implies = models.CharField(max_length=32, verbose_name='app额外信息', null=True)
     update_date = models.DateTimeField(auto_now=True, verbose_name='更新时间')
 
     def __str__(self):

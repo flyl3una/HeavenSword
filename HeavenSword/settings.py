@@ -85,7 +85,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'HeavenSword',
         'USER': 'root',  # 你的数据库用户名
-        'PASSWORD': '',  # 你的数据库密码
+        'PASSWORD': 'mysql6666',  # 你的数据库密码
         'HOST': 'localhost',  # 你的数据库主机，留空默认为localhost
         'PORT': '3306',  # 你的数据库端口
     }
