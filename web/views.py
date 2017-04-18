@@ -602,7 +602,7 @@ def finger(request):
                 if finger.status != 2:
                     json_dic['flag'] = 0
                     json_dic['info'] = "请等待目前任务执行完成"
-                    return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
+                    return HttpResponse("<script>parent.finger_form_result('" + json.dumps(json_dic) + "');</script>")
             if 'url' not in params:
                 return HttpResponse("<script>parent.show_error('请输入目标url');</script>")
 
@@ -630,7 +630,7 @@ def finger(request):
                 #已有该记录
                 if finger_objs[0].status == 2:
                     result_list = []
-                    apptypes = models.Finger.objects.Apptype(domain=domain)
+                    apptypes = models.AppType.objects.filter(domain=domain)
                     for app in apptypes:
                         dic = {}
                         dic['name'] = app.name
@@ -642,19 +642,19 @@ def finger(request):
                     json_dic['info'] = '指纹识别完成'
                     json_dic['result_list'] = result_list
                     return HttpResponse(
-                        "<script>parent.port_scan_form_result('" + json.dumps(json_dic) + "');</script>")
+                        "<script>parent.finger_form_result('" + json.dumps(json_dic) + "');</script>")
                 else:
                     finger_id = finger_objs[0].id
                 json_dic['id'] = finger_id
-                json_dic['info'] = "端口扫描开启成功"
+                json_dic['info'] = "指纹识别开启成功"
                 json_dic['flag'] = 1
                 return HttpResponse(
-                    "<script>parent.port_scan_form_result('" + json.dumps(json_dic) + "');</script>")
+                    "<script>parent.finger_form_result('" + json.dumps(json_dic) + "');</script>")
         except Exception as e:
             print e
-            json_dic['info'] = "端口扫描开启失败"
+            json_dic['info'] = "指纹识别开启失败"
             json_dic['flag'] = 0
-            return HttpResponse("<script>parent.port_scan_form_result('" + json.dumps(json_dic) + "');</script>")
+            return HttpResponse("<script>parent.finger_form_result('" + json.dumps(json_dic) + "');</script>")
 
 
 #查看端口扫描结果
@@ -706,7 +706,7 @@ def port_scan(request):
                 if port_scan_obj.status != 2:
                     json_dic['flag'] = 0
                     json_dic['info'] = "请等待目前任务执行完成"
-                    return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
+                    return HttpResponse("<script>parent.port_scan_form_result('" + json.dumps(json_dic) + "');</script>")
             if 'ip' not in params:
                 # return render(request, 'tools/port_scan.html', {"error": "请输入ip地址"})
                 return HttpResponse("<script>parent.show_error('请输入ip地址');</script>")
