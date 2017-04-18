@@ -107,9 +107,10 @@
                                 <span class="fa-angle-right fa arrow"></span>
                             </a>
                             <ul class="nav nav-second-level collapse">
-                                {% if params.r_power.port_scan %}
+                            <li><a id="finger" class="tools-a">指纹识别</a> </li>
+                            {% if params.r_power.port_scan %}
                                 <li><a id="port_scan" class="tools-a">端口扫描</a></li>
-                                {% endif %}
+                            {% endif %}
                             {% if params.r_power.domain_brute %}
                                 <li><a id="domain_brute" class="tools-a">域名爆破</a></li>
                             {% endif %}

@@ -48,6 +48,7 @@ urlpatterns = [
     # url(r'^view_sys_task_list/$', views.view_sys_task_list),
 
     #info_collection
+    url(r'^tools/finger/$', views.finger),
     url(r'^tools/port_scan/$', views.port_scan),
     url(r'^tools/web_spider/$', views.web_spider),
     url(r'^tools/domain_brute/$', views.domain_brute),

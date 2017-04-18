@@ -49,6 +49,23 @@ def start_single_web_task(params):
         print e
 
 
+def start_finger(params):
+    try:
+        conn = MySQLdb.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME, charset=DB_CHARSET)
+        cursor = conn.cursor()
+
+        # 指纹识别
+        finger_id = params['finger_id']
+        target_url = params['target_url']
+        get_finger(finger_id, target_url)
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+    except Exception as e:
+        print e
+
+
 def start_port_scan(params):
     # conn = MySQLdb.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME, charset=DB_CHARSET)
     # cursor = conn.cursor()
@@ -124,6 +141,9 @@ if __name__ == '__main__':
     if model == 1:
         #单个web任务
         start_single_web_task(args)
+    elif model == 10:
+        #指纹识别
+        start_finger(args)
     elif model == 11:
         #端口扫描
         start_port_scan(args)

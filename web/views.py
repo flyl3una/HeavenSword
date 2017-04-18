@@ -24,7 +24,7 @@ from tools.Spider import Tree
 from tools.function import get_ip, get_domain, get_first_domain, get_root_url, get_father_domain
 from web import models
 from web.dir.EmailToken import EmailToken
-from web.models import WebSingleTask, PortScan, DomainBrute, Spider, UserTaskId, UserPower, UserSetting
+from web.models import WebSingleTask, PortScan, DomainBrute, Spider, UserTaskId, UserPower, UserSetting, Finger
 from web.msetting import DOMAIN, PORT_MODEL, PORT_THREAD, DOMAIN_MODEL, DOMAIN_THREAD, SPIDER_THREAD
 
 
@@ -556,6 +556,108 @@ def web_task_info(request, id):
 
 
 #查看端口扫描结果
+def view_finger(request, id):
+    if not auth(request):
+        return HttpResponseRedirect('/user/login/')
+    args = {}
+    try:
+        finger = models.Finger.objects.get(id=id)
+    except Exception as e:
+        print e
+        args['flag'] = 0
+        args['info'] = "没有找到该任务"
+    else:
+        if finger.status != 2:
+            args['flag'] = 1
+            args['info'] = "扫描未完成，请耐心等待"
+            args['rate'] = finger.current_index * 100 / finger.finger_count
+        else:
+            result_list = []
+            apptypes = models.AppType.objects.filter(domain=finger.target_domain)
+            for apptype in apptypes:
+                dic = {}
+                dic['port'] = apptype.port_num
+                dic['info'] = apptype.port_info
+                result_list.append(dic)
+            args['flag'] = 2
+            args['result_list'] = result_list
+    return JsonResponse(json.dumps(args), safe=False)
+
+
+def finger(request):
+    if not auth(request):
+        return HttpResponseRedirect('/user/login/')
+    flag = auth_power(request.user, 'port_scan')
+    if not flag:
+        return HttpResponse('<script>alert("你没有该操作的权限")</script>')
+    if request.method == 'GET':
+        return render(request, 'tools/finger.html')
+    elif request.method == 'POST':
+        params = request.POST
+        json_dic = {}
+        try:
+            if 'id' in params and int(params['id']) != 0:
+                id = int(params['id'])
+                finger_obj = models.Finger.objects.get(id=id)
+                if finger.status != 2:
+                    json_dic['flag'] = 0
+                    json_dic['info'] = "请等待目前任务执行完成"
+                    return HttpResponse("<script>parent.form_result('" + json.dumps(json_dic) + "');</script>")
+            if 'url' not in params:
+                return HttpResponse("<script>parent.show_error('请输入目标url');</script>")
+
+            # 开启指纹识别任务
+            url = params['url']
+            domain = get_domain(url)
+            target_url = get_root_url(url)
+            finger_objs = models.Finger.objects.filter(target_domain=domain)
+            if not finger_objs:
+                args = {}
+                finger_obj = Finger(target_domain=domain, target_url=url)
+                finger_obj.save()
+                finger_id = finger_obj.id
+
+                args['finger_id'] = finger_id
+                args['domain'] = domain
+                args['target_url'] = url
+                args['model'] = 10
+                json_args = json.dumps(args)
+                json_args = json_args.replace('"', "'")
+                work = 'python ' + TOOLS_PATH + os.sep + 'core.py ' + json_args
+                p = subprocess.Popen(work)
+                print 'open success:', p
+            else:
+                #已有该记录
+                if finger_objs[0].status == 2:
+                    result_list = []
+                    apptypes = models.Finger.objects.Apptype(domain=domain)
+                    for app in apptypes:
+                        dic = {}
+                        dic['name'] = app.name
+                        dic['cata'] = app.cata
+                        dic['implies'] = app.implies
+                        result_list.append(dic)
+                    json_dic['id'] = 0
+                    json_dic['flag'] = 2
+                    json_dic['info'] = '指纹识别完成'
+                    json_dic['result_list'] = result_list
+                    return HttpResponse(
+                        "<script>parent.port_scan_form_result('" + json.dumps(json_dic) + "');</script>")
+                else:
+                    finger_id = finger_objs[0].id
+                json_dic['id'] = finger_id
+                json_dic['info'] = "端口扫描开启成功"
+                json_dic['flag'] = 1
+                return HttpResponse(
+                    "<script>parent.port_scan_form_result('" + json.dumps(json_dic) + "');</script>")
+        except Exception as e:
+            print e
+            json_dic['info'] = "端口扫描开启失败"
+            json_dic['flag'] = 0
+            return HttpResponse("<script>parent.port_scan_form_result('" + json.dumps(json_dic) + "');</script>")
+
+
+#查看端口扫描结果
 def view_port_scan(request, id):
     if not auth(request):
         return HttpResponseRedirect('/user/login/')
@@ -654,7 +756,6 @@ def port_scan(request):
                         # json_dic['info'] = "任务执行完成"
                         # json_dic['id'] = id
                         # id = port_scan_obj.id
-                        ports = []
                         openports = models.OpenPort.objects.filter(ip_addr=ip_addr)
                         result_list = []
                         for openport in openports:
