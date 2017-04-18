@@ -111,7 +111,7 @@
             success: function (ret) {
                 ret = eval('('+ret+')');
                 if (ret.flag == 0){
-                    $("#view_domain_brute").html(ret.info);
+                    $("#view_port_info").html(ret.info);
                 }
                 else if (ret.flag == 1){
                     rate = ret.rate;

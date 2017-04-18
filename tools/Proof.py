@@ -5,28 +5,28 @@ import subprocess
 
 import MySQLdb
 
-from tools.config import EXP_PATH, DB_HOST, DB_CHARSET, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME
+from tools.config import POC_PATH, DB_HOST, DB_CHARSET, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME
 from tools.function import get_domain
 
 
-class ExploitAttack:
+class ProofAttack:
 
-    __exp_files = None
-    exp_name = ''
-    __exp_path = EXP_PATH
-    __exp_set = []
+    __poc_files = None
+    poc_name = ''
+    __poc_path = POC_PATH
+    __poc_set = []
 
 
     def __init__(self, target_host, cat, model):
         self.__target_host = target_host
         self.__cat = cat
-        self.__exp_path = os.path.join(EXP_PATH, model)
+        self.__poc_path = os.path.join(POC_PATH, model)
 
     def attack(self):
         pass
 
-    def has_exp(self):
-        path = os.path.join(self.__exp_path, self.__cat.lower())
+    def has_poc(self):
+        path = os.path.join(self.__poc_path, self.__cat.lower())
         # for rt, dirs, files in os.walk(path):
         files = []
         try:
@@ -35,25 +35,25 @@ class ExploitAttack:
                 files.append(path + os.sep + file)
         except Exception as e:
             print e
-            self.__exp_files = None
+            self.__poc_files = None
             return False
         if not files:
-            self.__exp_files = None
+            self.__poc_files = None
             return False
         else:
-            self.__exp_files = files
+            self.__poc_files = files
             return True
 
-    def exploit(self, charset):
-        if self.__exp_files is None:
-            print'没有找到exp'
+    def proof(self, charset):
+        if self.__poc_files is None:
+            print'没有找到poc'
             return
-        for file in self.__exp_files:
-            if file in self.__exp_set:
+        for file in self.__poc_files:
+            if file in self.__poc_set:
                 continue
             if file.split('\\')[-1] == '*.*':
                 continue
-            self.__exp_set.append(file)
+            self.__poc_set.append(file)
             # result = os.popen('python ' + file)
             # charset = 'utf-8'
             p = subprocess.Popen('python ' + file + ' ' + self.__target_host, shell=True, stdout=subprocess.PIPE)
@@ -64,8 +64,8 @@ class ExploitAttack:
             error = str(err).decode(charset)
             if output.index(u"[SUCCESS]") != -1:
                 file_name = file.split(os.sep)[-1]
-                exp_name = '.'.join(file_name.split('.')[:-1])
-                self.exp_name = exp_name
+                poc_name = '.'.join(file_name.split('.')[:-1])
+                self.poc_name = poc_name
                 return '[success]'
             elif output.index(u'[PARAM]') != -1:
                 return '[param]'
@@ -73,7 +73,7 @@ class ExploitAttack:
                 return '[fails]'
 
 
-def new_exploit_attack(exploit_id, url, model):
+def new_proof_attack(proof_id, url, model):
     try:
         domain = get_domain(url)
         conn = MySQLdb.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME, charset=DB_CHARSET)
@@ -83,14 +83,14 @@ def new_exploit_attack(exploit_id, url, model):
             cursor.execute(sql)
             apps = cursor.fetchall()
             for app_type in apps:
-                exploit_attack = ExploitAttack(url, app_type[2], model)
-                if exploit_attack.has_exp():
-                    result = exploit_attack.exploit(charset='utf-8')
+                proof_attack = ProofAttack(url, app_type[2], model)
+                if proof_attack.has_poc():
+                    result = proof_attack.proof(charset='utf-8')
                     if result == '[success]':
-                        sql = 'insert into web_webexploitresult(domain, result, exp_type, exp_name, update_date) values("%s", 1, "%s", "%s", now())' % (domain, app_type[2], exploit_attack.exp_name)
+                        sql = 'insert into web_webproofresult(domain, result, poc_type, poc_name, update_date) values("%s", 1, "%s", "%s", now())' % (domain, app_type[2], proof_attack.poc_name)
                         cursor.execute(sql)
                         conn.commit()
-            sql = 'update web_webexploit set status=2'
+            sql = 'update web_webproof set status=2'
             cursor.execute(sql)
             conn.commit()
         elif model == 'system':
@@ -105,6 +105,6 @@ def new_exploit_attack(exploit_id, url, model):
             conn.close()
 
 if __name__ == '__main__':
-    exploit_attack = ExploitAttack('http://localhost/drupal-7.31/', 'drupal')
-    if exploit_attack.has_exp():
-        exploit_attack.exploit()
+    proof_attack = ProofAttack('http://localhost/drupal-7.31/', 'drupal')
+    if proof_attack.has_poc():
+        proof_attack.proof()

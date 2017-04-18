@@ -89,7 +89,7 @@ class WebSingleTask(models.Model):
     domain = models.CharField(max_length=32, unique=True, null=False, verbose_name='域名')    #目标域名
     status = models.SmallIntegerField(default=0, verbose_name='任务完成状态')  # 任务完成状态，1完成，0未完成
     finger_id = models.IntegerField(default=0, verbose_name='指纹识别表id')
-    exploit_id = models.IntegerField(default=0, verbose_name='exp利用表id')
+    proof_id = models.IntegerField(default=0, verbose_name='exp利用表id')
     update_date = models.DateTimeField(auto_now=True, verbose_name='更新时间')
 
     def __str__(self):
@@ -265,19 +265,14 @@ class UserTaskId(models.Model):
         verbose_name_plural = '用户任务列表'
 
 
-class WebExploit(models.Model):
+class WebProof(models.Model):
     # task_id = models.ForeignKey(SingleTask)
     # task_type = models.IntegerField(default=0)  # 0为单个任务，1为批量任务
     target_url = models.CharField(max_length=128, unique=True, verbose_name='目标域名')
     target_domain = models.CharField(max_length=32, verbose_name='目标域名')
     status = models.SmallIntegerField(default=0, verbose_name='exp测试状态')
-    exp_count = models.IntegerField(default=10, verbose_name='该app的exp数量')         # 该指纹的所有exp个数
+    poc_count = models.IntegerField(default=10, verbose_name='该app的exp数量')         # 该指纹的所有exp个数
     current_index = models.IntegerField(default=0, verbose_name='当前匹配索引')          # 当前匹配指纹索引
-    # exploit_result = models.IntegerField(default=0)         # 0表示没有漏洞，1表示exp攻击成功
-    # exploit_exp_type = models.CharField(max_length=32)      # 漏洞利用成功后
-    # exploit_attack_rate = models.IntegerField(default=0)
-    # exploit_attack_thread =
-    # exploit_attack_result_json = models.CharField(max_length=256, null=True)   #后期可改为每个漏洞分表
     update_date = models.DateTimeField(auto_now=True, verbose_name='更新时间')
 
     def __str__(self):
@@ -288,11 +283,11 @@ class WebExploit(models.Model):
         verbose_name_plural = 'web exp测试'
 
 
-class WebExploitResult(models.Model):
+class WebProofResult(models.Model):
     domain = models.CharField(max_length=32, verbose_name='目标域名')
     result = models.IntegerField(default=0, verbose_name='结果')         # 0表示没有漏洞，1表示exp攻击成功
-    exp_type = models.CharField(max_length=32, verbose_name='exp类型')      # exp类型
-    exp_name = models.CharField(max_length=32, verbose_name='exp名称')      # 成功使用的exp名称
+    poc_type = models.CharField(max_length=32, verbose_name='exp类型')      # exp类型
+    poc_name = models.CharField(max_length=32, verbose_name='exp名称')      # 成功使用的exp名称
     update_date = models.DateTimeField(auto_now=True, verbose_name='更新时间')
 
     def __str__(self):

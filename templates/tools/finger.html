@@ -1,5 +1,5 @@
 <div class="show-content">
-    <input id="current-page-id" hidden value=11>
+    <input id="current-page-id" hidden value=10>
     <div class="this-title">
         <h3>指纹识别</h3>
     </div>
@@ -30,7 +30,7 @@
             结果
         </div>
         <div class="panel-body">
-            <div id="view_port_info">
+            <div id="view_finger_info">
 
             </div>
             <div id="process_div" class="row" hidden>
@@ -68,21 +68,21 @@
             $("#process_div").show();
             $("#rate").text(0);
             $("#process_bar").width("0");
-            $("#view_port_info").html(ret.info+"<br>正在扫描中，请耐心等待，不要切换页面。。。");
+            $("#view_finger_info").html(ret.info+"<br>正在扫描中，请耐心等待，不要切换页面。。。");
             timer = window.setInterval("view_finger()",1000);
         }else if(flag == 2){
             id = ret.id;
 {#            $("#process_div").hide();#}
 {#            console.log(ret.info);#}
-            $("#view_port_info").html(ret.info);
+            $("#view_finger_info").html(ret.info);
             ret_list = ret.result_list;
 {#            console.log(ret_list);#}
-            tb = '<tr><th width="20%">端口</th><th width="80%">信息</th></tr>';
+            tb = '<tr><th width="30%">类型</th><th width="70%">名称</th></tr>';
             for(var i = 0; i < ret_list.length; i++){
                 dic = ret_list[i];
-                port = dic.port;
-                info = dic.info;
-                tb += "<tr><td>"+port+"</td><td>"+info+"</td></tr>"
+                cata = dic.cata;
+                name = dic.name;
+                tb += "<tr><td>"+cata+"</td><td>"+name+"</td></tr>"
             }
             console.log(tb);
             $("#result_table").html(tb);
@@ -94,7 +94,7 @@
         console.log("view_finger");
         page_id = $("#current-page-id").val();
         console.log(page_id);
-        if (page_id != 11){
+        if (page_id != 10){
             console.log("已不在端口扫描页面");
             window.clearInterval(timer);
             return ;
@@ -111,7 +111,7 @@
             success: function (ret) {
                 ret = eval('('+ret+')');
                 if (ret.flag == 0){
-                    $("#view_domain_brute").html(ret.info);
+                    $("#view_finger_info").html(ret.info);
                 }
                 else if (ret.flag == 1){
                     rate = ret.rate;
@@ -119,18 +119,18 @@
                     $("#rate").text(rate+"%");
                     $("#process_bar").width(rate+"%");
                     cnt = ret.info + "<br>正在扫描中，请耐心等待，不要切换页面。。。";
-                    $("#view_port_info").html(cnt);
+                    $("#view_finger_info").html(cnt);
                 }else if(ret.flag == 2){
-                    $("#view_port_info").text("");
+                    $("#view_finger_info").text("");
                     $("#rate").text("100%");
                     $("#process_bar").width("100%");
                     ret_list = ret.result_list;
-                    tb = '<tr><th width="20%">端口</th><th width="80%">信息</th></tr>';
+                    tb = '<tr><th width="30%">类型</th><th width="70%">名称</th></tr>';
                     for(var i = 0; i < ret_list.length; i++){
                         dic = ret_list[i];
-                        port = dic.port;
-                        info = dic.info;
-                        tb += "<tr><td>"+port+"</td><td>"+info+"</td></tr>"
+                        cata = dic.cata;
+                        name = dic.name;
+                        tb += "<tr><td>"+cata+"</td><td>"+name+"</td></tr>"
                     }
                     $("#result_table").html(tb);
                     $("#finger_id").val(0);

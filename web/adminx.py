@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from xadmin.plugins.batch import BatchChangeAction
 
-from web.models import WebSingleTask, Finger, WebExploit, PortScan
+from web.models import WebSingleTask, Finger, WebProof, PortScan
 from xadmin.views import CommAdminView
 from web.models import *
 
@@ -32,7 +32,7 @@ class UserSettingsAdmin(object):
             #  'perm': self.get_model_perm(User, 'change'),
             #  'menus': ({'title': 'web任务', 'url': self.get_model_url(WebSingleTask, 'changelist')},
             #            {'title': '指纹识别', 'url': self.get_model_url(Finger, 'changelist')},
-            #            {'title': 'exp测试', 'url': self.get_model_url(WebExploit, 'changelist')})
+            #            {'title': 'exp测试', 'url': self.get_model_url(WebProof, 'changelist')})
             #  },
             # {'title': '分类管理', 'perm': self.get_model_perm(Category, 'change'), 'menus': (
             #     {'title': '主要分类', 'url': self.get_model_url(Category, 'changelist') + '?_p_parent__isnull=True'},
@@ -92,12 +92,12 @@ class SpiderAdmin(object):
     search_fields = ['target_domain']
 
 
-class WebExploitAdmin(object):
+class WebProofAdmin(object):
     list_display = ('target_url', 'target_domain', 'status', 'update_date')
     search_fields = ['target_url']
 
 
-class WebExploitResultAdmin(object):
+class WebProofResultAdmin(object):
     list_display = ('domain', 'result', 'exp_type', 'exp_name', 'update_date')
     search_fields = ['domain']
 
@@ -139,8 +139,8 @@ xadmin.site.register(AppType, AppTypeAdmin)
 xadmin.site.register(OpenPort, OpenPortAdmin)
 xadmin.site.register(DomainBrute, DomainBruteAdmin)
 xadmin.site.register(Spider, SpiderAdmin)
-xadmin.site.register(WebExploit, WebExploitAdmin)
-xadmin.site.register(WebExploitResult, WebExploitResultAdmin)
+xadmin.site.register(WebProof, WebProofAdmin)
+xadmin.site.register(WebProofResult, WebProofResultAdmin)
 # xadmin.site.register(UserSettings, UserSettingsAdmin)
 # xadmin.site.register(UploadPoc, UploadPocAdmin)
 # xadmin.site.register(User, UserAdmin)

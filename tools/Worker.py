@@ -10,7 +10,7 @@ import MySQLdb
 import sys
 
 from DomainBrute import new_domain_brute
-from Exploit_attack import new_exploit_attack
+from Proof import new_exploit_attack
 from Finger import get_finger
 from PortScan import new_port_scan
 from Spider import new_spider

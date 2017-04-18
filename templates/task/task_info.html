@@ -64,14 +64,14 @@
                 </h3>
             </div>
             <div class="panel-body">
-                {% if info.b_exploit %}
-                    {% ifequal info.r_exploit.status 2 %}
+                {% if info.b_proof %}
+                    {% ifequal info.r_proof.status 2 %}
                         <table class="table table-horizonal">
                             <tr>
                                 <th width="30%">exp类型</th>
                                 <th width="70%">exp名称</th>
                             </tr>
-                            {% for exp in info.r_exploit.result %}
+                            {% for exp in info.r_proof.result %}
                                 <tr>
                                     <td>{{ exp.type }}</td>
                                     <td>{{ exp.name }}</td>

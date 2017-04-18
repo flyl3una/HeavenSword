@@ -390,18 +390,18 @@ def new_web_task(target, user):
 
         # exploit
         # 判断数据库是否已经有该域名的web攻击测试了，如果有，则不在进行测试
-        b_exploit = models.WebExploit.objects.filter(target_domain=domain)
-        if b_exploit:
-            args['exploit_flag'] = False
-            m_web_single_task.exploit_id = b_exploit[0].id
+        b_proof = models.WebProof.objects.filter(target_domain=domain)
+        if b_proof:
+            args['proof_flag'] = False
+            m_web_single_task.proof_id = b_proof[0].id
         else:
-            args['exploit_flag'] = True
-            m_exploit_attack = models.WebExploit(target_url=target, target_domain=domain)
-            m_exploit_attack.save()
-            args['exploit_url'] = target
-            args['exploit_id'] = m_exploit_attack.id
+            args['proof_flag'] = True
+            m_proof_attack = models.WebProof(target_url=target, target_domain=domain)
+            m_proof_attack.save()
+            args['proof_url'] = target
+            args['proof_id'] = m_proof_attack.id
             # new_exploit_attack(target)
-            m_web_single_task.exploit_id = m_exploit_attack.id
+            m_web_single_task.proof_id = m_proof_attack.id
 
         m_web_single_task.save()
         m_user_task_id = UserTaskId(user=user, task=m_web_single_task)
@@ -493,7 +493,7 @@ def web_task_info(request, id):
     args['update_date'] = update_date
 
     finger_id = task[0].finger_id
-    exploit_id = task[0].exploit_id
+    proof_id = task[0].proof_id
 
     if finger_id is 0:
         args['b_finger'] = False
@@ -522,27 +522,27 @@ def web_task_info(request, id):
             finger_rate = finger_current * 100 / finger_count
             finger_args['rate'] = finger_rate
         args['r_finger'] = finger_args
-    if exploit_id is 0:
-        args['b_exploit'] = False
+    if proof_id is 0:
+        args['b_proof'] = False
     else:
-        args['b_exploit'] = True
-        exp_args = {}
-        exp_obj = models.WebExploit.objects.get(id=exploit_id)
-        target_url = exp_obj.target_url
-        target_domain = exp_obj.target_domain
-        status = exp_obj.status
-        exp_args['status'] = status
+        args['b_proof'] = True
+        poc_args = {}
+        poc_obj = models.WebProof.objects.get(id=proof_id)
+        target_url = poc_obj.target_url
+        target_domain = poc_obj.target_domain
+        status = poc_obj.status
+        poc_args['status'] = status
         if status == 2:
-            exp_result_objs = models.WebExploitResult.objects.filter(domain=target_domain)
-            exp_results = []
-            for exp_result_obj in exp_result_objs:
+            poc_result_objs = models.WebProofResult.objects.filter(domain=target_domain)
+            poc_results = []
+            for poc_result_obj in poc_result_objs:
                 result = {}
-                result['type'] = exp_result_obj.exp_type
-                result['name'] = exp_result_obj.exp_name
-                exp_results.append(result)
-            exp_args['result'] = exp_results
-            exp_args['result_num'] = len(exp_result_objs)
-        args['r_exploit'] = exp_args
+                result['type'] = poc_result_obj.poc_type
+                result['name'] = poc_result_obj.poc_name
+                poc_results.append(result)
+            poc_args['result'] = poc_results
+            poc_args['result_num'] = len(poc_result_objs)
+        args['r_proof'] = poc_args
     return render(request, 'task/task_info.html', {"info": args})
 
 
@@ -576,8 +576,8 @@ def view_finger(request, id):
             apptypes = models.AppType.objects.filter(domain=finger.target_domain)
             for apptype in apptypes:
                 dic = {}
-                dic['port'] = apptype.port_num
-                dic['info'] = apptype.port_info
+                dic['cata'] = apptype.cata
+                dic['name'] = apptype.name
                 result_list.append(dic)
             args['flag'] = 2
             args['result_list'] = result_list
@@ -645,11 +645,11 @@ def finger(request):
                         "<script>parent.finger_form_result('" + json.dumps(json_dic) + "');</script>")
                 else:
                     finger_id = finger_objs[0].id
-                json_dic['id'] = finger_id
-                json_dic['info'] = "指纹识别开启成功"
-                json_dic['flag'] = 1
-                return HttpResponse(
-                    "<script>parent.finger_form_result('" + json.dumps(json_dic) + "');</script>")
+            json_dic['id'] = finger_id
+            json_dic['info'] = "指纹识别开启成功"
+            json_dic['flag'] = 1
+            return HttpResponse(
+                "<script>parent.finger_form_result('" + json.dumps(json_dic) + "');</script>")
         except Exception as e:
             print e
             json_dic['info'] = "指纹识别开启失败"

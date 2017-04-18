@@ -10,7 +10,7 @@ import MySQLdb
 import sys
 
 from DomainBrute import new_domain_brute
-from Exploit_attack import new_exploit_attack
+from Proof import new_proof_attack
 from Finger import get_finger
 from PortScan import new_port_scan
 from Spider import new_spider
@@ -33,12 +33,12 @@ def start_single_web_task(params):
 
         # 漏洞测试
         # 最后一布，放后面完成
-        if params['exploit_flag']:
-            target = args['exploit_url']
+        if params['proof_flag']:
+            target = args['proof_url']
             url = target
-            exploit_id = args['exploit_id']
-            # exploit_thread = threading.Thread(target=new_exploit_attack, args=(exploit_id, url))
-            new_exploit_attack(exploit_id, url, 'web')
+            proof_id = args['proof_id']
+            # proof_thread = threading.Thread(target=new_proof_attack, args=(proof_id, url))
+            new_proof_attack(proof_id, url, 'web')
 
         sql = 'update web_websingletask set status=1 where id="%d"' % params['task_id']
         cursor.execute(sql)
