@@ -15,12 +15,15 @@ import cStringIO
 from PIL import Image, ImageDraw, ImageFont
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.models import User
+from django.core.files import File
 from django.core.mail import send_mail
+from django.db.models import FileField
 from django.http import HttpResponse, JsonResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, render_to_response, redirect
-from HeavenSword.settings import DEFAULT_FROM_EMAIL, EMAIL_HOST_USER, TOOLS_PATH, STATIC_PATH
+from HeavenSword.settings import DEFAULT_FROM_EMAIL, EMAIL_HOST_USER, TOOLS_PATH, STATIC_PATH, UPLOAD_PATH
 from tools.Spider import Tree
+from tools.config import FINGER_PATH
 from tools.function import get_ip, get_domain, get_first_domain, get_root_url, get_father_domain
 from web import models
 from web.dir.EmailToken import EmailToken
@@ -39,6 +42,26 @@ def index(request):
     if not auth(request):
         return HttpResponseRedirect('/user/login/')
     username = ''
+    apptags = models.AppTag.objects.all()
+    if not apptags:
+        json_file_path = os.path.join(FINGER_PATH, 'apps.json')
+        # 获取指纹json字典
+        fp = file(json_file_path)
+        tags = json.load(fp, encoding='utf-8')
+        fp.close()
+        app_count = len(tags[u'apps'])
+        cata_count = len(tags[u'categories'])
+        if app_count == 0 or cata_count == 0:
+            print '没有指纹识别配置文件'
+            return HttpResponse("服务器配置文件缺失，请联系管理员")
+        for key, value in tags[u'apps'].items():
+            catas = value[u'cats']
+            cats = []
+            [cats.append(tags[u'categories'][str(i)]) for i in catas]
+            cats_str = '|'.join(cats)
+            tag = models.AppTag(name=key, cata=cats_str)
+            tag.save()
+
     if request.method == 'GET':
         if request.user.is_authenticated():
             username = request.COOKIES.get("username")
@@ -244,7 +267,8 @@ def user_info(request):
         return HttpResponseRedirect('/user/login/')
     if request.method == 'GET':
         user = request.user
-        return render(request, 'user/user_info.html', {"user": user})
+        tags = models.AppTag.objects.all()
+        return render(request, 'user/user_info.html', {"user": user, "tags": tags})
     elif request.method == 'POST':
         params = request.POST
         pwd = params['password']
@@ -261,6 +285,45 @@ def user_info(request):
             user.save()
             logout(request)
             return HttpResponse("<script>parent.change_pwd_success()</script>")
+
+
+def upload_poc(request):
+    if not auth(request):
+        return HttpResponseRedirect('/user/login/')
+    if request.method == 'GET':
+        return HttpResponse("页面错误")
+    elif request.method == 'POST':
+        params = request.POST
+        pocname = params['pocname']
+        apptag = params['apptag']
+        try:
+            tag = models.AppTag.objects.get(id=int(apptag))
+
+            pocdesc = params['pocdesc']
+            # poc_file = params['poc_file']
+            file_obj = request.FILES.get("poc_file")
+            if not file_obj:
+                return HttpResponse('<script>parent.window.alert_info("请选择文件");</script>')
+            filename = file_obj.name
+            # 文件扩展名
+            ext = os.path.splitext(filename)[1]
+            if ext != '.py':
+                return HttpResponse('<script>parent.window.alert_info("文件名错误");</script>')
+            # 定义文件名，年月日时分秒随机数
+            fn = time.strftime("%Y%m%d%H%M%S")
+            fn = fn + "_%d" % random.randint(0, 100)
+            # 重写合成文件名
+            name = os.path.join(fn + ext)
+            file_full_path = os.path.join(UPLOAD_PATH, name)
+            dest = open(file_full_path, 'wb+')
+            dest.write(file_obj.read())
+            dest.close()
+            file = models.UploadPoc(user=request.user, app_tag=tag, poc_name=pocname, poc_desc=pocdesc, poc_path=file_full_path)
+            file.save()
+            return HttpResponse('<script>parent.window.alert_info("上传成功");</script>')
+            # return HttpResponseRedirect("/user/info/")
+        except Exception as e:
+            return HttpResponse('<script>parent.window.alert_info("错误");</script>')
 
 
 def help(request):

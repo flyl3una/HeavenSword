@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block body %}
- <nav class="navbar navbar-inverse navbar-fixed-top" style="height: 50px;">
+    <nav class="navbar navbar-inverse navbar-fixed-top" style="height: 50px;">
         <div class="container-fluid">
             <div id="navbar" class="navbar-collapse collapse">
                 <div class="navbar-header">
@@ -52,7 +52,7 @@
                     {% endifnotequal %}
                     {#                    <li><a href="#">Settings</a></li>#}
                     <li><a href="/user/logout">注销</a></li>
-{#                    <li><a id="help" href="#">帮助</a></li>#}
+                    {#                    <li><a id="help" href="#">帮助</a></li>#}
                 </ul>
             </div>
         </div>
@@ -67,6 +67,9 @@
             {#            </li>#}
             <li>
                 <a id="nav-change_pwd" href="#">修改密码</a>
+            </li>
+            <li>
+                <a id="nav-upload_poc" href="#">上传POC</a>
             </li>
         </ul>
         <div class="tab-content">
@@ -85,7 +88,7 @@
                                     <th width="25%">用户名</th>
                                     <td width="75%">
                                         {{ user.username }}
-{#                                        <button class="btn btn-success btn-submit">修改用户名</button>#}
+                                        {#                                        <button class="btn btn-success btn-submit">修改用户名</button>#}
                                     </td>
                                 </tr>
                                 <tr>
@@ -95,19 +98,6 @@
 
                                 </tbody>
                             </table>
-                            {#                                <div class="row">#}
-                            {#                                    用户名：admin#}
-                            {#                                </div>#}
-                            {#                                <p>#}
-                            {#                                    邮箱：admin@admin.com#}
-                            {#                                </p>#}
-                            {#                                <p>#}
-                            {#                                    手机号:132456790#}
-                            {#                                </p>#}
-                            {#                            </div>#}
-                            {#                            <div class="col-md-4">#}
-                            {#                                头像：#}
-                            {#                            </div>#}
                         </div>
                         {#                        </div>#}
                     </div>
@@ -138,8 +128,8 @@
                         <div class="form-group">
                             <p>用户名：{{ user.username }}</p>
                         </div>
-                        <iframe id="change-pwd-fram" name="change-pwd-fram" hidden></iframe>
-                        <form method="post" action="/user/info/" target="change-pwd-fram">
+                        <iframe id="children-frame" name="children-frame" hidden></iframe>
+                        <form method="post" action="/user/info/" target="children-frame">
                             {% csrf_token %}
                             <div class="form-group">
                                 原密码
@@ -147,11 +137,13 @@
                             </div>
                             <div class="form-group">
                                 新密码
-                                <input id="password1" type="password" name="password1" class="form-control" minlength="8" required>
+                                <input id="password1" type="password" name="password1" class="form-control"
+                                       minlength="8" required>
                             </div>
                             <div class="form-group">
                                 再次输入新密码
-                                <input type="password" id="password2" name="password2" class="form-control" minlength="8" required>
+                                <input type="password" id="password2" name="password2" class="form-control"
+                                       minlength="8" required>
                             </div>
                             <div id="change-pwd-info" class="form-group text-danger">
                                 &nbsp;
@@ -162,10 +154,61 @@
                     </div>
                 </div>
             </div>
+            <div id="tab-upload_poc" class="tab-panel">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        上传POC脚本
+                    </div>
+                    <div class="panel-body">
+                        <form class="form-container" enctype="multipart/form-data" method="POST" action="/user/upload_poc/" target="children-frame">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                poc名称(cve编号或者包含app名字和版本信息)
+                                <input type="text" id="pocname" name="pocname" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                poc对应的app名称
+                                <select name="apptag">
+                                    {% for tag in tags %}
+                                    <option value="{{ tag.id }}">{{ tag.name }}</option>
+                                    {% endfor %}
+                                </select>
+{#                                <input type="text" id="appname" name="appname" class="form-control" required>#}
+                            </div>
+{#                            <div class="form-group">#}
+{#                                poc支持的版本信息#}
+{#                                <input type="text" name="version"#}
+{#                            </div>#}
+                            <div class="form-group">
+                                poc描述信息
+                                <input type="text" id="pocdesc" name="pocdesc" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <input type="file" class="form-control btn-upload" name="poc_file" size="30" required/>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="submit" id="upload" class="btn btn-submit form-control" style="vertical-align: middle" value="上传">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-</div>
+    </div>
 {% endblock %}
 
 {% block extrajs %}
+
+    <script>
+        var alert_info = function (ret) {
+            alert(ret);
+            window.location.href = '/user/info/'
+        }
+    </script>
+
     <script src="{% static "js/user-info.js" %}"></script>
 {% endblock %}

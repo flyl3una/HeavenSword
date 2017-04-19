@@ -33,6 +33,7 @@ urlpatterns = [
     url(r'^user/info/$', views.user_info),
     url(r'^user/reset_pwd/$', views.user_reset_pwd_post),
     url(r'^user/reset_pwd/(.*)/$', views.user_reset_pwd),
+    url(r'^user/upload_poc/', views.upload_poc),
 
     # url(r'^batch/$', views.batch),
     url(r'^operation/$', views.operation),

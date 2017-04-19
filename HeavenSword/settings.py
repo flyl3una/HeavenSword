@@ -138,6 +138,7 @@ STATICFILES_DIRS = [STATIC_PATH, ]
 
 WEB_PATH = os.path.join(BASE_DIR, 'web', )
 TOOLS_PATH = os.path.join(BASE_DIR, 'tools', )
+UPLOAD_PATH = os.path.join(TOOLS_PATH, 'setting', 'uploadpoc')
 
 # 关闭浏览器session失效设置
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # 浏览器关闭session失效
@@ -158,3 +159,6 @@ DEFAULT_FROM_EMAIL='fly_luna@outlook.com'
 # admin
 XADMIN_TITLE = '倚天剑'
 XADMIN_FOOTER_TITLE = '倚天屠龙记'
+
+# 重写上传文件，上传文件重命名
+# DEFAULT_FILE_STORAGE = "heavensword.web.storage.FileStorage"

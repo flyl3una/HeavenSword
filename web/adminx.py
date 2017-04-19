@@ -128,6 +128,18 @@ class UserSettingAdmin(object):
     search_fields = ['user']
 
 
+class AppTagAdmin(object):
+    list_display = (
+        'name', 'cata'
+    )
+
+
+class UploadPocAdmin(object):
+    list_display = {
+        'user', 'app_tag', 'app_version', 'poc_type', 'poc_name', 'poc_desc', 'poc_path', 'status', 'update_date'
+    }
+
+
 # xadmin.site.register(CommAdminView, GlobalSetting)
 
 xadmin.site.register(WebSingleTask, WebSingleTaskAdmin)
@@ -146,3 +158,5 @@ xadmin.site.register(WebProofResult, WebProofResultAdmin)
 # xadmin.site.register(User, UserAdmin)
 xadmin.site.register(UserPower, UserPowerAdmin)
 xadmin.site.register(UserSetting, UserSettingAdmin)
+xadmin.site.register(AppTag, AppTagAdmin)
+xadmin.site.register(UploadPoc, UploadPocAdmin)

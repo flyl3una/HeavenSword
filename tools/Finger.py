@@ -17,6 +17,7 @@ from tools.function import get_domain
 def getApps(path):
     fp = file(path)
     app_dic = json.load(fp, encoding='utf-8')
+    fp.close()
     return app_dic
 
 

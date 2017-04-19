@@ -6,6 +6,11 @@ body {
 
 }
 
+div{
+    margin: 0;
+    padding: 0;
+}
+
 .main-body{
     background-color: #f3f4f5;
     padding-top: 59px;
@@ -71,4 +76,29 @@ body {
     text-align: left;
     display: block;
     -moz-box-align: center;
+}
+
+.btn-upload{
+    height:100%;
+    margin: 0;
+    padding: 3px 0;
+}
+
+.nopadding{
+    margin:0 0 0 0;
+}
+
+.no-padding-left-right{
+    padding-right: 0;   !important;
+    padding-left: 0;    !important;
+}
+
+.no-padding-top-bottom{
+    padding-top: 0; !important;
+    padding-bottom: 0;  !important;
+}
+
+.no-margin-left-right{
+    margin-left: 0; !important;
+    margin-right: 0; !important;
 }
