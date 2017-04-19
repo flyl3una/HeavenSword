@@ -303,7 +303,7 @@ class AppTag(models.Model):
     cata = models.CharField(max_length=64, null=None, verbose_name='app类型')
 
     def __str__(self):
-        return 'web app类型'
+        return self.name
     class Meta:
         verbose_name = 'web app类型'
         verbose_name_plural = 'web app类型'
@@ -312,7 +312,7 @@ class AppTag(models.Model):
 class UploadPoc(models.Model):
     user = models.ForeignKey(User, verbose_name='上传用户id')
     app_tag = models.ForeignKey(AppTag, verbose_name='app类型')
-    app_version = models.CharField(max_length=32, null=True, default=None, verbose_name='app版本信息')
+    app_version = models.CharField(max_length=32, null=True, default=" ", verbose_name='app版本信息')
     poc_type = models.CharField(max_length=32, default='web', verbose_name='poc类型')
     poc_name = models.CharField(max_length=32, verbose_name='poc名称')
     poc_desc = models.CharField(max_length=128, verbose_name='描述')
@@ -328,6 +328,14 @@ class UploadPoc(models.Model):
     class Meta:
         verbose_name = 'poc上传'
         verbose_name_plural = 'poc上传'
+
+    # 移动文件重写save函数
+    def save(self):
+        if self.status:
+            print 1
+        else:
+            print 0
+        super(UploadPoc, self).save()
 
 
 class UserPower(models.Model):

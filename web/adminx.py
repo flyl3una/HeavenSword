@@ -1,6 +1,7 @@
 # coding=utf-8
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
+from xadmin import AdminSite
 from xadmin.plugins.batch import BatchChangeAction
 
 from web.models import WebSingleTask, Finger, WebProof, PortScan
@@ -42,7 +43,7 @@ class UserSettingsAdmin(object):
 
 
 class WebSingleTaskAdmin(object):
-    list_display = ('domain', 'target_url', 'status', 'finger_id', 'exploit_id', 'update_date')
+    list_display = ('domain', 'target_url', 'status', 'finger_id', 'proof_id', 'update_date')
     list_display_links = ('domain',)
     # wizard_
     search_fields = ['domain']
@@ -98,7 +99,7 @@ class WebProofAdmin(object):
 
 
 class WebProofResultAdmin(object):
-    list_display = ('domain', 'result', 'exp_type', 'exp_name', 'update_date')
+    list_display = ('domain', 'result', 'poc_type', 'poc_name', 'update_date')
     search_fields = ['domain']
 
 
@@ -118,7 +119,7 @@ class UploadPocAdmin(object):
 #     search_fields = ['username']
 
 class UserPowerAdmin(object):
-    list_display = ('user', 'single_web_attack', 'batch_web_attack', 'port_scan', 'domain_brute', 'spider')
+    list_display = ('user', 'single_web_task', 'batch_web_task', 'port_scan', 'domain_brute', 'spider')
     search_fields = ['user']
 
 
@@ -140,7 +141,12 @@ class UploadPocAdmin(object):
     }
 
 
+class IdentifyAdmin(AdminSite):
+    site_header = 'xxx'
+
+
 # xadmin.site.register(CommAdminView, GlobalSetting)
+
 
 xadmin.site.register(WebSingleTask, WebSingleTaskAdmin)
 xadmin.site.register(Finger, FingerAdmin)
@@ -160,3 +166,6 @@ xadmin.site.register(UserPower, UserPowerAdmin)
 xadmin.site.register(UserSetting, UserSettingAdmin)
 xadmin.site.register(AppTag, AppTagAdmin)
 xadmin.site.register(UploadPoc, UploadPocAdmin)
+
+# identify_admin = IdentifyAdmin(name='iudentify')
+# identify_admin.register(IdentifyAdmin)

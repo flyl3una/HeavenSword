@@ -21,13 +21,16 @@ from django.db.models import FileField
 from django.http import HttpResponse, JsonResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, render_to_response, redirect
+from django.template import RequestContext
+
 from HeavenSword.settings import DEFAULT_FROM_EMAIL, EMAIL_HOST_USER, TOOLS_PATH, STATIC_PATH, UPLOAD_PATH
 from tools.Spider import Tree
 from tools.config import FINGER_PATH
 from tools.function import get_ip, get_domain, get_first_domain, get_root_url, get_father_domain
 from web import models
 from web.dir.EmailToken import EmailToken
-from web.models import WebSingleTask, PortScan, DomainBrute, Spider, UserTaskId, UserPower, UserSetting, Finger
+from web.models import WebSingleTask, PortScan, DomainBrute, Spider, UserTaskId, UserPower, UserSetting, Finger, \
+    UploadPoc
 from web.msetting import DOMAIN, PORT_MODEL, PORT_THREAD, DOMAIN_MODEL, DOMAIN_THREAD, SPIDER_THREAD
 
 
@@ -314,7 +317,7 @@ def upload_poc(request):
             fn = fn + "_%d" % random.randint(0, 100)
             # 重写合成文件名
             name = os.path.join(fn + ext)
-            file_full_path = os.path.join(UPLOAD_PATH, name)
+            file_full_path = os.path.join(name)
             dest = open(file_full_path, 'wb+')
             dest.write(file_obj.read())
             dest.close()
@@ -324,6 +327,15 @@ def upload_poc(request):
             # return HttpResponseRedirect("/user/info/")
         except Exception as e:
             return HttpResponse('<script>parent.window.alert_info("错误");</script>')
+
+
+def identify_poc(request):
+    return render_to_response(
+        "admin/identify_poc.html",
+        {'poc_list': UploadPoc.objects.all()},
+        RequestContext(request, {}),
+    )
+    report = staff_member_required(report)
 
 
 def help(request):

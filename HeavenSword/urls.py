@@ -21,6 +21,7 @@ from web import views
 
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),
+    url(r'^admin/identify/$', views.identify_poc),
     url(r'^admin/', include(xadmin.site.urls)),
     url(r'^index/$', views.index),
     url(r'^$', views.index),
