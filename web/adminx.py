@@ -1,16 +1,11 @@
 # coding=utf-8
-from django.contrib.auth.admin import UserAdmin
-from django.contrib.auth.models import User
-from xadmin import AdminSite
-from xadmin.plugins.batch import BatchChangeAction
+import xadmin
+from django.contrib import admin
+from xadmin import AdminSite, widgets
+from xadmin.plugins.actions import BaseActionView
 
-from web.models import WebSingleTask, Finger, WebProof, PortScan
-from xadmin.views import CommAdminView
 from web.models import *
 
-import xadmin
-# from models import UserSettings
-from xadmin.layout import *
 
 
 class UserSettingsAdmin(object):
@@ -103,15 +98,6 @@ class WebProofResultAdmin(object):
     search_fields = ['domain']
 
 
-class UploadPocAdmin(object):
-    list_display = ('app_name', 'poc_name', 'poc_path')
-    search_fields = ['app_name']
-    # wizard_form_list = [('上传poc', ('app_name', 'poc_name', 'poc_path'))]
-        # ('Frist\'s Form', ('name', 'description')),
-        # ('Seocnd Form', ('contact', 'telphone', 'address')),
-        # ('Thread Form', ('customer_id',))
-
-
 # class MyUserAdmin(object):
 #     # list_diaplsy = (
 #     # 'user','port_scan_model', 'port_scan_thread', 'domain_brute_model', 'domain_brute_thread', 'spider_thread' 'single_web_attack', 'batch_web_attack', 'port_scan', 'domain_brute' 'spider', 'port_scan_model',
@@ -137,12 +123,28 @@ class AppTagAdmin(object):
 
 class UploadPocAdmin(object):
     list_display = {
-        'user', 'app_tag', 'app_version', 'poc_type', 'poc_name', 'poc_desc', 'poc_path', 'status', 'update_date'
+        'user', 'app_tag', 'app_version', 'poc_type', 'poc_name', 'poc_desc', 'poc_file', 'file_content', 'status', 'update_date'
     }
+    search_fields = ['app_tag']
+    list_display_links = ('status', )
+    file_display = ('poc_file', )
+
+    formfield_overrides = {
+        models.FileField: {'widget': widgets.AdminFileWidget},
+    }
+
+    def file_content(self, obj):
+        return obj.poc_file.read()
+    file_content.poc_file = 'UploadPoc'
 
 
 class IdentifyAdmin(AdminSite):
     site_header = 'xxx'
+
+
+# 自定义批量操作的action
+class DeleteFileAction(BaseActionView):
+    pass
 
 
 # xadmin.site.register(CommAdminView, GlobalSetting)

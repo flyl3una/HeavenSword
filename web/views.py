@@ -312,16 +312,18 @@ def upload_poc(request):
             ext = os.path.splitext(filename)[1]
             if ext != '.py':
                 return HttpResponse('<script>parent.window.alert_info("文件名错误");</script>')
-            # 定义文件名，年月日时分秒随机数
-            fn = time.strftime("%Y%m%d%H%M%S")
-            fn = fn + "_%d" % random.randint(0, 100)
-            # 重写合成文件名
-            name = os.path.join(fn + ext)
-            file_full_path = os.path.join(name)
-            dest = open(file_full_path, 'wb+')
-            dest.write(file_obj.read())
-            dest.close()
-            file = models.UploadPoc(user=request.user, app_tag=tag, poc_name=pocname, poc_desc=pocdesc, poc_path=file_full_path)
+            file = models.UploadPoc(user=request.user, app_tag=tag, poc_name=pocname, poc_desc=pocdesc, poc_file=file_obj)
+
+            # # 定义文件名，年月日时分秒随机数
+            # fn = time.strftime("%Y%m%d%H%M%S")
+            # fn = fn + "_%d" % random.randint(0, 100)
+            # # 重写合成文件名
+            # name = os.path.join(fn + ext)
+            # file_full_path = os.path.join(UPLOAD_PATH, name)
+            # dest = open(file_full_path, 'wb+')
+            # dest.write(file_obj.read())
+            # dest.close()
+            # file = models.UploadPoc(user=request.user, app_tag=tag, poc_name=pocname, poc_desc=pocdesc, poc_path=name)
             file.save()
             return HttpResponse('<script>parent.window.alert_info("上传成功");</script>')
             # return HttpResponseRedirect("/user/info/")

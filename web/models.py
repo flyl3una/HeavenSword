@@ -4,6 +4,7 @@
 from __future__ import unicode_literals
 
 import os
+import shutil
 
 from django.contrib.auth.models import User, AbstractUser
 from django.db import models
@@ -26,7 +27,8 @@ from django.db import models
 #
 #     def __unicode__(self):
 #         return self.user.username
-from HeavenSword.settings import TOOLS_PATH
+from HeavenSword.settings import TOOLS_PATH, UPLOAD_PATH
+from tools.config import POC_PATH
 
 
 class DomainIP(models.Model):
@@ -316,26 +318,64 @@ class UploadPoc(models.Model):
     poc_type = models.CharField(max_length=32, default='web', verbose_name='poc类型')
     poc_name = models.CharField(max_length=32, verbose_name='poc名称')
     poc_desc = models.CharField(max_length=128, verbose_name='描述')
-    # poc_path = models.FileField(verbose_name='poc文件路径')
-    # poc_path = models.FileField(verbose_name='poc上传路径')
-    poc_path = models.CharField(max_length=128, verbose_name='上传路径')
+    # poc_path = models.CharField(max_length=128, verbose_name='上传路径')
+    poc_file = models.FileField(upload_to=UPLOAD_PATH, null=None, verbose_name='上传路径')
+    # file_content = models.TextField(verbose_name='poc脚本内容')
     status = models.BooleanField(default=False, verbose_name='poc审查状态')
     update_date = models.DateTimeField(auto_now=True, verbose_name='上传时间')
 
     def __str__(self):
         return 'poc上传'
 
+    # def get_file_content(self):
+    #     # file_content = self.poc_file.read()
+    #     file_content = file(self.poc_file).read()
+    #     return file_content
+
     class Meta:
+
         verbose_name = 'poc上传'
         verbose_name_plural = 'poc上传'
 
-    # 移动文件重写save函数
+    def __move_file(self):
+        try:
+            tmp_path = os.path.join(UPLOAD_PATH, self.poc_path)
+            real_path = os.path.join(POC_PATH, self.poc_type, self.app_tag.name, self.poc_path)
+            if self.status:
+                if os.path.exists(tmp_path) and not os.path.exists(real_path):
+                    if not os.path.exists(os.path.join(POC_PATH, self.poc_type, self.app_tag.name)):
+                        os.mkdir(os.path.join(POC_PATH, self.poc_type, self.app_tag.name))
+                    shutil.move(tmp_path, real_path)
+            else:
+                if os.path.exists(tmp_path) and not os.path.exists(real_path):
+                    pass
+                elif os.path.exists(real_path) and not os.path.exists(tmp_path):
+                    shutil.move(real_path, tmp_path)
+        except Exception as e:
+            print '保存文件时文件移动错误'
+            print e
+
+    def __delete_file(self):
+        try:
+            tmp_path = os.path.join(UPLOAD_PATH, self.poc_path)
+            real_path = os.path.join(POC_PATH, self.poc_type, self.app_tag.name, self.poc_path)
+            if self.status:
+                os.remove(real_path)
+            else:
+                os.remove(tmp_path)
+        except Exception as e:
+            print '删除文件时文件移动错误'
+            print e
+
+    # 移动文件重写save和delete函数
     def save(self):
-        if self.status:
-            print 1
-        else:
-            print 0
+        self.__move_file()
         super(UploadPoc, self).save()
+
+    def delete(self, using=None, keep_parents=False):
+        print 'delete'
+        self.__delete_file()
+        super(UploadPoc, self).delete(using=None, keep_parents=False)
 
 
 class UserPower(models.Model):

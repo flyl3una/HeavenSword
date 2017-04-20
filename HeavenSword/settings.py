@@ -162,3 +162,6 @@ XADMIN_FOOTER_TITLE = '倚天屠龙记'
 
 # 重写上传文件，上传文件重命名
 # DEFAULT_FILE_STORAGE = "heavensword.web.storage.FileStorage"
+
+#文件上传
+FILE_UPLOAD_MAX_MEMORY_SIZE = 500*1024
