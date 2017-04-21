@@ -2,7 +2,9 @@
 import xadmin
 from django.contrib import admin
 from xadmin import AdminSite, widgets
-from xadmin.plugins.actions import BaseActionView
+from xadmin.plugins.actions import BaseActionView, DeleteSelectedAction
+from xadmin.util import model_ngettext
+from xadmin.views import filter_hook
 
 from web.models import *
 
@@ -121,30 +123,70 @@ class AppTagAdmin(object):
     )
 
 
+def IdentifyPassAction(BaseActionView):
+    print 'ss'
+    pass
+
+
+class DeleteFileAction(DeleteSelectedAction):
+    action_name = "deletefile"
+    description = u'Delete Files %(verbose_name_plural)s'
+    delete_confirmation_template = None
+    delete_selected_confirmation_template = None
+    delete_models_batch = True
+    #: 该 Action 所需权限
+    model_perm = 'delete'
+    icon = 'fa fa-times'
+    # 而后实现 do_action 方法
+
+    @filter_hook
+    def delete_models(self, queryset):
+        print '123434543534'
+        # super(DeleteSelectedAction, self).delete_models(queryset)
+        n = queryset.count()
+        if n:
+            # if self.delete_models_batch:
+            #     queryset.delete()
+            # else:
+            for obj in queryset:
+                obj.delete()
+            self.message_user(_("Successfully deleted %(count)d %(items)s.") % {
+                "count": n, "items": model_ngettext(self.opts, n)
+            }, 'success')
+
+    # def do_action(self, queryset):
+    #     super(DeleteSelectedAction, self).do_action(queryset)
+
+
 class UploadPocAdmin(object):
     list_display = {
-        'user', 'app_tag', 'app_version', 'poc_type', 'poc_name', 'poc_desc', 'poc_file', 'file_content', 'status', 'update_date'
+        'user', 'app_tag', 'app_version', 'poc_type', 'poc_name', 'poc_desc', 'status', 'update_date'
     }
     search_fields = ['app_tag']
     list_display_links = ('status', )
-    file_display = ('poc_file', )
+    # list_editable = ('user', 'app_tag', 'app_version', 'poc_type', 'poc_desc', 'status')
+    # file_display = ('poc_path', )
 
     formfield_overrides = {
         models.FileField: {'widget': widgets.AdminFileWidget},
     }
 
-    def file_content(self, obj):
-        return obj.poc_file.read()
-    file_content.poc_file = 'UploadPoc'
+    # 自定义批量操作的action
+    # def delete_file_action(modelxadmin, request, queryset):
+    #     # queryset.update(status='p')
+    #     print 'xx'
+    #     pass
+    # delete_file_action.short_description = "aa"
+
+    actions = [DeleteFileAction, ]
+
+    # def file_content(self, obj):
+    #     return obj.poc_file.read()
+    # file_content.poc_file = 'UploadPoc'
 
 
 class IdentifyAdmin(AdminSite):
     site_header = 'xxx'
-
-
-# 自定义批量操作的action
-class DeleteFileAction(BaseActionView):
-    pass
 
 
 # xadmin.site.register(CommAdminView, GlobalSetting)

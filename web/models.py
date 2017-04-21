@@ -318,9 +318,9 @@ class UploadPoc(models.Model):
     poc_type = models.CharField(max_length=32, default='web', verbose_name='poc类型')
     poc_name = models.CharField(max_length=32, verbose_name='poc名称')
     poc_desc = models.CharField(max_length=128, verbose_name='描述')
-    # poc_path = models.CharField(max_length=128, verbose_name='上传路径')
-    poc_file = models.FileField(upload_to=UPLOAD_PATH, null=None, verbose_name='上传路径')
-    # file_content = models.TextField(verbose_name='poc脚本内容')
+    poc_path = models.CharField(max_length=128, verbose_name='文件名称')
+    # poc_file = models.FileField(upload_to=UPLOAD_PATH, null=None, verbose_name='上传路径')
+    file_content = models.TextField(verbose_name='poc脚本内容')
     status = models.BooleanField(default=False, verbose_name='poc审查状态')
     update_date = models.DateTimeField(auto_now=True, verbose_name='上传时间')
 
