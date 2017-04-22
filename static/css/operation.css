@@ -347,7 +347,7 @@ a:hover{
     padding: 5px 10px;
     background: limegreen;
     color:#eeeeee;
-    display: block;
+    display: inline-block;
     line-height: 15px;
 }
 
