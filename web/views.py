@@ -72,7 +72,8 @@ def index(request):
     if request.method == 'POST':
         url = request.POST.get('target')
         # print url
-        return render(request, 'index.html', {'username': username})
+        return new_single_web_task(request)
+        # return render(request, 'index.html', {'username': username})
 
 
 def captcha(request):
@@ -322,7 +323,7 @@ def upload_poc(request):
             file_full_path = os.path.join(UPLOAD_PATH, name)
             dest = open(file_full_path, 'wb+')
             file_content = file_obj.read()
-            dest.write(file_obj.read())
+            dest.write(file_content)
             dest.close()
             file = models.UploadPoc(user=request.user, app_tag=tag, poc_name=pocname, poc_desc=pocdesc, poc_path=name, file_content=file_content)
             file.save()
@@ -339,6 +340,25 @@ def identify_poc(request):
         RequestContext(request, {}),
     )
     report = staff_member_required(report)
+
+
+#先修改上传文件后返回poc_name，然后在更改返回值字段。
+def show_poc(request, id):
+    if not auth(request):
+        return HttpResponseRedirect('/user/login/')
+    if request.method == 'GET':
+        args = {}
+        try:
+            poc_obj = models.UploadPoc.objects.get(id=int(id))
+            content = poc_obj.file_content
+            status = 1
+        except Exception as e:
+            print e
+            content = ''
+            status = 0
+        args['status'] = status
+        args['content'] = content
+        return JsonResponse(json.dumps(args), safe=False)
 
 
 def help(request):
@@ -502,18 +522,9 @@ def new_web_task(target, user):
 def new_single_web_task(request):
     if not auth(request):
         return HttpResponseRedirect('/user/login/')
-    # flag = False
-    # try:
-    #     user_power = UserPower.objects.get(user=request.user)
-    #     flag = user_power.single_web_attack
-    # except Exception as e:
-    #     print e
-    #     flag = False
     flag = auth_power(request.user, 'single_web_task')
     if not flag:
         return HttpResponse('<script>alert("你没有该操作的权限")</script>')
-    # if not request.user.is_authenticated():
-    #     return HttpResponse("<div style='text-align:center;margin-top:20%'><h3>请登录</h3><br><br><a href='/user/login/'>点击跳转到登陆页面</a>")
     if request.method == 'GET':
         return render(request, 'task/new_single_web_task.html')
     if request.method == 'POST':
@@ -616,7 +627,15 @@ def web_task_info(request, id):
             for poc_result_obj in poc_result_objs:
                 result = {}
                 result['type'] = poc_result_obj.poc_type
-                result['name'] = poc_result_obj.poc_name
+                name = poc_result_obj.poc_name
+                try:
+                    poc = models.UploadPoc.objects.get(poc_path=name)
+                    result['name'] = poc.poc_name
+                    result['id'] = poc.id
+                except Exception as e:
+                    print e
+                    result['name'] = name
+                    result['id'] = 0
                 poc_results.append(result)
             poc_args['result'] = poc_results
             poc_args['result_num'] = len(poc_result_objs)

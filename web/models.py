@@ -314,7 +314,7 @@ class AppTag(models.Model):
 class UploadPoc(models.Model):
     user = models.ForeignKey(User, verbose_name='上传用户id')
     app_tag = models.ForeignKey(AppTag, verbose_name='app类型')
-    app_version = models.CharField(max_length=32, null=True, default=" ", verbose_name='app版本信息')
+    app_version = models.CharField(max_length=32, null=True, default="0", verbose_name='app版本信息')
     poc_type = models.CharField(max_length=32, default='web', verbose_name='poc类型')
     poc_name = models.CharField(max_length=32, verbose_name='poc名称')
     poc_desc = models.CharField(max_length=128, verbose_name='描述')

@@ -1,8 +1,13 @@
 # coding=utf-8
 import xadmin
 from django.contrib import admin
+from django.contrib.admin.utils import get_deleted_objects
+from django.core.exceptions import PermissionDenied
+from django.db import router
+from django.template.response import TemplateResponse
+from django.utils.encoding import force_unicode
 from xadmin import AdminSite, widgets
-from xadmin.plugins.actions import BaseActionView, DeleteSelectedAction
+from xadmin.plugins.actions import BaseActionView, DeleteSelectedAction, ACTION_CHECKBOX_NAME
 from xadmin.util import model_ngettext
 from xadmin.views import filter_hook
 
@@ -128,34 +133,77 @@ def IdentifyPassAction(BaseActionView):
     pass
 
 
-class DeleteFileAction(DeleteSelectedAction):
-    action_name = "deletefile"
-    description = u'Delete Files %(verbose_name_plural)s'
+class DeletePocFileAction(BaseActionView):
+    action_name = "delete_selected"
+    description = u'Delete POC File %(verbose_name_plural)s'
+
     delete_confirmation_template = None
     delete_selected_confirmation_template = None
+
     delete_models_batch = True
-    #: 该 Action 所需权限
+
     model_perm = 'delete'
     icon = 'fa fa-times'
-    # 而后实现 do_action 方法
 
-    @filter_hook
+    # @filter_hook
     def delete_models(self, queryset):
-        print '123434543534'
-        # super(DeleteSelectedAction, self).delete_models(queryset)
         n = queryset.count()
         if n:
-            # if self.delete_models_batch:
-            #     queryset.delete()
-            # else:
             for obj in queryset:
                 obj.delete()
-            self.message_user(_("Successfully deleted %(count)d %(items)s.") % {
+            self.message_user("Successfully deleted %(count)d %(items)s." % {
                 "count": n, "items": model_ngettext(self.opts, n)
             }, 'success')
 
-    # def do_action(self, queryset):
-    #     super(DeleteSelectedAction, self).do_action(queryset)
+    # @filter_hook
+    def do_action(self, queryset):
+        # Check that the user has delete permission for the actual model
+        if not self.has_delete_permission():
+            raise PermissionDenied
+
+        using = router.db_for_write(self.model)
+
+        # Populate deletable_objects, a data structure of all related objects that
+        # will also be deleted.
+        deletable_objects, model_count, perms_needed, protected = get_deleted_objects(
+            queryset, self.opts, self.user, self.admin_site, using)
+
+        # The user has already confirmed the deletion.
+        # Do the deletion and return a None to display the change list view again.
+        if self.request.POST.get('post'):
+            if perms_needed:
+                raise PermissionDenied
+            self.delete_models(queryset)
+            # Return None to display the change list page again.
+            return None
+
+        if len(queryset) == 1:
+            objects_name = force_unicode(self.opts.verbose_name)
+        else:
+            objects_name = force_unicode(self.opts.verbose_name_plural)
+
+        if perms_needed or protected:
+            title = "Cannot delete %(name)s" % {"name": objects_name}
+        else:
+            title = "Are you sure?"
+
+        context = self.get_context()
+        context.update({
+            "title": title,
+            "objects_name": objects_name,
+            "deletable_objects": [deletable_objects],
+            'queryset': queryset,
+            "perms_lacking": perms_needed,
+            "protected": protected,
+            "opts": self.opts,
+            "app_label": self.app_label,
+            'action_checkbox_name': ACTION_CHECKBOX_NAME,
+        })
+
+        # Display the confirmation page
+        return TemplateResponse(self.request, self.delete_selected_confirmation_template or
+                                self.get_template_list('views/model_delete_selected_confirm.html'), context,
+                                current_app=self.admin_site.name)
 
 
 class UploadPocAdmin(object):
@@ -178,7 +226,7 @@ class UploadPocAdmin(object):
     #     pass
     # delete_file_action.short_description = "aa"
 
-    actions = [DeleteFileAction, ]
+    actions = [DeletePocFileAction, ]
 
     # def file_content(self, obj):
     #     return obj.poc_file.read()

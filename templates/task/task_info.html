@@ -1,97 +1,132 @@
 <div class="show-content">
 
-    <div class="panel panel-default">
-        <div class="panel-heading this-title">
-        <div class="this-title">
-            <h3>任务信息</h3>
-        </div>
-        </div>
-
-        <div class="panel-body">
-            <table class="table table-horizonal">
-                <tbody>
-                <tr>
-                    <th width="30%">目标</th>
-                    <td width="70%">{{ info.target_url }}</td>
-                </tr>
-                <tr>
-                    <th width="30%">状态</th>
-                    <td width="70%">
-                        {% ifequal info.status 1 %}
-                            完成
-                        {% else %}
-                            未完成
-                        {% endifequal %}
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+  <div class="panel panel-default">
+    <div class="panel-heading this-title">
+      <div class="this-title">
+        <h3>任务信息</h3>
+      </div>
     </div>
 
-    {% ifequal info.status 1 %}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">
-                    web指纹
-                </h3>
-            </div>
-            <div class="panel-body">
-                {% if info.b_finger %}
-                    {% ifequal info.r_finger.status 2 %}
-                        <table class="table table-horizonal">
-                            <tr>
-                                <th width="30%">类型</th>
-                                <th width="70%">名称</th>
-                            </tr>
-                            {% for app in info.r_finger.app_list %}
-                                <tr>
-                                    <td>{{ app.cata }}</td>
-                                    <td>{{ app.name }}</td>
-                                </tr>
-                            {% endfor %}
-                        </table>
+    <div class="panel-body">
+      <table class="table table-horizonal">
+        <tbody>
+        <tr>
+          <th width="30%">目标</th>
+          <td width="70%">{{ info.target_url }}</td>
+        </tr>
+        <tr>
+          <th width="30%">状态</th>
+          <td width="70%">
+            {% ifequal info.status 1 %}
+              完成
+            {% else %}
+              未完成
+            {% endifequal %}
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-                    {% endifequal %}
-                {% else %}
-                    <div><span class="panel-info">没有结果</span></div>
-                {% endif %}
-            </div>
+  {% ifequal info.status 1 %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          web指纹
+        </h3>
+      </div>
+      <div class="panel-body">
+        {% if info.b_finger %}
+          {% ifequal info.r_finger.status 2 %}
+            <table class="table table-horizonal">
+              <tr>
+                <th width="30%">类型</th>
+                <th width="70%">名称</th>
+              </tr>
+              {% for app in info.r_finger.app_list %}
+                <tr>
+                  <td>{{ app.cata }}</td>
+                  <td>{{ app.name }}</td>
+                </tr>
+              {% endfor %}
+            </table>
 
-            <div class="panel-heading">
-                <h3 class="panel-title">
-                    web漏洞测试
-                </h3>
-            </div>
-            <div class="panel-body">
-                {% if info.b_proof %}
-                    {% ifequal info.r_proof.status 2 %}
-                        <table class="table table-horizonal">
-                            <tr>
-                                <th width="30%">exp类型</th>
-                                <th width="70%">exp名称</th>
-                            </tr>
-                            {% for exp in info.r_proof.result %}
-                                <tr>
-                                    <td>{{ exp.type }}</td>
-                                    <td>{{ exp.name }}</td>
-                                </tr>
-                            {% endfor %}
-                        </table>
-                    {% endifequal %}
-                {% else %}
-                    <div><span class="panel-info">没有结果</span></div>
-                {% endif %}
+          {% endifequal %}
+        {% else %}
+          <div><span class="panel-info">没有结果</span></div>
+        {% endif %}
+      </div>
 
-            </div>
-        </div>
-    {% endifequal %}
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          web漏洞测试
+        </h3>
+      </div>
+      <div class="panel-body">
+        {% if info.b_proof %}
+          {% ifequal info.r_proof.status 2 %}
+            <table class="table table-horizonal">
+              <tr>
+                <th width="30%">exp类型</th>
+                <th width="70%">exp名称</th>
+              </tr>
+              {% for exp in info.r_proof.result %}
+                <tr>
+                  <td>{{ exp.type }}</td>
+                  <td>
+                    <a id="poc_name_id-{{ exp.id }}" class="exp_name">{{ exp.name }}</a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </table>
+          {% endifequal %}
+        {% else %}
+          <div><span class="panel-info">没有结果</span></div>
+        {% endif %}
+      </div>
 
+      <div class="panel-heading poc_file" hidden>
+        <h3 class="panel-title" id="show_poc_name">
+          xxx
+        </h3>
+      </div>
+      <div class="panel-body poc_file" hidden>
+        <pre id="show_poc_content">
+        xx
+        </pre>
+      </div>
+    </div>
+  {% endifequal %}
 
-    {#    <div class="row">#}
-    {#        <label class="col-md-2">#}
-    {#            任务模块：#}
-    {#        </label>#}
-    {#        指纹识别&nbsp;&nbsp;&nbsp;&nbsp;域名爆破#}
-    {#    </div>#}
 </div>
+
+<script>
+
+  var get_poc_file = function () {
+      var id_str = $(this).attr('id');
+      var id = id_str.split('-')[1];
+      if (id == '0'){return;}
+      var name = $(this).text();
+      $("#show_poc_name").text(name);
+      console.log(id);
+      $.ajax({
+          url: '/show_poc/'+id,
+          type: "GET",
+          dataType: 'json',
+          success: function (ret) {
+              ret = eval('('+ret+')');
+              var status = ret.status;
+              var content = ret.content;
+              if (!status){return;}
+              $("#show_poc_content").text(content);
+              $(".poc_file").show();
+          }
+      });
+  };
+
+  $(document).ready(function () {
+     $(".exp_name").click(get_poc_file);
+  });
+
+</script>
