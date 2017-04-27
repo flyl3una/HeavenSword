@@ -336,3 +336,23 @@ a:hover{
     word-break:break-all;
     overflow: hidden;/*这个参数根据需要来绝对要不要*/
 }
+
+.exp_name{
+    border: 1px solid #eeeeee;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: auto;
+    padding: 5px 10px;
+    background: limegreen;
+    color:#eeeeee;
+    display: inline-block;
+    line-height: 15px;
+}
+
+.exp_name:hover{
+    /*background: #55CD40;*/
+    text-decoration: none;
+    color: white;
+}

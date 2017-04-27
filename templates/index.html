@@ -34,10 +34,11 @@
 {#              <h1 style="margin-top: -60px">倚天剑</h1><br><br><br><br>#}
               <img src="{% static "images/8.png" %}" style="margin-top: -160px">
               <br><br><br><br>
-              <form method="post" class="form_audit">
+              <iframe id="index_iframe" name="index_iframe" hidden></iframe>
+              <form method="post" class="form_audit" target="index_iframe">
                     {% csrf_token %}
                   <label for="input_text" class="sr-only">url</label>
-                  <input type="text" id="input_text" name="target" placeholder="Target url. eg:http://www.baidu.com" required autofocus>
+                  <input type="url" id="input_text" name="target" placeholder="Target url. eg:http://www.baidu.com" required autofocus>
                   <input type="submit" id="input_submit" value="检测">
               </form>
           </div>
@@ -51,4 +52,13 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extrajs %}
+    <script>
+    var new_web_single_form_result = function (ret) {
+        alert(ret);
+        window.location.href = '/operation/';
+    }
+    </script>
 {% endblock %}

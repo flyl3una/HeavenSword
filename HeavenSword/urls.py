@@ -63,4 +63,5 @@ urlpatterns = [
     # url(r'^show_task/', views.show_task),
     url(r'^web_task_info/(\d+)/$', views.web_task_info),
 
+    url(r'^show_poc/(\d+)/$', views.show_poc),
 ]

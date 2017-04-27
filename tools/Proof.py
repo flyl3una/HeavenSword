@@ -64,7 +64,8 @@ class ProofAttack:
             error = str(err).decode(charset)
             if output.index(u"[SUCCESS]") != -1:
                 file_name = file.split(os.sep)[-1]
-                poc_name = '.'.join(file_name.split('.')[:-1])
+                poc_name = file_name
+                # poc_name = '.'.join(file_name.split('.')[:-1])
                 self.poc_name = poc_name
                 return '[success]'
             elif output.index(u'[PARAM]') != -1:
