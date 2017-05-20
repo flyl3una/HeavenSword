@@ -149,8 +149,6 @@ class WebFinger:
         for name, app in self.__apps[u'apps'].items():
             # for key, obj in app.items():
             keys = app.keys()
-            if name == 'Zabbix':
-                print 'Zabbix'
             url, html, headers, meta, env, script, implies = False, False, False, False, False, False, False
             if u'meta' in keys:
 

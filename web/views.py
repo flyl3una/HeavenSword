@@ -197,10 +197,13 @@ def user_activate(request, token):
         user = User.objects.get(email=email)
         user.is_active = True
         user.save()
-        user_power = UserPower(user)
-        user_setting = UserSetting(user)
-        user_power.save()
-        user_setting.save()
+        try:
+            user_power = UserPower(user)
+            user_setting = UserSetting(user)
+            user_power.save()
+            user_setting.save()
+        except:
+            pass
         return HttpResponse("账号激活成功。<br><a href='/user/login/'>点击跳转到登陆页面</a>")
     except:
         return HttpResponse("该邮箱没有被注册。")
